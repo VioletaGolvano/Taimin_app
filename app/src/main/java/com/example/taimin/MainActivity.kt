@@ -3,15 +3,12 @@ package com.example.taimin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View.*
-import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarItemView
-import com.google.android.material.navigation.NavigationBarMenuView
-import com.google.android.material.navigation.NavigationView
+import com.example.taimin.fragmentos.AddElemento
+import com.example.taimin.fragmentos.PantallasArchivo
+import com.example.taimin.fragmentos.PantallasCalendario
+import com.example.taimin.fragmentos.PantallasPrincipales
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

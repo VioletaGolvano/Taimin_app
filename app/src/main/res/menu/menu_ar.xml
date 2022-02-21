@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/calendar"
+        android:title="@string/calendar"
+        android:icon="@drawable/ic_baseline_calendar_today_24"/>
+
+    <item
+        android:id="@+id/add"
+        android:title="@string/addElement"
+        android:icon="@drawable/ic_baseline_add_24"/>
+
+    <item
+        android:id="@+id/inbox"
+        android:title="@string/inbox"
+        android:icon="@drawable/ic_baseline_inbox_24"/>
+
+</menu>

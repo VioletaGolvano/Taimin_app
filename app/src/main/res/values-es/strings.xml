@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Taimin</string>
+
+    <string name="calendar">Calendario</string>
+    <string name="addElement">Añadir Elemento</string>
+    <string name="archive">Archivo</string>
+    <string name="inbox">Pantalla Principal</string>
+</resources>

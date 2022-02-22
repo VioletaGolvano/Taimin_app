@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View.*
+import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import com.example.taimin.fragmentos.AddElemento
 import com.example.taimin.fragmentos.PantallasArchivo
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openFragment(ppFragment)
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.hide()
 
         bottom_pp.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {

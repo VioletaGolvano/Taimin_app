@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.18854166666666666" />
+        <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.18854166666666666" />
+        <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/drawable/ic_baseline_warning_grey_24.xml" value="0.37333333333333335" />
         <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
-        <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/layout/fragment_add_elemento.xml" value="0.1693840579710145" />
+        <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/layout/fragment_add_elemento.xml" value="0.2501737317581654" />
         <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/layout/fragment_pantallas_archivo.xml" value="0.1693840579710145" />
         <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/layout/fragment_pantallas_calendario.xml" value="0.1693840579710145" />
         <entry key="..\:/Violeta/Universidad/Taimin/app/src/main/res/layout/fragment_pantallas_principales.xml" value="0.17451874366767983" />

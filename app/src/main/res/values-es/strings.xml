@@ -5,4 +5,6 @@
     <string name="addElement">Añadir Elemento</string>
     <string name="archive">Archivo</string>
     <string name="inbox">Pantalla Principal</string>
+
+    <string name="title">Título</string>
 </resources>

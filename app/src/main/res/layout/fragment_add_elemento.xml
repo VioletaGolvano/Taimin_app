@@ -3,7 +3,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragmentos.AddElemento">
+
+    <RelativeLayout
+        android:id="@+id/first_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_baseline_delete_24"
+            app:iconPadding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_baseline_search_24"
+            app:iconPadding="0dp" />
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/titulo"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/first_buttons"
+        android:focusedByDefault="true"
+        android:hint="@string/title"
+        android:inputType="text"/>
+
+    <!-- PRIORIDAD -->
+    <RelativeLayout
+        android:id="@+id/priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titulo"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:id="@+id/priority_warning"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_warning_grey_24" />
+
+        <Button
+            android:id="@+id/red_priority"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/priority_warning"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/red" />
+
+        <Button
+            android:id="@+id/ambar_priority"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/red_priority"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/ambar" />
+
+        <Button
+            android:id="@+id/blue_priority"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/ambar_priority"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/blue_prio" />
+
+        <Button
+            android:id="@+id/grey_priority"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/blue_priority"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/grey" />
+
+
+    </RelativeLayout>
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

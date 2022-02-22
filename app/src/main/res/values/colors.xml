@@ -5,6 +5,10 @@
     <color name="blue">#00d4ff</color>
     <color name="light_blue">#3ffce7</color>
     <color name="lightest_blue">#c2fcf3</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="ambar">#FFAA00</color>
+    <color name="blue_prio">#0000FF</color>
+    <color name="grey">#949494</color>
 </resources>

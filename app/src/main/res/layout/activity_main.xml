@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
+        android:padding="12pt"
         android:layout_alignBottom="@id/bottom_invisible"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

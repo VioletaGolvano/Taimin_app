@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragmentos.AddElemento">
 
+    <!-- Botones iniciales
     <RelativeLayout
         android:id="@+id/first_buttons"
         android:layout_width="match_parent"
@@ -29,73 +30,276 @@
             android:minWidth="0dp"
             app:icon="@drawable/ic_baseline_search_24"
             app:iconPadding="0dp" />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
-
+    <!-- Título -->
     <EditText
         android:id="@+id/titulo"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_below="@id/first_buttons"
+        android:layout_height="wrap_content"
         android:focusedByDefault="true"
         android:hint="@string/title"
-        android:inputType="text"/>
+        android:inputType="text" />
+    <!--android:layout_below="@id/first_buttons"-->
 
-    <!-- PRIORIDAD -->
+    <!-- Descripción y Prioridad -->
     <RelativeLayout
-        android:id="@+id/priority"
-        android:layout_width="wrap_content"
+        android:id="@+id/descPrio"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/titulo">
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="120dp"
+            android:layout_toLeftOf="@id/priority"
+            android:hint="@string/description" />
+
+
+        <!-- PRIORIDAD -->
+        <RelativeLayout
+            android:id="@+id/priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/priority_warning"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_warning_grey_24" />
+
+            <Button
+                android:id="@+id/red_priority"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/priority_warning"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@color/red" />
+
+            <Button
+                android:id="@+id/ambar_priority"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/red_priority"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@color/ambar" />
+
+            <Button
+                android:id="@+id/blue_priority"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/ambar_priority"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@color/blue_prio" />
+
+            <Button
+                android:id="@+id/grey_priority"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/blue_priority"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@color/grey" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!-- EVENTO -->
+    <RelativeLayout
+        android:id="@+id/evento"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titulo"
-        android:layout_alignParentEnd="true">
+        android:layout_below="@id/descPrio">
+
+        <!-- FECHA -->
+        <RelativeLayout
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/icono_calendario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:backgroundTint="@color/light_purple"
+                android:minWidth="0dp"
+                app:icon="@drawable/ic_baseline_event_24"
+                app:iconPadding="0dp" />
+
+            <TextView
+                android:id="@+id/texto_fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icono_calendario"
+                android:layout_centerVertical="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <!-- HORA -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/icono_reloj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/light_purple"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_baseline_time_24"
+            app:iconPadding="0dp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icono_reloj"
+            android:layout_centerInParent="true"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/texto_hora_inicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15dp" />
+            <TextView
+                android:id="@+id/texto_hora_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_below="@id/texto_hora_inicio"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15dp" />
+
+
+        </RelativeLayout>
+
+
+        <!-- HORA -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/color"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:layout_alignParentEnd="true"
+            android:minWidth="0dp"
+            app:iconPadding="0dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/recordatorio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/evento">
 
         <ImageView
-            android:id="@+id/priority_warning"
+            android:id="@+id/icono_recor"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_warning_grey_24" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_remind_24" />
 
-        <Button
-            android:id="@+id/red_priority"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/priority_warning"
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/red" />
-
-        <Button
-            android:id="@+id/ambar_priority"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/red_priority"
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/ambar" />
-
-        <Button
-            android:id="@+id/blue_priority"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/ambar_priority"
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/blue_prio" />
-
-        <Button
-            android:id="@+id/grey_priority"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/blue_priority"
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/grey" />
+        <TextView
+            android:id="@+id/seleccion_recordatorio"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icono_recor"
+            android:background="@android:drawable/editbox_background"
+            android:drawableEnd="@android:drawable/arrow_down_float"
+            android:drawablePadding="16dp"
+            android:hint="@string/seleeccionar_recordatorios"
+            android:padding="10dp" />
 
 
     </RelativeLayout>
 
-    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:id="@+id/repeticion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recordatorio">
+
+        <ImageView
+            android:id="@+id/icono_reps"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_repeat_24" />
+
+        <TextView
+            android:id="@+id/seleccion_repeticiones"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icono_reps"
+            android:background="@android:drawable/editbox_background"
+            android:drawableEnd="@android:drawable/arrow_down_float"
+            android:drawablePadding="16dp"
+            android:hint="@string/seleeccionar_repeticiones"
+            android:padding="10dp" />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_below="@id/repeticion">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/adjunto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/copia"
+            android:backgroundTint="@color/light_purple"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_baseline_attach_24"
+            app:iconPadding="0dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/copia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/light_purple"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_baseline_copy_24"
+            app:iconPadding="0dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/participantes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/copia"
+            android:backgroundTint="@color/light_purple"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_baseline_add_person_24"
+            app:iconPadding="0dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"/>
+    </RelativeLayout>
+
+
+    <!-- TODO: Update blank fragment layout
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:textSize="36dp"
-        android:text="FUCK YOU"/>
+        android:text="FUCK YOU"/>-->
+
 
 </RelativeLayout>

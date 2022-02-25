@@ -7,4 +7,13 @@
     <string name="inbox">Pantalla Principal</string>
 
     <string name="title">Título</string>
+    <string name="description">Descripción</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="color">Color</string>
+    <string name="seleeccionar_recordatorios">Recordatorios</string>
+    <string name="seleeccionar_repeticiones">Repeticiones</string>
+    <string name="clear">Limpiar</string>
+
+
 </resources>

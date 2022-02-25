@@ -7,4 +7,12 @@
     <string name="inbox">First Page</string>
 
     <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="accept">Accept</string>
+    <string name="color">Color</string>
+    <string name="seleeccionar_recordatorios">Reminders</string>
+    <string name="seleeccionar_repeticiones">Repetition</string>
+    <string name="clear">Clear</string>
+
 </resources>

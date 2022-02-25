@@ -2,6 +2,9 @@ package elementos
 
 import Usuario
 import java.util.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 /**
  * Esta clase tiene la información básica que poseen cada uno de los distintos tipos de Elementos de la aplicación.
  *
@@ -12,10 +15,13 @@ import java.util.*
  * @author  Violeta Golvano García
  * @version 1 05/02/2022
  */
+
+@Entity(tableName = "tabla_elemento")
 abstract class Elemento (
     private var IDClase: Int,
     private var creador: Usuario
     ) {
+    @PrimaryKey
     private val ID: UUID = UUID.randomUUID()
     private var progreso = 0.0 //Hasta 1.0
     private lateinit var titulo: String

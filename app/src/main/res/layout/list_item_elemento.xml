@@ -6,7 +6,7 @@
     android:paddingLeft="16dp"
     android:paddingTop="10dp"
     android:paddingRight="16dp"
-    android:backgroundTintMode="src_over"
+    android:background="@color/blue"
     android:paddingBottom="10dp">
 
     <CheckBox android:id="@+id/checkbox"

@@ -15,4 +15,10 @@
         android:name="com.example.taimin.fragmentos.AddElemento"
         android:label="AddElemento"
         tools:layout="@layout/fragment_add_elemento"/>
+    <fragment
+        android:id="@+id/pantallasPrincipales"
+        android:name="com.example.taimin.fragmentos.PantallasPrincipales"
+        android:label="PantallasPrincipales"
+        tools:layout="@layout/fragment_pantallas_principales">
+    </fragment>
 </navigation>

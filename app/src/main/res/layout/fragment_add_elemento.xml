@@ -16,9 +16,10 @@
 
 
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        tools:context=".fragmentos.AddElemento">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragmentos.AddElemento"
+        android:padding="@dimen/space_size">
 
     <!-- Botones iniciales
     <RelativeLayout

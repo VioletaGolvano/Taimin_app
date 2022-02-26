@@ -27,8 +27,6 @@ class Usuario(
         pantallasElementos.addAll(pantallas)
         elementos.addAll(pantallas)
         addEmail(mail)
-
-
     }
 
     /* GETTERS */
@@ -116,4 +114,17 @@ class Usuario(
     fun getDefault(): Pantalla {
         return this.pantallasElementos.filter { it.getTitulo().contains("Default") }[0]
     }
+    fun getDaily(): Pantalla {
+        return this.pantallasElementos.filter { it.getTitulo().contains("Daily") }[0]
+    }
+    fun getToDo(): Pantalla {
+        return this.pantallasElementos.filter { it.getTitulo().contains("ToDo") }[0]
+    }
+    fun getArchived(): Pantalla {
+        return this.pantallasElementos.filter { it.getTitulo().contains("Archived") }[0]
+    }
+    fun getCompleted(): Pantalla {
+        return this.pantallasElementos.filter { it.getTitulo().contains("Completed") }[0]
+    }
+
 }

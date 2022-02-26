@@ -1,8 +1,10 @@
 package com.example.taimin.fragmentos
 
+import OnSwipeTouchListener
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +28,17 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
     class PantallasHolder(view: View) : RecyclerView.ViewHolder(view){
         var titulo: CheckBox = itemView.findViewById(R.id.checkbox)
         var item: RelativeLayout = itemView.findViewById(R.id.item)
+        lateinit var elemento: Elemento
+
+        fun bind(elemento: Elemento) {
+            this.elemento = elemento
+            titulo.text = elemento.getTitulo()
+            var color = (elemento as ElementoCreable).getColorElemento()
+            if (color != null){
+                item.setBackgroundResource(color)
+            }
+            //binding.card = card
+        }
     }
 
 
@@ -41,15 +54,12 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
     }
 
     override fun onBindViewHolder(holder: PantallasHolder, position: Int) {
-        holder.apply {
-            titulo.text = data[position].getTitulo()
-            var color = (data[position] as ElementoCreable).getColorElemento()
-            if (color != null){
-                item.background = ColorDrawable(color)
-            }
-        }
+        holder.bind(data[position])
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
 /*
     inner class CardHolder(view: View) : RecyclerView.ViewHolder(view){

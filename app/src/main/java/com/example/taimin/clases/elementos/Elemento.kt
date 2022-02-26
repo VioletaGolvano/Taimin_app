@@ -24,7 +24,7 @@ abstract class Elemento (
     @PrimaryKey
     private val ID: UUID = UUID.randomUUID()
     private var progreso = 0.0 //Hasta 1.0
-    private lateinit var titulo: String
+    private var titulo = ""
 
     private lateinit var contenedor: Elemento  //Elemento que lo contiene
     var contenidos = mutableListOf<Elemento>() //Elementos que contiene
@@ -35,7 +35,7 @@ abstract class Elemento (
 
     fun getTitulo(): String { return this.titulo }
     fun getProgreso(): Double { return this.progreso }
-    fun getContenedor(): Elemento { return this.contenedor }
+    fun getContenedor(): Elemento? { if (this::contenedor.isInitialized) return this.contenedor else return null }
 
     fun getUser(): Usuario { return this.creador }
 
@@ -77,7 +77,7 @@ abstract class Elemento (
             return
         this.contenidos.add(elemento)
         if (elemento::contenedor.isInitialized){
-            elemento.getContenedor().delContenido(elemento,true)
+            elemento.getContenedor()!!.delContenido(elemento,true)
         }
         elemento.setContenedor(this)
     }
@@ -102,6 +102,14 @@ abstract class Elemento (
         if (this.progreso >= 1.0)
             return true
         return false
+    }
+
+    /**
+     * Devuelve los elementos que pueden contener al elemento actual
+     * @return Lista de elementos posibles
+     */
+    fun getElementoSuperior(): List<Elemento>{
+        return creador.getElementoSuperior(this)
     }
 
     /**

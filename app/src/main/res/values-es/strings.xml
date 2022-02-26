@@ -7,6 +7,7 @@
     <string name="inbox">Pantalla Principal</string>
 
     <string name="title">Título</string>
+    <string name="contenedor">Contenedor</string>
     <string name="description">Descripción</string>
     <string name="cancel">Cancelar</string>
     <string name="accept">Aceptar</string>

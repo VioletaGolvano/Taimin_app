@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="icon_size">30dp</dimen>
+    <dimen name="space_size">12dp</dimen>
+    <dimen name="titulo_pantalla">36dp</dimen>
+
+</resources>

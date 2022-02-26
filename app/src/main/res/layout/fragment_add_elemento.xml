@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="elemento"
+            type="elementos.ElementoCreable" />
+        <!-- @{elemento.titulo} -->
+        <!-- "@{card.answered ? View.INVISIBLE : View.VISIBLE}" -->
+        <!-- @{card::update_from_view} -->
+        <!-- android:onClick="@{card::update_from_view}" -->
+        <!-- android:onClick="@{() -> card.update_card(5)}" -->
+    </data>
+
+
+
+    <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragmentos.AddElemento">
+        tools:context=".fragmentos.AddElemento">
 
     <!-- Botones iniciales
     <RelativeLayout
@@ -33,27 +47,67 @@
     </RelativeLayout>-->
 
     <!-- Título -->
-    <EditText
-        android:id="@+id/titulo"
+    <RelativeLayout
+        android:id="@+id/ini"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusedByDefault="true"
-        android:hint="@string/title"
-        android:inputType="text" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/titulo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_size"
+            android:layout_toLeftOf="@+id/folder"
+            android:focusedByDefault="true"
+            android:hint="@string/title"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <RelativeLayout
+            android:id="@+id/folder"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/container_icono"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="3dp"
+                android:src="@drawable/ic_baseline_folder_24" />
+            <TextView
+                android:id="@+id/container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/container_icono"
+                android:layout_alignParentEnd="true"
+                android:text="@string/contenedor"
+                android:textSize="12dp" />
+
+        </RelativeLayout>
+
+
+
+
+
+
+    </RelativeLayout>
     <!--android:layout_below="@id/first_buttons"-->
 
     <!-- Descripción y Prioridad -->
     <RelativeLayout
         android:id="@+id/descPrio"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@id/titulo">
+        android:layout_height="150dp"
+        android:layout_below="@id/ini"
+        android:layout_marginBottom="@dimen/space_size">
 
         <EditText
             android:id="@+id/description"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="120dp"
+            android:maxHeight="150dp"
             android:layout_toLeftOf="@id/priority"
             android:hint="@string/description" />
 
@@ -67,14 +121,14 @@
 
             <ImageView
                 android:id="@+id/priority_warning"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
                 android:src="@drawable/ic_baseline_warning_grey_24" />
 
             <Button
                 android:id="@+id/red_priority"
                 android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/icon_size"
                 android:layout_below="@id/priority_warning"
                 android:layout_centerInParent="true"
                 android:backgroundTint="@color/red" />
@@ -82,7 +136,7 @@
             <Button
                 android:id="@+id/ambar_priority"
                 android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/icon_size"
                 android:layout_below="@id/red_priority"
                 android:layout_centerInParent="true"
                 android:backgroundTint="@color/ambar" />
@@ -90,7 +144,7 @@
             <Button
                 android:id="@+id/blue_priority"
                 android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/icon_size"
                 android:layout_below="@id/ambar_priority"
                 android:layout_centerInParent="true"
                 android:backgroundTint="@color/blue_prio" />
@@ -98,7 +152,7 @@
             <Button
                 android:id="@+id/grey_priority"
                 android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/icon_size"
                 android:layout_below="@id/blue_priority"
                 android:layout_centerInParent="true"
                 android:backgroundTint="@color/grey" />
@@ -113,7 +167,8 @@
         android:id="@+id/evento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/descPrio">
+        android:layout_below="@id/descPrio"
+        android:layout_marginBottom="@dimen/space_size">
 
         <!-- FECHA -->
         <RelativeLayout
@@ -137,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/icono_calendario"
                 android:layout_centerVertical="true"
-                android:paddingStart="12dp"
+                android:paddingStart="@dimen/space_size"
                 android:paddingEnd="12dp"
                 android:textSize="15dp" />
         </RelativeLayout>
@@ -163,8 +218,8 @@
                 android:id="@+id/texto_hora_inicio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
+                android:paddingStart="@dimen/space_size"
+                android:paddingEnd="@dimen/space_size"
                 android:textSize="15dp" />
             <TextView
                 android:id="@+id/texto_hora_final"
@@ -172,8 +227,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_below="@id/texto_hora_inicio"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
+                android:paddingStart="@dimen/space_size"
+                android:paddingEnd="@dimen/space_size"
                 android:textSize="15dp" />
 
 
@@ -196,12 +251,13 @@
         android:id="@+id/recordatorio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/evento">
+        android:layout_below="@id/evento"
+        android:layout_marginBottom="@dimen/space_size">
 
         <ImageView
             android:id="@+id/icono_recor"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_baseline_remind_24" />
@@ -224,12 +280,13 @@
         android:id="@+id/repeticion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recordatorio">
+        android:layout_below="@id/recordatorio"
+        android:layout_marginBottom="@dimen/space_size">
 
         <ImageView
             android:id="@+id/icono_reps"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_baseline_repeat_24" />
@@ -253,7 +310,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_below="@id/repeticion">
+        android:layout_below="@id/repeticion"
+        android:layout_marginBottom="@dimen/space_size">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/adjunto"
@@ -263,9 +321,11 @@
             android:backgroundTint="@color/light_purple"
             android:minWidth="0dp"
             app:icon="@drawable/ic_baseline_attach_24"
+
             app:iconPadding="0dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginStart="30dp"/>
+            android:layout_marginEnd="@dimen/icon_size"
+            android:layout_marginStart="@dimen/icon_size"/>
+        <!-- android:onClick="openFileDialog" -->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/copia"
@@ -276,8 +336,8 @@
             android:minWidth="0dp"
             app:icon="@drawable/ic_baseline_copy_24"
             app:iconPadding="0dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginStart="30dp"/>
+            android:layout_marginEnd="@dimen/icon_size"
+            android:layout_marginStart="@dimen/icon_size"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/participantes"
@@ -288,8 +348,8 @@
             android:minWidth="0dp"
             app:icon="@drawable/ic_baseline_add_person_24"
             app:iconPadding="0dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginStart="30dp"/>
+            android:layout_marginEnd="@dimen/icon_size"
+            android:layout_marginStart="@dimen/icon_size"/>
     </RelativeLayout>
 
 
@@ -303,3 +363,4 @@
 
 
 </RelativeLayout>
+</layout>

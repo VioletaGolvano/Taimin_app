@@ -1,6 +1,7 @@
 package com.example.taimin.fragmentos
 
 import Repeticion
+import Usuario
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -17,11 +18,20 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingComponent
+import androidx.databinding.DataBindingUtil
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.R.color.light_purple
 import com.example.taimin.R.color.purple
+import com.example.taimin.databinding.FragmentAddElementoBinding
+import elementos.ElementoCreable
+import elementos.Tarea
+import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
@@ -37,6 +47,8 @@ import kotlin.collections.ArrayList
 
 
 class AddElemento : Fragment() {
+    lateinit var binding: FragmentAddElementoBinding
+    lateinit var elemento: ElementoCreable
     private var c = Calendar.getInstance()
 
     var valoresRepes = Repeticion.values().map { it -> it.name }.toTypedArray()
@@ -119,6 +131,7 @@ class AddElemento : Fragment() {
                 // TODO: Añadir color al elemento
                 val botonHora = view?.findViewById(R.id.color) as Button
                 botonHora.setBackgroundColor(color)
+                elemento.setColorElemento(color)
             }
 
             override fun onCancel() {
@@ -185,7 +198,7 @@ class AddElemento : Fragment() {
         alerta.show()
     }
     private var listenerRecordatorios = View.OnClickListener {
-        val selectorRepes = view?.findViewById(R.id.seleccion_recordatorio) as TextView
+        val selectorRepes = binding.seleccionRecordatorio
         val alerta = AlertDialog.Builder(activity)
         alerta.setTitle(R.string.seleeccionar_recordatorios)
         alerta.setCancelable(false)
@@ -209,7 +222,7 @@ class AddElemento : Fragment() {
                 // TODO: añadir repeticion a Elemento
                 var string = StringBuilder()
 
-                for (j in 0..lista.size-1){
+                for (j in 0 until lista.size){
                     string.append(valores[lista[j]])
                     if(j != lista.size-1){
                         string.append(", ")
@@ -254,10 +267,40 @@ class AddElemento : Fragment() {
         iconoPrioridad.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_grey_24, activity?.theme))
     }
 
+    private var listenerContenedor = View.OnClickListener {
+        // TODO: desplegar selector con binding.elemento.
+        val selectorContainer = (view?.findViewById(R.id.container) as TextView)
+        val alerta = AlertDialog.Builder(activity)
+        alerta.setTitle(R.string.contenedor)
+        alerta.setCancelable(false)
+        var elementos = binding.elemento!!.getElementoSuperior()
+        var elementoSeleccionado = 0
+        alerta.setSingleChoiceItems(elementos.map { it -> it.getTitulo() }.toTypedArray(), elementoSeleccionado, object: DialogInterface.OnClickListener{
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                elementoSeleccionado = which
+            }
+        })
 
+        alerta.setPositiveButton(R.string.accept, object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, opt: Int){
+                selectorContainer.setText(elementos[elementoSeleccionado].getTitulo())
+            }
+        })
+        alerta.setNegativeButton(R.string.cancel, object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, opt: Int){
+                dialog.dismiss()
+            }
+        })
+        alerta.show()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_add_elemento, container, false)
+        // buscar qué hace este setContentViewer porque creo que es lo que me quita el menú inferior
+        // buscar cómo tener un binding de un fragmento -> Fragment...Binding de una parte de una actividad
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_elemento, container, false)
+        binding.elemento = Tarea(Usuario("mail","pass"))
+
+        var view = binding.root
 
         val botonFecha = view.findViewById(R.id.icono_calendario) as Button
         botonFecha.setOnClickListener(listenerFecha)
@@ -274,18 +317,41 @@ class AddElemento : Fragment() {
         val selectorRecor = view.findViewById(R.id.seleccion_recordatorio) as TextView
         selectorRecor.setOnClickListener(listenerRecordatorios)
 
+        binding.redPriority.setOnClickListener(listenerPrioridadRojo)
+        binding.ambarPriority.setOnClickListener(listenerPrioridadAmbar)
+        binding.bluePriority.setOnClickListener(listenerPrioridadAzul)
+        binding.greyPriority.setOnClickListener(listenerPrioridadGris)
 
-        (view.findViewById(R.id.red_priority) as Button).setOnClickListener(listenerPrioridadRojo)
-        (view.findViewById(R.id.ambar_priority) as Button).setOnClickListener(listenerPrioridadAmbar)
-        (view.findViewById(R.id.blue_priority) as Button).setOnClickListener(listenerPrioridadAzul)
-        (view.findViewById(R.id.grey_priority) as Button).setOnClickListener(listenerPrioridadGris)
-
-
-
+        binding.folder.setOnClickListener(listenerContenedor)
 
 
         return view
     }
+
+    /**
+     * Esta función actualiza todas las variables del elemento
+     */
+    fun aceptar() {
+        //binding.elemento!!.show()
+    }
+
+    /* https://www.youtube.com/watch?v=4EKlAvjY74U - 4:40 (Attach file)
+    var activityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultCallback {
+            fun onActivityResult(result: ActivityResult){
+                if (result.resultCode == activity.RESULT_OK){
+                    var data = result.data
+                    var uri = data?.data
+                }
+            }
+        }
+    )
+
+    fun openFileDialog(View view){
+
+    }
+    */
 
 
 

@@ -1,5 +1,6 @@
 package com.example.taimin
 
+import Usuario
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +8,9 @@ import android.util.Log
 import android.view.View
 import android.view.View.*
 import androidx.appcompat.app.ActionBar
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.example.taimin.databinding.FragmentAddElementoBinding
 import com.example.taimin.fragmentos.AddElemento
 import com.example.taimin.fragmentos.PantallasArchivo
 import com.example.taimin.fragmentos.PantallasCalendario
@@ -15,18 +18,19 @@ import com.example.taimin.fragmentos.PantallasPrincipales
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 import com.google.android.material.navigation.NavigationBarView
+import elementos.Proyecto
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
     private val ppFragment = PantallasPrincipales()
     private val calFragment = PantallasCalendario()
     private val addFragment = AddElemento()
     private val arFragment = PantallasArchivo()
-    private lateinit var previousFragment: Fragment
-    private lateinit var previousMenu: BottomNavigationView
+    lateinit var previousFragment: Fragment
+    lateinit var previousMenu: BottomNavigationView
+    val usuario = Usuario("mail","pass")
 
-
+    // Cambio de menús y pantallas
     private val nav = NavigationBarView.OnItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.inbox -> {
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.accept -> {
+                addFragment.aceptar()
                 openFragment(previousFragment)
                 previousMenu.visibility=VISIBLE
                 true
@@ -64,6 +69,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    init {
+        for (i in 0 until 20){
+            var pro = Proyecto(usuario)
+            pro.setTitulo("Proyecto $i")
+            pro.setColorElemento(R.color.color11)
+            pro.aceptar()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,16 +97,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun openFragment(fragment: Fragment) {
         asignacionPrevious()
-        if (fragment!=null){
-            val trans = supportFragmentManager.beginTransaction()
-            trans.replace(R.id.fragment_pp, fragment)
-            trans.commit()
+        val trans = supportFragmentManager.beginTransaction()
+        trans.replace(R.id.fragment_pp, fragment)
+        trans.commit()
 
-            bottom_pp.visibility=GONE
-            bottom_cal.visibility=GONE
-            bottom_ar.visibility=GONE
-            bottom_add.visibility=GONE
-        }
+        bottom_pp.visibility=GONE
+        bottom_cal.visibility=GONE
+        bottom_ar.visibility=GONE
+        bottom_add.visibility=GONE
     }
 
     private fun asignacionPrevious(){

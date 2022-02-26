@@ -6,7 +6,8 @@
     <string name="archive">Archive</string>
     <string name="inbox">First Page</string>
 
-    <string name="title">Title</string>
+    <string name="title">Title</string>ng>
+    <string name="contenedor">Container</string>
     <string name="description">Description</string>
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>

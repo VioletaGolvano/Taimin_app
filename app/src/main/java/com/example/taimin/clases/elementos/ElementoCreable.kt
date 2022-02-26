@@ -5,6 +5,8 @@ import EventoInterno
 import Prioridad
 import Repeticion
 import Usuario
+import android.graphics.Color
+import petrov.kristiyan.colorpicker.ColorPicker
 import java.util.*
 
 /**
@@ -21,7 +23,7 @@ import java.util.*
  * @version 1 05/02/2022
  */
 abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, user) {
-    private lateinit var color: String
+    private var color: Int? = null
     private lateinit var fechaIni: Date
     private lateinit var fechaFin: Date
     private lateinit var descripcion: String
@@ -38,7 +40,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
     }
 
     /* GETTERS */
-    fun getColorElemento(): String { return this.color }
+    fun getColorElemento(): Int? { return this.color }
     fun getFechaIni(): Date { return this.fechaIni }
     fun getFechaFin(): Date{ return this.fechaFin }
     fun getDescripcion(): String{ return this.descripcion }
@@ -49,7 +51,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
     fun getParticipantes(): List<Usuario>{ return this.participantes }
 
     /* SETTERS */
-    fun setColorElemento(color: String){ this.color = color }
+    fun setColorElemento(color: Int){ this.color = color }
     fun setFechaIni(fecha: Date) { this.fechaIni = fecha }
     fun setFechaFin(fecha: Date) { this.fechaFin = fecha}
     fun setDescripcion(desc: String) { this.descripcion = desc }
@@ -77,7 +79,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
         copia.repeticion = this.repeticion
         copia.prioridad = this.prioridad
         this.recordatorio.forEach { copia.addRecordatorio(it.duplicar()) }
-        copia.setContenedor(this.getContenedor())
+        copia.setContenedor(this.getContenedor()!!)
         this.contenidos.forEach { //Se duplican los contenidos
             if (it is ElementoCreable)
                 copia.addContenido(it.duplicar())

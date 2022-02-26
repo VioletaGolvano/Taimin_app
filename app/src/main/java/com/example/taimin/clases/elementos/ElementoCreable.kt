@@ -30,7 +30,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
     private var ordenColores = false
 
     private lateinit var repeticion: Repeticion
-    private lateinit var prioridad: Prioridad
+    private var prioridad = Prioridad.NULA
     private var recordatorio = mutableListOf<EventoInterno>()
     private var participantes = mutableListOf<Usuario>()
 

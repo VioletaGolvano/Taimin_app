@@ -12,21 +12,36 @@
     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragmentos.PantallasPrincipales">
-        <TextView
-            android:id="@+id/titulo"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/titulo_pantalla"
-            android:text="@{pantalla.titulo}"/>
+    tools:context=".fragmentos.PantallasPrincipales"
+        android:layout_marginBottom="@dimen/space_size">
+        <RelativeLayout
+            android:id="@+id/ini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/titulo"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/titulo_pantalla"
+                android:text="@{pantalla.titulo}"/>
+            <ImageView
+                android:id="@+id/buscar"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_baseline_search_24"
+                android:layout_marginRight="@dimen/space_size"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lista_elementos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/cambio_pantallas"
-            android:layout_below="@id/titulo"
+            android:layout_below="@id/ini"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <RelativeLayout

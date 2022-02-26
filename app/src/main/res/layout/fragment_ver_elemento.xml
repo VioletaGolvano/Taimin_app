@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragmentos.VerElemento"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <import type="Prioridad"/>
+        <variable
+            name="elemento"
+            type="elementos.ElementoCreable" />
+        <!-- @{elemento.titulo} -->
+        <!-- "@{card.answered ? View.INVISIBLE : View.VISIBLE}" -->
+        <!-- @{card::update_from_view} -->
+        <!-- android:onClick="@{card::update_from_view}" -->
+        <!-- android:onClick="@{() -> card.update_card(5)}" -->
+    </data>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/space_size">
+
+        <!-- Botones iniciales
+        <RelativeLayout
+            android:id="@+id/first_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                app:icon="@drawable/ic_baseline_delete_24"
+                app:iconPadding="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:minWidth="0dp"
+                app:icon="@drawable/ic_baseline_search_24"
+                app:iconPadding="0dp" />
+        </RelativeLayout>-->
+
+        <!-- Título -->
+        <RelativeLayout
+            android:id="@+id/ini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/titulo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_size"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/back"
+                android:text="@{elemento.titulo}"
+                android:textAlignment="center"
+                android:background="@{elemento.colorElemento}"
+                android:textSize="26dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/descPrio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ini">
+            <TextView
+                android:id="@+id/descripcion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_size"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/prioridad"
+                android:layout_centerHorizontal="true"
+                android:text="@{elemento.descripcion}"
+                android:textAlignment="textStart"
+                android:background="@{elemento.colorElemento}"
+                android:maxLines="4"/>
+            <ImageView
+                android:id="@+id/prioridad"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"
+                />
+            <!--
+                android:src="@{elemento.prioridad==Prioridad.ALTA ?
+                                    elemento.prioridad==Prioridad.MEDIA ?
+                                        elemento.prioridad==Prioridad.BAJA ?
+                                            @drawable/ic_baseline_warning_grey_24 :
+                                            @drawable/ic_baseline_warning_blue_24 :
+                                        @drawable/ic_baseline_warning_amber_24 :
+                                    @drawable/ic_baseline_warning_red_24}"-->
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/contenidosInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/descPrio">
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <!--Meter una checklist con los contenidos-->
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+                <!--Meter info izda-->
+                <RelativeLayout
+                    android:id="@+id/container"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_size">
+                    <ImageView
+                        android:id="@+id/icono_contenedor"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:src="@drawable/ic_baseline_folder_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icono_contenedor"
+                        android:layout_alignParentRight="true"
+                        android:text="@{elemento.contenedor.titulo}"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/container"
+                    android:visibility="@{elemento instanceof elementos.Tarea ? View.INVISIBLE : View.VISIBLE}">
+                    <ImageView
+                        android:id="@+id/icono_hora"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:src="@drawable/ic_baseline_time_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icono_hora"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+
+
+
+    </RelativeLayout>
+</layout>

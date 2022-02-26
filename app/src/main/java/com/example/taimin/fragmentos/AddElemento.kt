@@ -298,7 +298,7 @@ class AddElemento : Fragment() {
         // buscar qué hace este setContentViewer porque creo que es lo que me quita el menú inferior
         // buscar cómo tener un binding de un fragmento -> Fragment...Binding de una parte de una actividad
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_elemento, container, false)
-        elemento = Tarea(Usuario("mail","pass"))
+        elemento = Tarea((activity as MainActivity).usuario)
         binding.elemento = elemento
 
         var view = binding.root

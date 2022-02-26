@@ -26,7 +26,7 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
     var data = listOf<Elemento>()
 
     class PantallasHolder(view: View) : RecyclerView.ViewHolder(view){
-        var titulo: CheckBox = itemView.findViewById(R.id.checkbox)
+        var titulo: TextView = itemView.findViewById(R.id.titulo)
         var item: RelativeLayout = itemView.findViewById(R.id.item)
         lateinit var elemento: Elemento
 

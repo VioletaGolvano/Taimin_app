@@ -12,4 +12,5 @@
     <color name="ambar">#FFAA00</color>
     <color name="blue_prio">#0000FF</color>
     <color name="grey">#949494</color>
+    <color name="light_grey">#d3d3d3</color>
 </resources>

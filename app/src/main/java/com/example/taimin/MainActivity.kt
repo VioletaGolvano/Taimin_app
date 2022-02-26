@@ -170,15 +170,15 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
     fun swipePantallasPrincipales(izda: Boolean){
         if (izda){
-            if (ppFragment.binding.titulo.text.contains("Default")){
+            if (ppFragment.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
                 ppFragment.toDo()
-            }else if(ppFragment.binding.titulo.text.contains("Daily")){
+            }else if(ppFragment.binding.titulo.text.contains(usuario.getDaily().getTitulo())){
                 ppFragment.default()
             }
         }else{
-            if (ppFragment.binding.titulo.text.contains("Default")){
+            if (ppFragment.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
                 ppFragment.daily()
-            }else if(ppFragment.binding.titulo.text.contains("ToDo")){
+            }else if(ppFragment.binding.titulo.text.contains(usuario.getToDo().getTitulo())){
                 ppFragment.default()
             }
         }

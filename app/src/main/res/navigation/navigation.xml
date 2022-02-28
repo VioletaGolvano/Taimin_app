@@ -3,22 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/mainActivity">
-
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.taimin.MainActivity"
-        android:label="MainActivity"
-        tools:layout="@layout/activity_main"/>
-    <fragment
-        android:id="@+id/addElemento"
-        android:name="com.example.taimin.fragmentos.AddElemento"
-        android:label="AddElemento"
-        tools:layout="@layout/fragment_add_elemento"/>
+    app:startDestination="@id/pantallasPrincipales">
     <fragment
         android:id="@+id/pantallasPrincipales"
         android:name="com.example.taimin.fragmentos.PantallasPrincipales"
         android:label="PantallasPrincipales"
         tools:layout="@layout/fragment_pantallas_principales">
+        <action
+            android:id="@+id/action_pantallasPrincipales_to_verElemento"
+            app:destination="@id/verElemento" />
+        <action
+            android:id="@+id/action_pantallasPrincipales_self"
+            app:destination="@id/pantallasPrincipales" />
+        <action
+            android:id="@+id/action_pantallasPrincipales_to_pantallasCalendario"
+            app:destination="@id/pantallasCalendario" />
+        <action
+            android:id="@+id/action_pantallasPrincipales_to_pantallasArchivo"
+            app:destination="@id/pantallasArchivo" />
+    </fragment>
+    <fragment
+        android:id="@+id/verElemento"
+        android:name="com.example.taimin.fragmentos.VerElemento"
+        android:label="fragment_ver_elemento"
+        tools:layout="@layout/fragment_ver_elemento" >
+        <action
+            android:id="@+id/action_verElemento_to_addElemento"
+            app:destination="@id/addElemento" />
+        <argument
+            android:name="elementoId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addElemento"
+        android:name="com.example.taimin.fragmentos.AddElemento"
+        android:label="fragment_add_elemento"
+        tools:layout="@layout/fragment_add_elemento" />
+    <fragment
+        android:id="@+id/pantallasArchivo"
+        android:name="com.example.taimin.fragmentos.PantallasArchivo"
+        android:label="fragment_pantallas_archivo"
+        tools:layout="@layout/fragment_pantallas_archivo" >
+        <action
+            android:id="@+id/action_pantallasArchivo_to_pantallasPrincipales"
+            app:destination="@id/pantallasPrincipales" />
+        <action
+            android:id="@+id/action_pantallasArchivo_to_pantallasCalendario"
+            app:destination="@id/pantallasCalendario" />
+        <action
+            android:id="@+id/action_pantallasArchivo_to_verElemento"
+            app:destination="@id/verElemento" />
+    </fragment>
+    <fragment
+        android:id="@+id/pantallasCalendario"
+        android:name="com.example.taimin.fragmentos.PantallasCalendario"
+        android:label="fragment_pantallas_calendario"
+        tools:layout="@layout/fragment_pantallas_calendario" >
+        <action
+            android:id="@+id/action_pantallasCalendario_to_pantallasPrincipales"
+            app:destination="@id/pantallasPrincipales" />
+        <action
+            android:id="@+id/action_pantallasCalendario_to_verElemento"
+            app:destination="@id/verElemento" />
+        <action
+            android:id="@+id/action_pantallasCalendario_to_pantallasArchivo"
+            app:destination="@id/pantallasArchivo" />
     </fragment>
 </navigation>

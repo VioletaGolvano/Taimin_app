@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.databinding.FragmentPantallasPrincipalesBinding
@@ -25,17 +27,14 @@ class PantallasPrincipales : Fragment() {
         fun newInstance(): PantallasPrincipales = PantallasPrincipales()
     }
     private var listenerDaily = View.OnClickListener{ daily() }
-    private var listenerDefault = View.OnClickListener{ default() }
+    private var listenerDefault = View.OnClickListener{ defaultpp() }
     private var listenerToDo = View.OnClickListener{ toDo() }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pantallas_principales, container, false)
-        default()
-
-        /* binding.cardListStudyButton.setOnClickListener { view ->
-                view.findNavController().navigate(R.id.action_cardListFragment_to_studyFragment)}*/
-
+        defaultpp()
+        comun()
         return binding.root
     }
     private fun comun(){
@@ -44,9 +43,12 @@ class PantallasPrincipales : Fragment() {
         binding.primeraPantalla.setOnClickListener(listenerDaily)
         binding.segundaPantalla.setOnClickListener(listenerDefault)
         binding.terceraPantalla.setOnClickListener(listenerToDo)
+
+        adapter.data = binding.pantalla!!.contenidos
+        binding.listaElementos?.adapter = adapter
     }
 
-    public fun default(){
+    public fun defaultpp(){
         binding.pantalla = (activity as MainActivity).usuario.getDefault()
         // Colores botones de cambio pantallas
         (binding.primeraPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
@@ -54,10 +56,6 @@ class PantallasPrincipales : Fragment() {
         (binding.terceraPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
 
         comun()
-
-        adapter.data = (activity as MainActivity).usuario.getDefault().contenidos
-        binding.listaElementos?.adapter = adapter
-
     }
     public fun daily(){
         binding.pantalla = (activity as MainActivity).usuario.getDaily()
@@ -67,11 +65,7 @@ class PantallasPrincipales : Fragment() {
         (binding.terceraPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
 
         comun()
-
-        adapter.data = (activity as MainActivity).usuario.getDaily().contenidos
-        binding.listaElementos?.adapter = adapter
     }
-
     public fun toDo(){
         binding.pantalla = (activity as MainActivity).usuario.getToDo()
         // Colores botones de cambio pantallas
@@ -80,8 +74,5 @@ class PantallasPrincipales : Fragment() {
         (binding.terceraPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
 
         comun()
-
-        adapter.data = (activity as MainActivity).usuario.getToDo().contenidos
-        binding.listaElementos?.adapter = adapter
     }
 }

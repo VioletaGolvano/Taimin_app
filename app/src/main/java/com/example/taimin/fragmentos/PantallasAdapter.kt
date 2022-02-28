@@ -1,17 +1,16 @@
 package com.example.taimin.fragmentos
 
-import OnSwipeTouchListener
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.graphics.drawable.DrawableCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taimin.R
 import elementos.Elemento
@@ -24,11 +23,13 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
     lateinit var binding: ListItemCardBinding
      */
     var data = listOf<Elemento>()
+    var navController: NavController? = null
 
-    class PantallasHolder(view: View) : RecyclerView.ViewHolder(view){
+    inner class PantallasHolder(view: View) : RecyclerView.ViewHolder(view){
         var titulo: TextView = itemView.findViewById(R.id.titulo)
         var item: RelativeLayout = itemView.findViewById(R.id.item)
         lateinit var elemento: Elemento
+        var navController: NavController? = null
 
         fun bind(elemento: Elemento) {
             this.elemento = elemento
@@ -37,7 +38,14 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
             if (color != null){
                 item.setBackgroundResource(color)
             }
-            //binding.card = card
+
+            itemView.setOnClickListener {
+                //val navHostFragment = it.
+                    // supportFragmentManager.findFragmentById(R.id.fragment_pp) as NavHostFragment
+                //val navController = navHostFragment.navController
+
+                Navigation.findNavController(it).navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToVerElemento(elemento.getID().toString()))
+            }
         }
     }
 

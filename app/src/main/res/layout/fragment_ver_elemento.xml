@@ -9,6 +9,7 @@
         <variable
             name="elemento"
             type="elementos.ElementoCreable" />
+
         <!-- @{elemento.titulo} -->
         <!-- "@{card.answered ? View.INVISIBLE : View.VISIBLE}" -->
         <!-- @{card::update_from_view} -->
@@ -74,6 +75,7 @@
                 android:textSize="26dp"/>
         </RelativeLayout>
 
+        <!-- Descripción y prioridad -->
         <RelativeLayout
             android:id="@+id/descPrio"
             android:layout_width="match_parent"
@@ -87,7 +89,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/prioridad"
                 android:layout_centerHorizontal="true"
-                android:text="@{elemento.descripcion}"
+                android:text="@{elemento.descripcion ?? @string/nd}"
                 android:textAlignment="textStart"
                 android:background="@{elemento.colorElemento}"
                 android:maxLines="4"/>
@@ -108,6 +110,7 @@
                                     @drawable/ic_baseline_warning_red_24}"-->
         </RelativeLayout>
 
+        <!-- Contenidos e info -->
         <RelativeLayout
             android:id="@+id/contenidosInfo"
             android:layout_width="wrap_content"
@@ -122,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true">
-                <!--Meter info izda-->
+                <!-- Contenedor -->
                 <RelativeLayout
                     android:id="@+id/container"
                     android:layout_width="120dp"
@@ -141,29 +144,154 @@
                         android:layout_alignParentRight="true"
                         android:text="@{elemento.contenedor.titulo}"/>
                 </RelativeLayout>
+                <!-- Hora inicio y fin -->
                 <RelativeLayout
+                    android:id="@+id/hora"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/container"
+                    android:layout_marginBottom="@dimen/space_size"
                     android:visibility="@{elemento instanceof elementos.Tarea ? View.INVISIBLE : View.VISIBLE}">
                     <ImageView
                         android:id="@+id/icono_hora"
                         android:layout_width="@dimen/icon_size"
                         android:layout_height="@dimen/icon_size"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_baseline_time_24"/>
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icono_hora">
+                        <TextView
+                            android:id="@+id/hora_ini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerHorizontal="true"/>
+                        <!--android:text="@{(elemento instanceof elementos.Tarea).horaIni}"-->
+                        <TextView
+                            android:id="@+id/hora_fin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/hora_ini"
+                            android:layout_alignParentRight="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+                <!-- Fecha -->
+                <RelativeLayout
+                    android:id="@+id/fecha"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hora"
+                    android:layout_marginBottom="@dimen/space_size">
+                    <ImageView
+                        android:id="@+id/icono_fecha"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_event_24"/>
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icono_fecha">
+                        <TextView
+                            android:id="@+id/fecha_ini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="@{elemento.fechaIni ?? @string/nd}"/>
+                        <TextView
+                            android:id="@+id/fecha_fin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/fecha_ini"
+                            android:layout_alignParentRight="true"
+                            android:text="@{elemento.fechaFin ?? @string/nd}"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+                <!-- Recordatorios -->
+                <RelativeLayout
+                    android:id="@+id/recordatorio"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_size"
+                    android:layout_below="@id/fecha">
+
+                    <ImageView
+                        android:id="@+id/icono_recordatorio"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_remind_24" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icono_recordatorio">
+                        <!-- TODO: Lista dinámica -->
+                        <!--
+                        <TextView
+                            android:id="@+id/fecha_ini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="@{elemento.fechaIni.day}"/>-->
+                    </RelativeLayout>
+                </RelativeLayout>
+                <!-- Repeticiones -->
+                <RelativeLayout
+                    android:id="@+id/repeticion"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/recordatorio"
+                    android:layout_marginBottom="@dimen/space_size">
+
+                    <ImageView
+                        android:id="@+id/icono_repeticiones"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:src="@drawable/ic_baseline_repeat_24" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/icono_hora"
-                        android:layout_alignParentRight="true"/>
+                        android:layout_toRightOf="@id/icono_repeticiones"
+                        android:layout_alignParentRight="true"
+                        />
+                    <!--android:text="@{elemento.repeticion.name()}"-->
                 </RelativeLayout>
-
             </RelativeLayout>
 
 
         </RelativeLayout>
 
+
+        <!-- Opciones final -->
+        <RelativeLayout
+            android:id="@+id/opciones_final"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:id="@+id/edit"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_baseline_edit_24"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
 
 
 

@@ -5,8 +5,7 @@ import EventoInterno
 import Prioridad
 import Repeticion
 import Usuario
-import android.graphics.Color
-import petrov.kristiyan.colorpicker.ColorPicker
+import java.time.LocalDate
 import java.util.*
 
 /**
@@ -24,12 +23,12 @@ import java.util.*
  */
 abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, user) {
     private var color: Int? = null
-    private lateinit var fechaIni: Date
-    private lateinit var fechaFin: Date
-    private lateinit var descripcion: String
+    private var fechaIni: LocalDate? = null
+    private var fechaFin: LocalDate? = null
+    private var descripcion: String? = null
     private var ordenColores = false
 
-    private lateinit var repeticion: Repeticion
+    private var repeticion: Repeticion? = null
     private var prioridad = Prioridad.NULA
     private var recordatorio = mutableListOf<EventoInterno>()
     private var participantes = mutableListOf<Usuario>()
@@ -41,19 +40,19 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
 
     /* GETTERS */
     fun getColorElemento(): Int? { return this.color }
-    fun getFechaIni(): Date { return this.fechaIni }
-    fun getFechaFin(): Date{ return this.fechaFin }
-    fun getDescripcion(): String{ return this.descripcion }
-    fun getOrdenColores(): Boolean{ return this.ordenColores }
-    fun getRepeticion(): Repeticion { return this.repeticion }
+    fun getFechaIni(): LocalDate? { return this.fechaIni }
+    fun getFechaFin(): LocalDate? { return this.fechaFin }
+    fun getDescripcion(): String? { return this.descripcion }
+    fun getOrdenColores(): Boolean { return this.ordenColores }
+    fun getRepeticion(): Repeticion? { return this.repeticion }
     fun getPrioridad(): Prioridad { return this.prioridad }
     fun getRecordatorio(): List<EventoInterno>{ return this.recordatorio }
     fun getParticipantes(): List<Usuario>{ return this.participantes }
 
     /* SETTERS */
     fun setColorElemento(color: Int){ this.color = color }
-    fun setFechaIni(fecha: Date) { this.fechaIni = fecha }
-    fun setFechaFin(fecha: Date) { this.fechaFin = fecha}
+    fun setFechaIni(fecha: LocalDate) { this.fechaIni = fecha }
+    fun setFechaFin(fecha: LocalDate) { this.fechaFin = fecha}
     fun setDescripcion(desc: String) { this.descripcion = desc }
     fun setOrdenColores(col: Boolean) { this.ordenColores = col}
     fun setRepeticion(rep: Repeticion) { this.repeticion = rep }

@@ -60,6 +60,7 @@
                 app:iconPadding="10dp"
                 android:src="@drawable/ic_baseline_circle_24"
                 android:layout_toLeftOf="@id/segunda_pantalla"
+                android:onClick="daily"
                 app:tint="@color/grey" />
             <ImageView
                 android:id="@+id/segunda_pantalla"
@@ -70,6 +71,7 @@
                 android:layout_margin="20dp"
                 app:iconPadding="10dp"
                 android:src="@drawable/ic_baseline_circle_24"
+                android:onClick="defaultpp"
                 app:tint="@color/grey" />
             <ImageView
                 android:id="@+id/tercera_pantalla"
@@ -80,6 +82,7 @@
                 app:iconPadding="10dp"
                 android:src="@drawable/ic_baseline_circle_24"
                 android:layout_toRightOf="@id/segunda_pantalla"
+                android:onClick="toDo"
                 app:tint="@color/grey" />
 <!--
             <Button

@@ -12,24 +12,26 @@ import android.view.View.*
 import androidx.appcompat.app.ActionBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.taimin.fragmentos.AddElemento
-import com.example.taimin.fragmentos.PantallasArchivo
-import com.example.taimin.fragmentos.PantallasCalendario
-import com.example.taimin.fragmentos.PantallasPrincipales
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.example.taimin.fragmentos.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.navigation.NavigationView
 import elementos.Proyecto
 import kotlinx.android.synthetic.main.activity_main.*
+
+
+
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     lateinit var gestureDetector: GestureDetector
     var x2:Float = 0.0f
     var x1:Float = 0.0f
-    private val ppFragment = PantallasPrincipales()
-    private val calFragment = PantallasCalendario()
-    private val addFragment = AddElemento()
-    private val arFragment = PantallasArchivo()
+    var addFragment = AddElemento()
     lateinit var previousFragment: Fragment
     lateinit var previousMenu: BottomNavigationView
     val usuario = Usuario("mail","pass")
@@ -38,12 +40,24 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private val nav = NavigationBarView.OnItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.inbox -> {
-                openFragment(ppFragment)
+                try {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToPantallasPrincipales())
+                }catch (e: Exception){
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasPrincipales())
+                }
                 bottom_pp.visibility=VISIBLE
                 true
             }
             R.id.calendar -> {
-                openFragment(calFragment)
+                try {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToPantallasCalendario())
+                }catch (e: Exception){
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasCalendario())
+                }
                 bottom_cal.visibility=VISIBLE
                 true
             }
@@ -53,7 +67,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 true
             }
             R.id.archive -> {
-                openFragment(arFragment)
+                try {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToPantallasArchivo())
+                }catch (e: Exception){
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToPantallasArchivo())
+                }
                 bottom_ar.visibility=VISIBLE
                 true
             }
@@ -88,10 +108,30 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         gestureDetector = GestureDetector(this,this)
-        openFragment(ppFragment)
+
+        //openFragment(ppFragment)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.hide()
+
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        bottom_cal?.let {
+            NavigationUI.setupWithNavController(it, navController)
+        }
+        bottom_pp?.let {
+            NavigationUI.setupWithNavController(it, navController)
+        }
+        bottom_ar?.let {
+            NavigationUI.setupWithNavController(it, navController)
+        }
+        bottom_ar?.let {
+            NavigationUI.setupWithNavController(it, navController)
+        }
+
+        //val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        //val navController = navHostFragment.navController
+        //NavigationUI.setupWithNavController(findViewById(R.id.),navController)
 
         bottom_add.setOnItemSelectedListener(nav)
         bottom_pp.setOnItemSelectedListener(nav)
@@ -106,7 +146,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private fun openFragment(fragment: Fragment) {
         asignacionPrevious()
         val trans = supportFragmentManager.beginTransaction()
-        trans.replace(R.id.fragment_pp, fragment)
+        trans.replace(R.id.nav_host_fragment, fragment)
         trans.commit()
 
         bottom_pp.visibility=GONE
@@ -116,8 +156,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     private fun asignacionPrevious(){
-        if (supportFragmentManager.findFragmentById(R.id.fragment_pp)!=null){
-            previousFragment = supportFragmentManager.findFragmentById(R.id.fragment_pp)!!
+        if (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!=null){
+            previousFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
         }
 
         when {
@@ -169,17 +209,19 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         return gestureDetector.onTouchEvent(ev)
     }
     fun swipePantallasPrincipales(izda: Boolean){
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        var fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasPrincipales
         if (izda){
-            if (ppFragment.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
-                ppFragment.toDo()
-            }else if(ppFragment.binding.titulo.text.contains(usuario.getDaily().getTitulo())){
-                ppFragment.default()
+            if (fr.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
+                fr.toDo()
+            }else if(fr.binding.titulo.text.contains(usuario.getDaily().getTitulo())){
+                fr.defaultpp()
             }
         }else{
-            if (ppFragment.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
-                ppFragment.daily()
-            }else if(ppFragment.binding.titulo.text.contains(usuario.getToDo().getTitulo())){
-                ppFragment.default()
+            if (fr.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
+                fr.daily()
+            }else if(fr.binding.titulo.text.contains(usuario.getToDo().getTitulo())){
+                fr.defaultpp()
             }
         }
 

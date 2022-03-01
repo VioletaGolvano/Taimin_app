@@ -9,6 +9,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.*
+import android.widget.AdapterView
 import androidx.appcompat.app.ActionBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -21,10 +22,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
+import elementos.Lista
 import elementos.Proyecto
+import elementos.Tarea
 import kotlinx.android.synthetic.main.activity_main.*
-
-
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     val usuario = Usuario("mail","pass")
 
     // Cambio de menús y pantallas
+    private val add = OnClickListener{ addElement() }
     private val nav = NavigationBarView.OnItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.inbox -> {
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasPrincipales())
                 }
+                noBottomBar()
                 bottom_pp.visibility=VISIBLE
                 true
             }
@@ -58,12 +62,68 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasCalendario())
                 }
+                noBottomBar()
                 bottom_cal.visibility=VISIBLE
                 true
             }
             R.id.add -> {
-                openFragment(addFragment)
-                bottom_add.visibility=VISIBLE
+                crearElemento.visibility = VISIBLE
+                noAniadir.visibility = VISIBLE
+                crear_proyecto.setOnClickListener{
+                    val proyecto = Proyecto(usuario)
+                    proyecto.setTitulo(proyecto.getID().toString())
+                    proyecto.aceptar()
+                    try {
+                        Navigation.findNavController(this, R.id.nav_host_fragment)
+                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(3))
+                    }catch (e: Exception){
+                        try {
+                            Navigation.findNavController(this, R.id.nav_host_fragment)
+                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(3))
+                        }catch (e: Exception){
+                            Navigation.findNavController(this, R.id.nav_host_fragment)
+                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(3))
+                        }
+                    }
+                    noBottomBar()
+                    bottom_add.visibility=VISIBLE
+                    addElement()
+                }
+                crear_lista.setOnClickListener{
+                    try {
+                        Navigation.findNavController(this, R.id.nav_host_fragment)
+                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(2))
+                    }catch (e: Exception){
+                        try {
+                            Navigation.findNavController(this, R.id.nav_host_fragment)
+                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(2))
+                        }catch (e: Exception){
+                            Navigation.findNavController(this, R.id.nav_host_fragment)
+                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(2))
+                        }
+                    }
+                    noBottomBar()
+                    bottom_add.visibility=VISIBLE
+                    addElement()
+                }
+                crear_tarea.setOnClickListener{
+                    try {
+                        Navigation.findNavController(this, R.id.nav_host_fragment)
+                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(1))
+                    }catch (e: Exception){
+                        try {
+                            Navigation.findNavController(this, R.id.nav_host_fragment)
+                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(1))
+                        }catch (e: Exception){
+                            Navigation.findNavController(this, R.id.nav_host_fragment)
+                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(1))
+                        }
+                    }
+                    noBottomBar()
+                    bottom_add.visibility=VISIBLE
+                    addElement()
+                }
+
                 true
             }
             R.id.archive -> {
@@ -74,18 +134,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToPantallasArchivo())
                 }
+                noBottomBar()
                 bottom_ar.visibility=VISIBLE
                 true
             }
             R.id.cancel -> {
-                openFragment(previousFragment)
-                previousMenu.visibility=VISIBLE
                 true
             }
             R.id.accept -> {
-                addFragment.aceptar()
-                openFragment(previousFragment)
-                previousMenu.visibility=VISIBLE
                 true
             }
             else -> false
@@ -111,7 +167,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         gestureDetector = GestureDetector(this,this)
 
-        //openFragment(ppFragment)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.hide()
 
@@ -129,6 +184,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             NavigationUI.setupWithNavController(it, navController)
         }
 
+        noAniadir.setOnClickListener(add)
+
         //val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         //val navController = navHostFragment.navController
         //NavigationUI.setupWithNavController(findViewById(R.id.),navController)
@@ -141,14 +198,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         bottom_pp.visibility= VISIBLE
 
     }
+    private fun addElement(){
+        crearElemento.visibility = GONE
+        noAniadir.visibility = GONE
+    }
 
 
-    private fun openFragment(fragment: Fragment) {
-        asignacionPrevious()
-        val trans = supportFragmentManager.beginTransaction()
-        trans.replace(R.id.nav_host_fragment, fragment)
-        trans.commit()
-
+    private fun noBottomBar() {
         bottom_pp.visibility=GONE
         bottom_cal.visibility=GONE
         bottom_ar.visibility=GONE
@@ -195,12 +251,16 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                         //Si está en pp(To Do) -> default
                         if (bottom_pp.visibility==VISIBLE){
                             swipePantallasPrincipales(false)
+                        } else if (bottom_ar.visibility== VISIBLE){
+                            swipePantallasArchivo(false)
                         }
                     }else{
                         //Si está en pp(daily) -> default
                         //Si está en pp(default) -> To Do
                         if (bottom_pp.visibility==VISIBLE){
                             swipePantallasPrincipales(true)
+                        } else if (bottom_ar.visibility== VISIBLE){
+                            swipePantallasArchivo(true)
                         }
                     }
                 }
@@ -224,7 +284,19 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 fr.defaultpp()
             }
         }
+    }
 
-
+    fun swipePantallasArchivo(izda: Boolean){
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        var fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasArchivo
+        if (izda){
+            if (fr.binding.titulo.text.contains(usuario.getArchived().getTitulo())){
+                fr.completed()
+            }
+        }else{
+            if (fr.binding.titulo.text.contains(usuario.getCompleted().getTitulo())){
+                fr.archived()
+            }
+        }
     }
 }

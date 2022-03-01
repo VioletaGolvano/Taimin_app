@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_pantallasPrincipales_to_pantallasArchivo"
             app:destination="@id/pantallasArchivo" />
+        <action
+            android:id="@+id/action_pantallasPrincipales_to_addElemento"
+            app:destination="@id/addElemento" />
     </fragment>
     <fragment
         android:id="@+id/verElemento"
@@ -38,7 +41,16 @@
         android:id="@+id/addElemento"
         android:name="com.example.taimin.fragmentos.AddElemento"
         android:label="fragment_add_elemento"
-        tools:layout="@layout/fragment_add_elemento" />
+        tools:layout="@layout/fragment_add_elemento" >
+        <argument
+            android:name="elementoId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
+        <argument
+            android:name="elementoIDClase"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/pantallasArchivo"
         android:name="com.example.taimin.fragmentos.PantallasArchivo"
@@ -53,6 +65,9 @@
         <action
             android:id="@+id/action_pantallasArchivo_to_verElemento"
             app:destination="@id/verElemento" />
+        <action
+            android:id="@+id/action_pantallasArchivo_to_addElemento"
+            app:destination="@id/addElemento" />
     </fragment>
     <fragment
         android:id="@+id/pantallasCalendario"
@@ -68,5 +83,8 @@
         <action
             android:id="@+id/action_pantallasCalendario_to_pantallasArchivo"
             app:destination="@id/pantallasArchivo" />
+        <action
+            android:id="@+id/action_pantallasCalendario_to_addElemento"
+            app:destination="@id/addElemento" />
     </fragment>
 </navigation>

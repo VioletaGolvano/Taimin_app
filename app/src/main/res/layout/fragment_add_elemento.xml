@@ -353,15 +353,5 @@
             android:layout_marginStart="@dimen/icon_size"/>
     </RelativeLayout>
 
-
-    <!-- TODO: Update blank fragment layout
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:textSize="36dp"
-        android:text="FUCK YOU"/>-->
-
-
 </RelativeLayout>
 </layout>

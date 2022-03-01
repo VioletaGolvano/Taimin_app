@@ -52,6 +52,8 @@ class VerElemento : Fragment() {
             //CardsApplication.getCard(args.cardId) ?: throw Exception("Wrong id")
         //iniciar()
         binding.elemento = elemento
+        elemento.getColorElemento()
+            ?.let { resources.getColor(it) }?.let { binding.titulo.setBackgroundColor(it) }
 
         return binding.root
     }

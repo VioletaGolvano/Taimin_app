@@ -55,58 +55,40 @@
                 android:id="@+id/primera_pantalla"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:backgroundTint="@color/white"
                 android:layout_margin="10dp"
-                app:iconPadding="10dp"
-                android:src="@drawable/ic_baseline_circle_24"
                 android:layout_toLeftOf="@id/segunda_pantalla"
+                android:backgroundTint="@color/white"
                 android:onClick="daily"
+                android:src="@drawable/ic_baseline_circle_24"
+                app:iconPadding="10dp"
                 app:tint="@color/grey" />
+
             <ImageView
                 android:id="@+id/segunda_pantalla"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:backgroundTint="@color/white"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"
-                app:iconPadding="10dp"
-                android:src="@drawable/ic_baseline_circle_24"
+                android:backgroundTint="@color/white"
                 android:onClick="defaultpp"
+                android:src="@drawable/ic_baseline_circle_24"
+                app:iconPadding="10dp"
                 app:tint="@color/grey" />
+
             <ImageView
                 android:id="@+id/tercera_pantalla"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:backgroundTint="@color/white"
-                android:layout_margin="10dp"
-                app:iconPadding="10dp"
-                android:src="@drawable/ic_baseline_circle_24"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_toRightOf="@id/segunda_pantalla"
+                android:backgroundTint="@color/white"
                 android:onClick="toDo"
+                android:src="@drawable/ic_baseline_circle_24"
+                app:iconPadding="10dp"
                 app:tint="@color/grey" />
-<!--
-            <Button
-                android:id="@+id/"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:minWidth="0dp"
-                android:backgroundTint="@color/light_purple"
-                app:iconPadding="0dp"
-                app:icon="@drawable/ic_baseline_circle_24"/>
-            <Button
-                android:id="@+id/"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:minWidth="0dp"
-                android:backgroundTint="@color/light_purple"
-                app:iconPadding="0dp"
-                app:icon="@drawable/ic_baseline_circle_24"/>
-                -->
         </RelativeLayout>
-
-
-
-
-
 </RelativeLayout>
 </layout>

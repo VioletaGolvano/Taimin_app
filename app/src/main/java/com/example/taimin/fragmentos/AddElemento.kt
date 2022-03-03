@@ -30,6 +30,8 @@ import com.example.taimin.R.color.light_purple
 import com.example.taimin.R.color.purple
 import com.example.taimin.databinding.FragmentAddElementoBinding
 import elementos.ElementoCreable
+import elementos.Lista
+import elementos.Proyecto
 import elementos.Tarea
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
@@ -298,13 +300,37 @@ class AddElemento : Fragment() {
         // buscar qué hace este setContentViewer porque creo que es lo que me quita el menú inferior
         // buscar cómo tener un binding de un fragmento -> Fragment...Binding de una parte de una actividad
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_elemento, container, false)
-        elemento = Tarea((activity as MainActivity).usuario)
+
+        val args = AddElementoArgs.fromBundle(arguments!!)
+        val usuario = (activity as MainActivity).usuario
+
+        if (args.elementoId!=null){
+            elemento = usuario.buscar(UUID.fromString(args.elementoId)) as ElementoCreable
+        }else {
+            when (args.elementoIDClase) {
+                3 -> {
+                    elemento = Proyecto(usuario)
+                    elemento.setTitulo("PROYECTO NUEVO")
+                }
+                2 -> {
+                    elemento = Lista(usuario)
+                    elemento.setTitulo("LISTA NUEVA")
+                }
+                1 -> {
+                    elemento = Tarea(usuario)
+                    elemento.setTitulo("TAREA NUEVA")
+                }
+                else -> {
+                    // Si el elemento se va a editar
+                }
+            }
+        }
+
         binding.elemento = elemento
 
         var view = binding.root
 
-        val botonFecha = view.findViewById(R.id.icono_calendario) as Button
-        botonFecha.setOnClickListener(listenerFecha)
+        binding.iconoCalendario.setOnClickListener(listenerFecha)
 
         val botonHora = view.findViewById(R.id.icono_reloj) as Button
         botonHora.setOnClickListener(listenerHora)

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     val usuario = Usuario("mail","pass")
 
     // Cambio de menús y pantallas
-    private val add = OnClickListener{ addElement() }
+    private val add = OnClickListener{ bottomAddElement() }
     private val nav = NavigationBarView.OnItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.inbox -> {
@@ -50,8 +50,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasPrincipales())
                 }
-                noBottomBar()
-                bottom_pp.visibility=VISIBLE
+                bottomBarPP()
                 true
             }
             R.id.calendar -> {
@@ -62,8 +61,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasCalendario())
                 }
-                noBottomBar()
-                bottom_cal.visibility=VISIBLE
+                bottomBarCalendario()
                 true
             }
             R.id.add -> {
@@ -75,53 +73,47 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     proyecto.aceptar()
                     try {
                         Navigation.findNavController(this, R.id.nav_host_fragment)
-                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(3))
+                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(null, 3))
                     }catch (e: Exception){
                         try {
                             Navigation.findNavController(this, R.id.nav_host_fragment)
-                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(3))
+                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(null,3))
                         }catch (e: Exception){
                             Navigation.findNavController(this, R.id.nav_host_fragment)
-                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(3))
+                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null,3))
                         }
                     }
-                    noBottomBar()
-                    bottom_add.visibility=VISIBLE
-                    addElement()
+                    bottomBarAddElement()
                 }
                 crear_lista.setOnClickListener{
                     try {
                         Navigation.findNavController(this, R.id.nav_host_fragment)
-                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(2))
+                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(null, 2))
                     }catch (e: Exception){
                         try {
                             Navigation.findNavController(this, R.id.nav_host_fragment)
-                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(2))
+                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(null, 2))
                         }catch (e: Exception){
                             Navigation.findNavController(this, R.id.nav_host_fragment)
-                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(2))
+                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null, 2))
                         }
                     }
-                    noBottomBar()
-                    bottom_add.visibility=VISIBLE
-                    addElement()
+                    bottomBarAddElement()
                 }
                 crear_tarea.setOnClickListener{
                     try {
                         Navigation.findNavController(this, R.id.nav_host_fragment)
-                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(1))
+                            .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(null, 1))
                     }catch (e: Exception){
                         try {
                             Navigation.findNavController(this, R.id.nav_host_fragment)
-                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(1))
+                                .navigate(PantallasArchivoDirections.actionPantallasArchivoToAddElemento(null, 1))
                         }catch (e: Exception){
                             Navigation.findNavController(this, R.id.nav_host_fragment)
-                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(1))
+                                .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null,1))
                         }
                     }
-                    noBottomBar()
-                    bottom_add.visibility=VISIBLE
-                    addElement()
+                    bottomBarAddElement()
                 }
 
                 true
@@ -134,14 +126,28 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToPantallasArchivo())
                 }
-                noBottomBar()
-                bottom_ar.visibility=VISIBLE
+                bottomBarArchivo()
                 true
             }
             R.id.cancel -> {
+                when(Navigation.findNavController(this, R.id.nav_host_fragment).previousBackStackEntry?.destination?.id){
+                    R.id.pantallasCalendario -> this.bottomBarCalendario()
+                    R.id.pantallasArchivo -> this.bottomBarArchivo()
+                    R.id.pantallasPrincipales -> this.bottomBarPP()
+                    else -> this.noBottomBar()
+                    }
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
                 true
             }
             R.id.accept -> {
+                // Actualizar info
+                when(Navigation.findNavController(this, R.id.nav_host_fragment).previousBackStackEntry?.destination?.id){
+                    R.id.pantallasCalendario -> this.bottomBarCalendario()
+                    R.id.pantallasArchivo -> this.bottomBarArchivo()
+                    R.id.pantallasPrincipales -> this.bottomBarPP()
+                    else -> this.noBottomBar()
+                }
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
                 true
             }
             else -> false
@@ -150,6 +156,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     init {
+        var tar = Tarea(usuario)
+        tar.setTitulo("Tarea")
+        tar.aceptar()
         for (i in 0 until 20){
             var pro = Proyecto(usuario)
             pro.setTitulo("Proyecto $i")
@@ -171,18 +180,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         actionBar?.hide()
 
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        bottom_cal?.let {
-            NavigationUI.setupWithNavController(it, navController)
-        }
-        bottom_pp?.let {
-            NavigationUI.setupWithNavController(it, navController)
-        }
-        bottom_ar?.let {
-            NavigationUI.setupWithNavController(it, navController)
-        }
-        bottom_ar?.let {
-            NavigationUI.setupWithNavController(it, navController)
-        }
+        bottom_cal?.let {NavigationUI.setupWithNavController(it, navController)}
+        bottom_pp?.let {NavigationUI.setupWithNavController(it, navController)}
+        bottom_ar?.let {NavigationUI.setupWithNavController(it, navController)}
+        bottom_ar?.let {NavigationUI.setupWithNavController(it, navController)}
 
         noAniadir.setOnClickListener(add)
 
@@ -198,35 +199,45 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         bottom_pp.visibility= VISIBLE
 
     }
-    private fun addElement(){
+
+    private fun bottomAddElement(){
         crearElemento.visibility = GONE
         noAniadir.visibility = GONE
     }
 
-
-    private fun noBottomBar() {
+    fun noBottomBar() {
         bottom_pp.visibility=GONE
         bottom_cal.visibility=GONE
         bottom_ar.visibility=GONE
         bottom_add.visibility=GONE
     }
 
-    private fun asignacionPrevious(){
-        if (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!=null){
-            previousFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
-        }
+    fun bottomBarAddElement(){
+        bottom_pp.visibility=GONE
+        bottom_cal.visibility=GONE
+        bottom_ar.visibility=GONE
+        bottom_add.visibility=VISIBLE
+    }
 
-        when {
-            bottom_ar.visibility== VISIBLE -> {
-                previousMenu = bottom_ar
-            }
-            bottom_cal.visibility== VISIBLE -> {
-                previousMenu =bottom_cal
-            }
-            bottom_pp.visibility== VISIBLE -> {
-                previousMenu =bottom_pp
-            }
-        }
+    fun bottomBarPP(){
+        bottom_pp.visibility= VISIBLE
+        bottom_cal.visibility=GONE
+        bottom_ar.visibility=GONE
+        bottom_add.visibility=GONE
+    }
+
+    fun bottomBarCalendario(){
+        bottom_pp.visibility=GONE
+        bottom_cal.visibility= VISIBLE
+        bottom_ar.visibility=GONE
+        bottom_add.visibility=GONE
+    }
+
+    fun bottomBarArchivo(){
+        bottom_pp.visibility= GONE
+        bottom_cal.visibility=GONE
+        bottom_ar.visibility= VISIBLE
+        bottom_add.visibility=GONE
     }
 
 

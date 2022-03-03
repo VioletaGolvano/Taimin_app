@@ -17,10 +17,14 @@
             app:destination="@id/pantallasPrincipales" />
         <action
             android:id="@+id/action_pantallasPrincipales_to_pantallasCalendario"
-            app:destination="@id/pantallasCalendario" />
+            app:destination="@id/pantallasCalendario"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_pantallasPrincipales_to_pantallasArchivo"
-            app:destination="@id/pantallasArchivo" />
+            app:destination="@id/pantallasArchivo"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_pantallasPrincipales_to_addElemento"
             app:destination="@id/addElemento" />
@@ -45,11 +49,10 @@
         <argument
             android:name="elementoId"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null" />
+            app:nullable="true"/>
         <argument
             android:name="elementoIDClase"
-            app:argType="integer" />
+            app:argType="integer"/>
     </fragment>
     <fragment
         android:id="@+id/pantallasArchivo"
@@ -58,10 +61,14 @@
         tools:layout="@layout/fragment_pantallas_archivo" >
         <action
             android:id="@+id/action_pantallasArchivo_to_pantallasPrincipales"
-            app:destination="@id/pantallasPrincipales" />
+            app:destination="@id/pantallasPrincipales"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_pantallasArchivo_to_pantallasCalendario"
-            app:destination="@id/pantallasCalendario" />
+            app:destination="@id/pantallasCalendario"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_pantallasArchivo_to_verElemento"
             app:destination="@id/verElemento" />
@@ -76,13 +83,17 @@
         tools:layout="@layout/fragment_pantallas_calendario" >
         <action
             android:id="@+id/action_pantallasCalendario_to_pantallasPrincipales"
-            app:destination="@id/pantallasPrincipales" />
+            app:destination="@id/pantallasPrincipales"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_pantallasCalendario_to_verElemento"
             app:destination="@id/verElemento" />
         <action
             android:id="@+id/action_pantallasCalendario_to_pantallasArchivo"
-            app:destination="@id/pantallasArchivo" />
+            app:destination="@id/pantallasArchivo"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_pantallasCalendario_to_addElemento"
             app:destination="@id/addElemento" />

@@ -60,7 +60,7 @@
             android:layout_marginBottom="@dimen/space_size"
             android:layout_toLeftOf="@+id/folder"
             android:focusedByDefault="true"
-            android:hint="@string/title"
+            android:text="@{elemento.titulo ?? @string/title}"
             android:inputType="text"
             android:maxLines="1" />
 

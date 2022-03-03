@@ -1,11 +1,14 @@
 package com.example.taimin.fragmentos
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
+import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.databinding.FragmentVerElementoBinding
@@ -14,34 +17,12 @@ import elementos.Tarea
 import java.time.LocalDate
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [VerElemento.newInstance] factory method to
- * create an instance of this fragment.
- */
 class VerElemento : Fragment() {
     lateinit var binding: FragmentVerElementoBinding
     lateinit var elemento: ElementoCreable
     companion object {
         fun newInstance(): VerElemento = VerElemento()
-    }
-    fun iniciar() {
-        elemento = Tarea((activity as MainActivity).usuario)
-        elemento.setTitulo("Tarea 1")
-        elemento.setDescripcion("Esta es la descripción de la tarea, que no debería mostrar más de cuatro líneas")
-        (activity as MainActivity).usuario.getDaily().addContenido(elemento)
-        elemento.setFechaIni(LocalDate.of(2020, 2, 2))
-        elemento.setFechaFin(LocalDate.of(2020, 2, 3))
-        (elemento as Tarea).setHoraIni(LocalDate.now())
-        (elemento as Tarea).setHoraFin(LocalDate.now())
-        elemento.setRepeticion(Repeticion.WEEKLY)
-        elemento.setPrioridad(Prioridad.ALTA)
-        elemento.aceptar()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,11 +31,29 @@ class VerElemento : Fragment() {
         val args = VerElementoArgs.fromBundle(requireArguments())
         elemento = (activity as MainActivity).usuario.buscar(UUID.fromString(args.elementoId)) as ElementoCreable
             //CardsApplication.getCard(args.cardId) ?: throw Exception("Wrong id")
-        //iniciar()
+
         binding.elemento = elemento
         elemento.getColorElemento()
             ?.let { resources.getColor(it) }?.let { binding.titulo.setBackgroundColor(it) }
+        binding.edit.setOnClickListener{
+            (it.context as MainActivity).bottomBarAddElement()
+            Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoToAddElemento(elemento.getID().toString(), elemento.getIDClase()))
+        }
+        binding.prioridad.setImageDrawable(when (elemento.getPrioridad()){
+            Prioridad.ALTA -> resources.getDrawable(R.drawable.ic_baseline_warning_red_24, activity?.theme)
+            Prioridad.MEDIA -> resources.getDrawable(R.drawable.ic_baseline_warning_amber_24, activity?.theme)
+            Prioridad.BAJA -> resources.getDrawable(R.drawable.ic_baseline_warning_blue_24, activity?.theme)
+            else -> resources.getDrawable(R.drawable.ic_baseline_warning_grey_24, activity?.theme)
+        })
 
+            binding.back.setOnClickListener {
+            when(Navigation.findNavController(it).previousBackStackEntry?.destination?.id){
+                R.id.pantallasCalendario -> (it.context as MainActivity).bottomBarCalendario()
+                R.id.pantallasArchivo -> (it.context as MainActivity).bottomBarArchivo()
+                else -> (it.context as MainActivity).bottomBarPP()
+            }
+            Navigation.findNavController(it).navigateUp()
+        }
         return binding.root
     }
 

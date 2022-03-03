@@ -147,7 +147,9 @@ abstract class Elemento (
      * TODO
      */
     fun eliminar() {
-        // Borrar de la db
+        if (this::contenedor.isInitialized)
+            contenedor.delContenido(this, true)
+        creador.removeElemento(this)
     }
 
     /**

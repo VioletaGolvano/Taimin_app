@@ -36,7 +36,7 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
             titulo.text = elemento.getTitulo()
             var color = (elemento as ElementoCreable).getColorElemento()
             if (color != null){
-                item.setBackgroundResource(color)
+                item.setBackgroundColor(color)
             }
 
             itemView.setOnClickListener {

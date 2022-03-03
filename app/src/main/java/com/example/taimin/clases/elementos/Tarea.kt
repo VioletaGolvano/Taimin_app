@@ -14,20 +14,20 @@ import java.util.*
  */
 class Tarea(user: Usuario) : ElementoCreable(1, user){
     private var duracion = 0.0
-    private lateinit var horaIni: LocalDate
-    private lateinit var horaFin: LocalDate
+    private var horaIni: LocalDate? = null
+    private var horaFin: LocalDate? = null
     private var adjuntos = mutableListOf<Adjunto>()
 
-    fun getHoraIni(): LocalDate{
+    fun getHoraIni(): LocalDate?{
         return this.horaIni
     }
-    fun getHoraFin(): LocalDate{
+    fun getHoraFin(): LocalDate?{
         return this.horaFin
     }
-    fun setHoraIni(d: LocalDate){
+    fun setHoraIni(d: LocalDate?){
         horaIni = d
     }
-    fun setHoraFin(d: LocalDate){
+    fun setHoraFin(d: LocalDate?){
         horaFin = d
     }
 

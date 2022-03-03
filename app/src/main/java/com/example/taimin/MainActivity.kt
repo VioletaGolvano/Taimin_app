@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                                 .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null,3))
                         }
                     }
+                    bottomAddElement()
                     bottomBarAddElement()
                 }
                 crear_lista.setOnClickListener{
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                                 .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null, 2))
                         }
                     }
+                    bottomAddElement()
                     bottomBarAddElement()
                 }
                 crear_tarea.setOnClickListener{
@@ -113,6 +115,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                                 .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null,1))
                         }
                     }
+                    bottomAddElement()
                     bottomBarAddElement()
                 }
 
@@ -130,6 +133,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 true
             }
             R.id.cancel -> {
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                var ae = navHostFragment!!.childFragmentManager.fragments[0] as AddElemento
+                ae.cancelar()
                 when(Navigation.findNavController(this, R.id.nav_host_fragment).previousBackStackEntry?.destination?.id){
                     R.id.pantallasCalendario -> this.bottomBarCalendario()
                     R.id.pantallasArchivo -> this.bottomBarArchivo()
@@ -140,7 +146,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 true
             }
             R.id.accept -> {
-                // Actualizar info
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                var ae = navHostFragment!!.childFragmentManager.fragments[0] as AddElemento
+                ae.aceptar()
                 when(Navigation.findNavController(this, R.id.nav_host_fragment).previousBackStackEntry?.destination?.id){
                     R.id.pantallasCalendario -> this.bottomBarCalendario()
                     R.id.pantallasArchivo -> this.bottomBarArchivo()
@@ -155,17 +163,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     }
 
-    init {
-        var tar = Tarea(usuario)
-        tar.setTitulo("Tarea")
-        tar.aceptar()
-        for (i in 0 until 20){
-            var pro = Proyecto(usuario)
-            pro.setTitulo("Proyecto $i")
-            pro.setColorElemento(R.color.color11)
-            pro.aceptar()
-        }
-    }
+
     companion object{
         const val MIN_DISTANCE = 150
     }

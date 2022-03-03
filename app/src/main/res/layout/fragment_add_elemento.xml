@@ -1,90 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragmentos.AddElemento"
-    xmlns:tools="http://schemas.android.com/tools">
+<?xml version='1.0' encoding='utf-8'?>
+<layout xmlns:android='http://schemas.android.com/apk/res/android'
+    xmlns:app='http://schemas.android.com/apk/res-auto'
+    tools:context='.fragmentos.AddElemento'
+    xmlns:tools='http://schemas.android.com/tools'>
     <data>
         <variable
-            name="elemento"
-            type="elementos.ElementoCreable" />
+            name='elemento'
+            type='elementos.ElementoCreable' />
         <!-- @{elemento.titulo} -->
-        <!-- "@{card.answered ? View.INVISIBLE : View.VISIBLE}" -->
+        <!-- '@{card.answered ? View.INVISIBLE : View.VISIBLE}' -->
         <!-- @{card::update_from_view} -->
-        <!-- android:onClick="@{card::update_from_view}" -->
-        <!-- android:onClick="@{() -> card.update_card(5)}" -->
+        <!-- android:onClick='@{card::update_from_view}' -->
+        <!-- android:onClick='@{() -> card.update_card(5)}' -->
     </data>
 
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/space_size">
+        android:layout_width='match_parent'
+        android:layout_height='match_parent'
+        android:padding='@dimen/space_size'>
 
     <!-- Botones iniciales
     <RelativeLayout
-        android:id="@+id/first_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal">
+        android:id='@+id/first_buttons'
+        android:layout_width='match_parent'
+        android:layout_height='wrap_content'
+        android:layout_alignParentStart='true'
+        android:orientation='horizontal'>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="0dp"
-            app:icon="@drawable/ic_baseline_delete_24"
-            app:iconPadding="0dp" />
+            android:id='@+id/delete_button'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:minWidth='0dp'
+            app:icon='@drawable/ic_baseline_delete_24'
+            app:iconPadding='0dp' />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:minWidth="0dp"
-            app:icon="@drawable/ic_baseline_search_24"
-            app:iconPadding="0dp" />
+            android:id='@+id/search_button'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:layout_alignParentEnd='true'
+            android:minWidth='0dp'
+            app:icon='@drawable/ic_baseline_search_24'
+            app:iconPadding='0dp' />
     </RelativeLayout>-->
 
     <!-- Título -->
     <RelativeLayout
-        android:id="@+id/ini"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id='@+id/ini'
+        android:layout_width='match_parent'
+        android:layout_height='wrap_content'>
 
         <EditText
-            android:id="@+id/titulo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_size"
-            android:layout_toLeftOf="@+id/folder"
-            android:focusedByDefault="true"
-            android:text="@{elemento.titulo ?? @string/title}"
-            android:inputType="text"
-            android:maxLines="1" />
+            android:id='@+id/titulo'
+            android:layout_width='fill_parent'
+            android:layout_height='wrap_content'
+            android:layout_marginBottom='@dimen/space_size'
+            android:layout_toLeftOf='@+id/folder'
+            android:focusedByDefault='true'
+            android:text='@{elemento.titulo ?? ""}'
+            android:hint='@string/title'
+            android:inputType='text'
+            android:maxLines='1' />
 
         <RelativeLayout
-            android:id="@+id/folder"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true">
+            android:id='@+id/folder'
+            android:layout_width='60dp'
+            android:layout_height='wrap_content'
+            android:layout_alignParentEnd='true'>
 
             <ImageView
-                android:id="@+id/container_icono"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="3dp"
-                android:src="@drawable/ic_baseline_folder_24" />
+                android:id='@+id/container_icono'
+                android:layout_width='@dimen/icon_size'
+                android:layout_height='@dimen/icon_size'
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd='3dp'
+                android:src='@drawable/ic_baseline_folder_24' />
+
             <TextView
-                android:id="@+id/container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/container_icono"
-                android:layout_alignParentEnd="true"
-                android:text="@string/contenedor"
-                android:textSize="12dp" />
+                android:id='@+id/container'
+                android:layout_width='wrap_content'
+                android:layout_height='wrap_content'
+                android:layout_below='@id/container_icono'
+                android:layout_alignParentEnd='true'
+                android:text='@{elemento.contenedor.titulo}'
+                android:textSize='12dp' />
 
         </RelativeLayout>
 
@@ -94,69 +96,69 @@
 
 
     </RelativeLayout>
-    <!--android:layout_below="@id/first_buttons"-->
+    <!--android:layout_below='@id/first_buttons'-->
 
     <!-- Descripción y Prioridad -->
     <RelativeLayout
-        android:id="@+id/descPrio"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_below="@id/ini"
-        android:layout_marginBottom="@dimen/space_size">
+        android:id='@+id/descPrio'
+        android:layout_width='match_parent'
+        android:layout_height='150dp'
+        android:layout_below='@id/ini'
+        android:layout_marginBottom='@dimen/space_size'>
 
         <EditText
-            android:id="@+id/description"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="150dp"
-            android:layout_toLeftOf="@id/priority"
-            android:hint="@string/description" />
+            android:id='@+id/description'
+            android:layout_width='fill_parent'
+            android:layout_height='wrap_content'
+            android:maxHeight='150dp'
+            android:layout_toLeftOf='@id/priority'
+            android:hint='@string/description' />
 
 
         <!-- PRIORIDAD -->
         <RelativeLayout
-            android:id="@+id/priority"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true">
+            android:id='@+id/priority'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:layout_alignParentEnd='true'>
 
             <ImageView
-                android:id="@+id/priority_warning"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:src="@drawable/ic_baseline_warning_grey_24" />
+                android:id='@+id/priority_warning'
+                android:layout_width='@dimen/icon_size'
+                android:layout_height='@dimen/icon_size'
+                android:src='@drawable/ic_baseline_warning_grey_24' />
 
             <Button
-                android:id="@+id/red_priority"
-                android:layout_width="20dp"
-                android:layout_height="@dimen/icon_size"
-                android:layout_below="@id/priority_warning"
-                android:layout_centerInParent="true"
-                android:backgroundTint="@color/red" />
+                android:id='@+id/red_priority'
+                android:layout_width='20dp'
+                android:layout_height='@dimen/icon_size'
+                android:layout_below='@id/priority_warning'
+                android:layout_centerInParent='true'
+                android:backgroundTint='@color/red' />
 
             <Button
-                android:id="@+id/ambar_priority"
-                android:layout_width="20dp"
-                android:layout_height="@dimen/icon_size"
-                android:layout_below="@id/red_priority"
-                android:layout_centerInParent="true"
-                android:backgroundTint="@color/ambar" />
+                android:id='@+id/ambar_priority'
+                android:layout_width='20dp'
+                android:layout_height='@dimen/icon_size'
+                android:layout_below='@id/red_priority'
+                android:layout_centerInParent='true'
+                android:backgroundTint='@color/ambar' />
 
             <Button
-                android:id="@+id/blue_priority"
-                android:layout_width="20dp"
-                android:layout_height="@dimen/icon_size"
-                android:layout_below="@id/ambar_priority"
-                android:layout_centerInParent="true"
-                android:backgroundTint="@color/blue_prio" />
+                android:id='@+id/blue_priority'
+                android:layout_width='20dp'
+                android:layout_height='@dimen/icon_size'
+                android:layout_below='@id/ambar_priority'
+                android:layout_centerInParent='true'
+                android:backgroundTint='@color/blue_prio' />
 
             <Button
-                android:id="@+id/grey_priority"
-                android:layout_width="20dp"
-                android:layout_height="@dimen/icon_size"
-                android:layout_below="@id/blue_priority"
-                android:layout_centerInParent="true"
-                android:backgroundTint="@color/grey" />
+                android:id='@+id/grey_priority'
+                android:layout_width='20dp'
+                android:layout_height='@dimen/icon_size'
+                android:layout_below='@id/blue_priority'
+                android:layout_centerInParent='true'
+                android:backgroundTint='@color/grey' />
 
 
         </RelativeLayout>
@@ -165,72 +167,72 @@
 
     <!-- EVENTO -->
     <RelativeLayout
-        android:id="@+id/evento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descPrio"
-        android:layout_marginBottom="@dimen/space_size">
+        android:id='@+id/evento'
+        android:layout_width='match_parent'
+        android:layout_height='wrap_content'
+        android:layout_below='@id/descPrio'
+        android:layout_marginBottom='@dimen/space_size'>
 
         <!-- FECHA -->
         <RelativeLayout
-            android:id="@+id/fecha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id='@+id/fecha'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/icono_calendario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:backgroundTint="@color/light_purple"
-                android:minWidth="0dp"
-                app:icon="@drawable/ic_baseline_event_24"
-                app:iconPadding="0dp" />
+                android:id='@+id/icono_calendario'
+                android:layout_width='wrap_content'
+                android:layout_height='wrap_content'
+                android:layout_alignParentStart='true'
+                android:backgroundTint='@color/light_purple'
+                android:minWidth='0dp'
+                app:icon='@drawable/ic_baseline_event_24'
+                app:iconPadding='0dp' />
 
             <TextView
-                android:id="@+id/texto_fecha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/icono_calendario"
-                android:layout_centerVertical="true"
-                android:paddingStart="@dimen/space_size"
-                android:paddingEnd="12dp"
-                android:textSize="15dp" />
+                android:id='@+id/texto_fecha'
+                android:layout_width='wrap_content'
+                android:layout_height='wrap_content'
+                android:layout_toRightOf='@id/icono_calendario'
+                android:layout_centerVertical='true'
+                android:paddingStart='@dimen/space_size'
+                android:paddingEnd='12dp'
+                android:textSize='15dp' />
         </RelativeLayout>
 
         <!-- HORA -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/icono_reloj"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/light_purple"
-            android:minWidth="0dp"
-            app:icon="@drawable/ic_baseline_time_24"
-            app:iconPadding="0dp" />
+            android:id='@+id/icono_reloj'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:layout_centerInParent='true'
+            android:backgroundTint='@color/light_purple'
+            android:minWidth='0dp'
+            app:icon='@drawable/ic_baseline_time_24'
+            app:iconPadding='0dp' />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/icono_reloj"
-            android:layout_centerInParent="true"
-            android:gravity="center">
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:layout_toRightOf='@id/icono_reloj'
+            android:layout_centerInParent='true'
+            android:gravity='center'>
             <TextView
-                android:id="@+id/texto_hora_inicio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/space_size"
-                android:paddingEnd="@dimen/space_size"
-                android:textSize="15dp" />
+                android:id='@+id/texto_hora_inicio'
+                android:layout_width='wrap_content'
+                android:layout_height='wrap_content'
+                android:paddingStart='@dimen/space_size'
+                android:paddingEnd='@dimen/space_size'
+                android:textSize='15dp' />
             <TextView
-                android:id="@+id/texto_hora_final"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_below="@id/texto_hora_inicio"
-                android:paddingStart="@dimen/space_size"
-                android:paddingEnd="@dimen/space_size"
-                android:textSize="15dp" />
+                android:id='@+id/texto_hora_final'
+                android:layout_width='wrap_content'
+                android:layout_height='wrap_content'
+                android:layout_centerVertical='true'
+                android:layout_below='@id/texto_hora_inicio'
+                android:paddingStart='@dimen/space_size'
+                android:paddingEnd='@dimen/space_size'
+                android:textSize='15dp' />
 
 
         </RelativeLayout>
@@ -238,119 +240,119 @@
 
         <!-- HORA -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/color"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue"
-            android:layout_alignParentEnd="true"
-            android:minWidth="0dp"
-            app:iconPadding="0dp" />
+            android:id='@+id/color'
+            android:layout_width='50dp'
+            android:layout_height='wrap_content'
+            android:layout_alignParentEnd='true'
+            android:backgroundTint='@{elemento.colorElemento ?? @color/white}'
+            android:minWidth='0dp'
+            app:iconPadding='0dp' />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/recordatorio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/evento"
-        android:layout_marginBottom="@dimen/space_size">
+        android:id='@+id/recordatorio'
+        android:layout_width='match_parent'
+        android:layout_height='wrap_content'
+        android:layout_below='@id/evento'
+        android:layout_marginBottom='@dimen/space_size'>
 
         <ImageView
-            android:id="@+id/icono_recor"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_baseline_remind_24" />
+            android:id='@+id/icono_recor'
+            android:layout_width='@dimen/icon_size'
+            android:layout_height='@dimen/icon_size'
+            android:layout_alignParentStart='true'
+            android:layout_centerVertical='true'
+            android:src='@drawable/ic_baseline_remind_24' />
 
         <TextView
-            android:id="@+id/seleccion_recordatorio"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/icono_recor"
-            android:background="@android:drawable/editbox_background"
-            android:drawableEnd="@android:drawable/arrow_down_float"
-            android:drawablePadding="16dp"
-            android:hint="@string/seleeccionar_recordatorios"
-            android:padding="10dp" />
+            android:id='@+id/seleccion_recordatorio'
+            android:layout_width='fill_parent'
+            android:layout_height='wrap_content'
+            android:layout_toRightOf='@id/icono_recor'
+            android:background='@android:drawable/editbox_background'
+            android:drawableEnd='@android:drawable/arrow_down_float'
+            android:drawablePadding='16dp'
+            android:hint='@string/seleeccionar_recordatorios'
+            android:padding='10dp' />
 
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/repeticion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recordatorio"
-        android:layout_marginBottom="@dimen/space_size">
+        android:id='@+id/repeticion'
+        android:layout_width='match_parent'
+        android:layout_height='wrap_content'
+        android:layout_below='@id/recordatorio'
+        android:layout_marginBottom='@dimen/space_size'>
 
         <ImageView
-            android:id="@+id/icono_reps"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_baseline_repeat_24" />
+            android:id='@+id/icono_reps'
+            android:layout_width='@dimen/icon_size'
+            android:layout_height='@dimen/icon_size'
+            android:layout_alignParentStart='true'
+            android:layout_centerVertical='true'
+            android:src='@drawable/ic_baseline_repeat_24' />
 
         <TextView
-            android:id="@+id/seleccion_repeticiones"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/icono_reps"
-            android:background="@android:drawable/editbox_background"
-            android:drawableEnd="@android:drawable/arrow_down_float"
-            android:drawablePadding="16dp"
-            android:hint="@string/seleeccionar_repeticiones"
-            android:padding="10dp" />
+            android:id='@+id/seleccion_repeticiones'
+            android:layout_width='fill_parent'
+            android:layout_height='wrap_content'
+            android:layout_toRightOf='@id/icono_reps'
+            android:background='@android:drawable/editbox_background'
+            android:drawableEnd='@android:drawable/arrow_down_float'
+            android:drawablePadding='16dp'
+            android:hint='@string/seleeccionar_repeticiones'
+            android:padding='10dp' />
 
     </RelativeLayout>
 
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_below="@id/repeticion"
-        android:layout_marginBottom="@dimen/space_size">
+        android:layout_width='match_parent'
+        android:layout_height='wrap_content'
+        android:layout_gravity='bottom'
+        android:layout_below='@id/repeticion'
+        android:layout_marginBottom='@dimen/space_size'>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/adjunto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/copia"
-            android:backgroundTint="@color/light_purple"
-            android:minWidth="0dp"
-            app:icon="@drawable/ic_baseline_attach_24"
+            android:id='@+id/adjunto'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:layout_toLeftOf='@id/copia'
+            android:backgroundTint='@color/light_purple'
+            android:minWidth='0dp'
+            app:icon='@drawable/ic_baseline_attach_24'
 
-            app:iconPadding="0dp"
-            android:layout_marginEnd="@dimen/icon_size"
-            android:layout_marginStart="@dimen/icon_size"/>
-        <!-- android:onClick="openFileDialog" -->
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/copia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/light_purple"
-            android:minWidth="0dp"
-            app:icon="@drawable/ic_baseline_copy_24"
-            app:iconPadding="0dp"
-            android:layout_marginEnd="@dimen/icon_size"
-            android:layout_marginStart="@dimen/icon_size"/>
+            app:iconPadding='0dp'
+            android:layout_marginEnd='@dimen/icon_size'
+            android:layout_marginStart='@dimen/icon_size'/>
+        <!-- android:onClick='openFileDialog' -->
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/participantes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/copia"
-            android:backgroundTint="@color/light_purple"
-            android:minWidth="0dp"
-            app:icon="@drawable/ic_baseline_add_person_24"
-            app:iconPadding="0dp"
-            android:layout_marginEnd="@dimen/icon_size"
-            android:layout_marginStart="@dimen/icon_size"/>
+            android:id='@+id/copia'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:layout_centerInParent='true'
+            android:backgroundTint='@color/light_purple'
+            android:minWidth='0dp'
+            app:icon='@drawable/ic_baseline_copy_24'
+            app:iconPadding='0dp'
+            android:layout_marginEnd='@dimen/icon_size'
+            android:layout_marginStart='@dimen/icon_size'/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id='@+id/participantes'
+            android:layout_width='wrap_content'
+            android:layout_height='wrap_content'
+            android:layout_toRightOf='@id/copia'
+            android:backgroundTint='@color/light_purple'
+            android:minWidth='0dp'
+            app:icon='@drawable/ic_baseline_add_person_24'
+            app:iconPadding='0dp'
+            android:layout_marginEnd='@dimen/icon_size'
+            android:layout_marginStart='@dimen/icon_size'/>
     </RelativeLayout>
 
 </RelativeLayout>

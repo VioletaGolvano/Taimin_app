@@ -72,6 +72,18 @@ class Usuario(
     }
 
     /**
+     * Elimina un Elemento a la lista de elementos del Usuario
+     *
+     * @param elemento a eliminar al Usuario
+     * @return true si el proceso se ha realizado con éxito
+     */
+    fun removeElemento(elemento: Elemento):Boolean{
+        if (!elementos.contains(elemento))
+            return true
+        return elementos.remove(elemento)
+    }
+
+    /**
      * Devuelve todos los Elementos que pueden contener el Elemento pasado por argumento
      *
      * @param elemento sobre el que se realiza la consulta

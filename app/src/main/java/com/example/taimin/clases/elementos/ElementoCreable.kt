@@ -51,9 +51,9 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
 
     /* SETTERS */
     fun setColorElemento(color: Int){ this.color = color }
-    fun setFechaIni(fecha: LocalDate) { this.fechaIni = fecha }
-    fun setFechaFin(fecha: LocalDate) { this.fechaFin = fecha}
-    fun setDescripcion(desc: String) { this.descripcion = desc }
+    fun setFechaIni(fecha: LocalDate?) { this.fechaIni = fecha }
+    fun setFechaFin(fecha: LocalDate?) { this.fechaFin = fecha}
+    fun setDescripcion(desc: String?) { this.descripcion = desc }
     fun setOrdenColores(col: Boolean) { this.ordenColores = col}
     fun setRepeticion(rep: Repeticion) { this.repeticion = rep }
     fun setPrioridad(prioridad: Prioridad) { this.prioridad = prioridad }
@@ -78,7 +78,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
         copia.repeticion = this.repeticion
         copia.prioridad = this.prioridad
         this.recordatorio.forEach { copia.addRecordatorio(it.duplicar()) }
-        copia.setContenedor(this.getContenedor()!!)
+        this.getContenedor()?.addContenido(copia)
         this.contenidos.forEach { //Se duplican los contenidos
             if (it is ElementoCreable)
                 copia.addContenido(it.duplicar())

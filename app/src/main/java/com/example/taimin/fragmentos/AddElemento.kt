@@ -45,12 +45,10 @@ import java.lang.StringBuilder
 import kotlin.collections.ArrayList
 
 
-
-
-
 class AddElemento : Fragment() {
     lateinit var binding: FragmentAddElementoBinding
     lateinit var elemento: ElementoCreable
+    lateinit var elementoCancelar: ElementoCreable
     private var c = Calendar.getInstance()
 
     var valoresRepes = Repeticion.values().map { it -> it.name }.toTypedArray()
@@ -74,7 +72,7 @@ class AddElemento : Fragment() {
                 { view, nAnyo, nMes, nDia  ->
                     val date = LocalDate.of(nAnyo, nMes+1, nDia)
                     textoFecha.setText(date.format(DateTimeFormatter.ofPattern("EEE, dd LLL")))
-                    // TODO: Actualizar fecha del elemento
+                    elemento.setFechaIni(date)
                 }, dia, mes, anyo
             )
             datePicker.updateDate(anyo, mes, dia)
@@ -83,7 +81,7 @@ class AddElemento : Fragment() {
             botonFecha.setBackgroundColor(resources.getColor(R.color.purple))
         }else{
             textoFecha.text = ""
-            // TODO: Eliminar fecha del elemento
+            elemento.setFechaIni(null)
             val botonFecha = view?.findViewById(R.id.icono_calendario) as Button
             botonFecha.setBackgroundColor(resources.getColor(R.color.light_purple))
         }
@@ -130,14 +128,12 @@ class AddElemento : Fragment() {
         colorPicker.show()
         colorPicker.setOnChooseColorListener(object : OnChooseColorListener {
             override fun onChooseColor(position: Int, color: Int) {
-                // TODO: Añadir color al elemento
                 val botonHora = view?.findViewById(R.id.color) as Button
                 botonHora.setBackgroundColor(color)
                 elemento.setColorElemento(color)
             }
 
             override fun onCancel() {
-                // TODO: Eliminar color del elemento
                 val botonHora = view?.findViewById(R.id.color) as Button
                 botonHora.setBackgroundColor(resources.getColor(R.color.blue))
             }
@@ -154,7 +150,6 @@ class AddElemento : Fragment() {
             override fun onClick(dI:DialogInterface, opt: Int, isChecked: Boolean) {
                 if (isChecked) {
                     listaRepes.add(opt)
-                    Log.d("FUCK", "$listaRepes")
                     Collections.sort(listaRepes)
                 } else {
                     for (j in 0..valoresRepes.size-1) {
@@ -192,7 +187,6 @@ class AddElemento : Fragment() {
             override fun onClick(dialog: DialogInterface, opt: Int){
                 // TODO: eliminar repeticiones de Elemento
                 repeSeleccionada = BooleanArray(valoresRepes.size){false}
-                Log.d("FUCK", "$repeSeleccionada")
                 listaRepes.clear()
                 selectorRepes.setText("")
             }
@@ -253,39 +247,35 @@ class AddElemento : Fragment() {
     }
 
     private var listenerPrioridadRojo = View.OnClickListener{
-        var iconoPrioridad = requireView().findViewById(R.id.priority_warning) as ImageView
-        iconoPrioridad.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_red_24, activity?.theme))
+        binding.priorityWarning.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_red_24, activity?.theme))
+        elemento.setPrioridad(Prioridad.ALTA)
     }
     private var listenerPrioridadAmbar = View.OnClickListener{
-        var iconoPrioridad = requireView().findViewById(R.id.priority_warning) as ImageView
-        iconoPrioridad.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_amber_24, activity?.theme))
+        binding.priorityWarning.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_amber_24, activity?.theme))
+        elemento.setPrioridad(Prioridad.MEDIA)
     }
     private var listenerPrioridadAzul= View.OnClickListener{
-        var iconoPrioridad = requireView().findViewById(R.id.priority_warning) as ImageView
-        iconoPrioridad.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_blue_24, activity?.theme))
+        binding.priorityWarning.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_blue_24, activity?.theme))
+        elemento.setPrioridad(Prioridad.BAJA)
     }
     private var listenerPrioridadGris = View.OnClickListener{
-        var iconoPrioridad = requireView().findViewById(R.id.priority_warning) as ImageView
-        iconoPrioridad.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_grey_24, activity?.theme))
+        binding.priorityWarning.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_warning_grey_24, activity?.theme))
+        elemento.setPrioridad(Prioridad.NULA)
     }
 
     private var listenerContenedor = View.OnClickListener {
-        // TODO: desplegar selector con binding.elemento.
-        val selectorContainer = (view?.findViewById(R.id.container) as TextView)
         val alerta = AlertDialog.Builder(activity)
         alerta.setTitle(R.string.contenedor)
         alerta.setCancelable(false)
         var elementos = binding.elemento!!.getElementoSuperior()
         var elementoSeleccionado = 0
         alerta.setSingleChoiceItems(elementos.map { it -> it.getTitulo() }.toTypedArray(), elementoSeleccionado, object: DialogInterface.OnClickListener{
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                elementoSeleccionado = which
-            }
+            override fun onClick(dialog: DialogInterface?, which: Int) { elementoSeleccionado = which }
         })
-
         alerta.setPositiveButton(R.string.accept, object: DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface, opt: Int){
-                selectorContainer.setText(elementos[elementoSeleccionado].getTitulo())
+                binding.container.text = elementos[elementoSeleccionado].getTitulo()
+                elementos[elementoSeleccionado].addContenido(elemento)
             }
         })
         alerta.setNegativeButton(R.string.cancel, object: DialogInterface.OnClickListener {
@@ -297,8 +287,6 @@ class AddElemento : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // buscar qué hace este setContentViewer porque creo que es lo que me quita el menú inferior
-        // buscar cómo tener un binding de un fragmento -> Fragment...Binding de una parte de una actividad
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_elemento, container, false)
 
         val args = AddElementoArgs.fromBundle(arguments!!)
@@ -308,41 +296,21 @@ class AddElemento : Fragment() {
             elemento = usuario.buscar(UUID.fromString(args.elementoId)) as ElementoCreable
         }else {
             when (args.elementoIDClase) {
-                3 -> {
-                    elemento = Proyecto(usuario)
-                    elemento.setTitulo("PROYECTO NUEVO")
-                }
-                2 -> {
-                    elemento = Lista(usuario)
-                    elemento.setTitulo("LISTA NUEVA")
-                }
-                1 -> {
-                    elemento = Tarea(usuario)
-                    elemento.setTitulo("TAREA NUEVA")
-                }
-                else -> {
-                    // Si el elemento se va a editar
-                }
+                3 -> elemento = Proyecto(usuario)
+                2 -> elemento = Lista(usuario)
+                1 -> elemento = Tarea(usuario)
+                else -> { }
             }
         }
 
+        elementoCancelar = elemento.duplicar()
         binding.elemento = elemento
 
-        var view = binding.root
-
         binding.iconoCalendario.setOnClickListener(listenerFecha)
-
-        val botonHora = view.findViewById(R.id.icono_reloj) as Button
-        botonHora.setOnClickListener(listenerHora)
-
-        val botonColor = view.findViewById(R.id.color) as Button
-        botonColor.setOnClickListener(listenerColor)
-
-        val selectorRepes = view.findViewById(R.id.seleccion_repeticiones) as TextView
-        selectorRepes.setOnClickListener(listenerRepeticiones)
-
-        val selectorRecor = view.findViewById(R.id.seleccion_recordatorio) as TextView
-        selectorRecor.setOnClickListener(listenerRecordatorios)
+        binding.iconoReloj.setOnClickListener(listenerHora)
+        binding.color.setOnClickListener(listenerColor)
+        binding.repeticion.setOnClickListener(listenerRepeticiones)
+        binding.recordatorio.setOnClickListener(listenerRecordatorios)
 
         binding.redPriority.setOnClickListener(listenerPrioridadRojo)
         binding.ambarPriority.setOnClickListener(listenerPrioridadAmbar)
@@ -352,14 +320,22 @@ class AddElemento : Fragment() {
         binding.folder.setOnClickListener(listenerContenedor)
 
 
-        return view
+        return binding.root
     }
 
     /**
      * Esta función actualiza todas las variables del elemento
      */
     fun aceptar() {
-        //binding.elemento!!.show()
+        elemento.setTitulo(binding.titulo.text.toString())
+        elemento.setDescripcion(binding.description.text.toString())
+        elemento.aceptar()
+        elementoCancelar.eliminar()
+    }
+
+    fun cancelar() {
+        elementoCancelar.duplicar(elemento)
+        elementoCancelar.eliminar()
     }
 
     /* https://www.youtube.com/watch?v=4EKlAvjY74U - 4:40 (Attach file)

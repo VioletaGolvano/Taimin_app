@@ -17,4 +17,10 @@
     <string name="clear">Clear</string>
     <string name="nd">ND</string>
 
+    <string name="DAILY">Daily</string>
+    <string name="WEEKLY">Weekly</string>
+    <string name="MONTHLY">Monthly</string>
+    <string name="YEARLY">Yearly</string>
+
+
 </resources>

@@ -17,5 +17,10 @@
     <string name="clear">Limpiar</string>
     <string name="nd">ND</string>
 
+    <string name="DAILY">Diariamente</string>
+    <string name="WEEKLY">Semanalmente</string>
+    <string name="MONTHLY">Mensualmente</string>
+    <string name="YEARLY">Anualmente</string>
+
 
 </resources>

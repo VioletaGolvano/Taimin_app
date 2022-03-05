@@ -119,7 +119,7 @@ abstract class Elemento (
      */
     fun aceptar(): Boolean {
         if (this.getTitulo().isEmpty()){
-            return false
+            this.eliminar()
         }
         if (!this::contenedor.isInitialized){
             getUser().getDefault().addContenido(this)

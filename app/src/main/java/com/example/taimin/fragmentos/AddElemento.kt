@@ -141,108 +141,81 @@ class AddElemento : Fragment() {
     }
 
     private var listenerRepeticiones = View.OnClickListener {
-
         val selectorRepes = view?.findViewById(R.id.seleccion_repeticiones) as TextView
         val alerta = AlertDialog.Builder(activity)
         alerta.setTitle(R.string.seleeccionar_repeticiones)
         alerta.setCancelable(false)
-        alerta.setMultiChoiceItems(valoresRepes, repeSeleccionada, object: DialogInterface.OnMultiChoiceClickListener {
-            override fun onClick(dI:DialogInterface, opt: Int, isChecked: Boolean) {
-                if (isChecked) {
-                    listaRepes.add(opt)
-                    Collections.sort(listaRepes)
-                } else {
-                    for (j in 0..valoresRepes.size-1) {
-                        if (listaRepes.get(j) == opt) {
-                            listaRepes.remove(j)
-                        }
+        alerta.setMultiChoiceItems(valoresRepes, repeSeleccionada) { _, opt, isChecked ->
+            if (isChecked) {
+                listaRepes.add(opt)
+                listaRepes.sort()
+            } else {
+                for (j in valoresRepes.indices) {
+                    if (j < listaRepes.size && listaRepes[j] == opt) {
+                        listaRepes.remove(listaRepes[j])
                     }
                 }
             }
-        })
+        }
 
-        alerta.setPositiveButton(R.string.accept, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                // TODO: añadir repeticion a Elemento
-                var string = StringBuilder()
+        alerta.setPositiveButton(R.string.accept) { _, _ -> // TODO: añadir repeticion a Elemento
+            var string = StringBuilder()
 
-                for (j in 0..listaRepes.size-1){
-                    string.append(valoresRepes[listaRepes[j]])
-                    if(j != listaRepes.size-1){
-                        string.append(", ")
-                    }
+            for (j in listaRepes.indices) {
+                string.append(valoresRepes[listaRepes[j]])
+                if (j != listaRepes.size - 1) {
+                    string.append(", ")
                 }
-                selectorRepes.setText(string.toString())
             }
-
-        })
-        alerta.setNegativeButton(R.string.cancel, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                // TODO: eliminar repeticiones de Elemento
-                dialog.dismiss()
-            }
-
-        })
-        alerta.setNeutralButton(R.string.clear, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                // TODO: eliminar repeticiones de Elemento
-                repeSeleccionada = BooleanArray(valoresRepes.size){false}
-                listaRepes.clear()
-                selectorRepes.setText("")
-            }
-        })
+            selectorRepes.text = string.toString()
+        }
+        alerta.setNegativeButton(R.string.cancel) { dialog, _ -> // TODO: eliminar repeticiones de Elemento
+            dialog.dismiss()
+        }
+        alerta.setNeutralButton(R.string.clear) { _, _ -> // TODO: eliminar repeticiones de Elemento
+            repeSeleccionada = BooleanArray(valoresRepes.size) { false }
+            listaRepes.clear()
+            selectorRepes.text = ""
+        }
         alerta.show()
     }
     private var listenerRecordatorios = View.OnClickListener {
-        val selectorRepes = binding.seleccionRecordatorio
+        val selectorRecor = binding.seleccionRecordatorio
         val alerta = AlertDialog.Builder(activity)
         alerta.setTitle(R.string.seleeccionar_recordatorios)
         alerta.setCancelable(false)
-        alerta.setMultiChoiceItems(valores, selec, object: DialogInterface.OnMultiChoiceClickListener {
-            override fun onClick(dI:DialogInterface, opt: Int, isChecked: Boolean) {
-                if (isChecked) {
-                    lista.add(opt)
-                    Collections.sort(lista)
-                } else {
-                    for (j in 0..valores.size-1) {
-                        if (lista.get(j) == opt) {
-                            lista.remove(j)
-                        }
+        alerta.setMultiChoiceItems(valores, selec) { _, opt, isChecked ->
+            if (isChecked) {
+                lista.add(opt)
+                lista.sort()
+            } else {
+                for (j in valores.indices) {
+                    if (j < lista.size && lista[j] == opt) {
+                        lista.remove(lista[j])
                     }
                 }
             }
-        })
+        }
 
-        alerta.setPositiveButton(R.string.accept, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                // TODO: añadir repeticion a Elemento
-                var string = StringBuilder()
+        alerta.setPositiveButton(R.string.accept) { _, _ -> // TODO: añadir recordatorio a Elemento
+            var string = StringBuilder()
 
-                for (j in 0 until lista.size){
-                    string.append(valores[lista[j]])
-                    if(j != lista.size-1){
-                        string.append(", ")
-                    }
+            for (j in 0 until lista.size) {
+                string.append(valores[lista[j]])
+                if (j != lista.size - 1) {
+                    string.append(", ")
                 }
-                selectorRepes.setText(string.toString())
             }
-
-        })
-        alerta.setNegativeButton(R.string.cancel, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                // TODO: eliminar repeticiones de Elemento
-                dialog.dismiss()
-            }
-
-        })
-        alerta.setNeutralButton(R.string.clear, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                // TODO: eliminar repeticiones de Elemento
-                selec = BooleanArray(valores.size){false}
-                lista.clear()
-                selectorRepes.setText("")
-            }
-        })
+            selectorRecor.text = string.toString()
+        }
+        alerta.setNegativeButton(R.string.cancel) { dialog, _ -> // TODO: eliminar repeticiones de Elemento
+            dialog.dismiss()
+        }
+        alerta.setNeutralButton(R.string.clear) { _, _ -> // TODO: eliminar repeticiones de Elemento
+            selec = BooleanArray(valores.size) { false }
+            lista.clear()
+            selectorRecor.text = ""
+        }
         alerta.show()
     }
 

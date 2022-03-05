@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:textSize="36dp"
-        android:text="FUCK YOU (en el calendario)"/>
+        android:textAlignment="center"
+        android:text="CALENDARIO"/>
 
 </RelativeLayout>

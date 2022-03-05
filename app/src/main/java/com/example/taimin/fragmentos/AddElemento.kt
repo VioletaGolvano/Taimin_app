@@ -51,9 +51,8 @@ class AddElemento : Fragment() {
     lateinit var elementoCancelar: ElementoCreable
     private var c = Calendar.getInstance()
 
-    var valoresRepes = Repeticion.values().map { it -> it.name }.toTypedArray()
-    var listaRepes = ArrayList<Int>()
-    var repeSeleccionada = BooleanArray(valoresRepes.size)
+    var repeticionSeleccionada = 0
+    var contenedorSeleccionado = 0
 
     var valores = arrayOf("5 min", "10 min", "30 min", "1h", "2h", "6h", "24h", "48h")
     var lista = ArrayList<Int>()
@@ -141,42 +140,17 @@ class AddElemento : Fragment() {
     }
 
     private var listenerRepeticiones = View.OnClickListener {
-        val selectorRepes = view?.findViewById(R.id.seleccion_repeticiones) as TextView
         val alerta = AlertDialog.Builder(activity)
         alerta.setTitle(R.string.seleeccionar_repeticiones)
         alerta.setCancelable(false)
-        alerta.setMultiChoiceItems(valoresRepes, repeSeleccionada) { _, opt, isChecked ->
-            if (isChecked) {
-                listaRepes.add(opt)
-                listaRepes.sort()
-            } else {
-                for (j in valoresRepes.indices) {
-                    if (j < listaRepes.size && listaRepes[j] == opt) {
-                        listaRepes.remove(listaRepes[j])
-                    }
-                }
-            }
+        var repeticiones = Repeticion.values().map { it -> getString(it.resource()) }.toTypedArray()
+        alerta.setSingleChoiceItems(repeticiones, repeticionSeleccionada) { _, which ->
+            repeticionSeleccionada = which }
+        alerta.setPositiveButton(R.string.accept) { _, _ ->
+            binding.seleccionRepeticiones.text = repeticiones[repeticionSeleccionada]
+            // TODO: añadir a elemento
         }
-
-        alerta.setPositiveButton(R.string.accept) { _, _ -> // TODO: añadir repeticion a Elemento
-            var string = StringBuilder()
-
-            for (j in listaRepes.indices) {
-                string.append(valoresRepes[listaRepes[j]])
-                if (j != listaRepes.size - 1) {
-                    string.append(", ")
-                }
-            }
-            selectorRepes.text = string.toString()
-        }
-        alerta.setNegativeButton(R.string.cancel) { dialog, _ -> // TODO: eliminar repeticiones de Elemento
-            dialog.dismiss()
-        }
-        alerta.setNeutralButton(R.string.clear) { _, _ -> // TODO: eliminar repeticiones de Elemento
-            repeSeleccionada = BooleanArray(valoresRepes.size) { false }
-            listaRepes.clear()
-            selectorRepes.text = ""
-        }
+        alerta.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         alerta.show()
     }
     private var listenerRecordatorios = View.OnClickListener {
@@ -241,21 +215,14 @@ class AddElemento : Fragment() {
         alerta.setTitle(R.string.contenedor)
         alerta.setCancelable(false)
         var elementos = binding.elemento!!.getElementoSuperior()
-        var elementoSeleccionado = 0
-        alerta.setSingleChoiceItems(elementos.map { it -> it.getTitulo() }.toTypedArray(), elementoSeleccionado, object: DialogInterface.OnClickListener{
-            override fun onClick(dialog: DialogInterface?, which: Int) { elementoSeleccionado = which }
-        })
-        alerta.setPositiveButton(R.string.accept, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                binding.container.text = elementos[elementoSeleccionado].getTitulo()
-                elementos[elementoSeleccionado].addContenido(elemento)
-            }
-        })
-        alerta.setNegativeButton(R.string.cancel, object: DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, opt: Int){
-                dialog.dismiss()
-            }
-        })
+        contenedorSeleccionado = elementos.indexOf(elemento.getContenedor())
+        alerta.setSingleChoiceItems(elementos.map { it -> it.getTitulo() }.toTypedArray(),
+            contenedorSeleccionado) { _, which -> contenedorSeleccionado = which }
+        alerta.setPositiveButton(R.string.accept) { _, _ ->
+            binding.container.text = elementos[contenedorSeleccionado].getTitulo()
+            elementos[contenedorSeleccionado].addContenido(elemento)
+        }
+        alerta.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         alerta.show()
     }
 

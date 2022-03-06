@@ -229,6 +229,8 @@ class AddElemento : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_elemento, container, false)
 
+        (activity as MainActivity).fragmentoActual(this)
+
         val args = AddElementoArgs.fromBundle(arguments!!)
         val usuario = (activity as MainActivity).usuario
 

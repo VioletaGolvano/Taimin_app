@@ -33,6 +33,7 @@ class PantallasPrincipales : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pantallas_principales, container, false)
+        (activity as MainActivity).fragmentoActual(this)
         defaultpp()
         comun()
         return binding.root

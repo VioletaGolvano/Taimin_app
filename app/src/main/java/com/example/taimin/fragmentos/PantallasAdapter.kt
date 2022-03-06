@@ -16,6 +16,7 @@ import com.example.taimin.MainActivity
 import com.example.taimin.R
 import elementos.Elemento
 import elementos.ElementoCreable
+import java.lang.Exception
 
 class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>() {
     private var holderCounter = 0
@@ -40,8 +41,11 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
             }
 
             itemView.setOnClickListener {
-                (it.context as MainActivity).noBottomBar()
-                Navigation.findNavController(it).navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToVerElemento(elemento.getID().toString()))
+                try {
+                    Navigation.findNavController(it).navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToVerElemento(elemento.getID().toString()))
+                }catch (e: Exception){
+                    Navigation.findNavController(it).navigate(PantallasArchivoDirections.actionPantallasArchivoToVerElemento(elemento.getID().toString()))
+                }
             }
         }
     }

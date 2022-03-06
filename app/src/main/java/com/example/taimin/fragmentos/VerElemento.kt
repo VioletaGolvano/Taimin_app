@@ -28,20 +28,13 @@ class VerElemento : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ver_elemento, container, false)
 
+        (activity as MainActivity).fragmentoActual(this)
+
         val args = VerElementoArgs.fromBundle(requireArguments())
         val elem = (activity as MainActivity).usuario.buscar(UUID.fromString(args.elementoId))
             //CardsApplication.getCard(args.cardId) ?: throw Exception("Wrong id")
         if (elem == null) {
-            when (Navigation.findNavController(
-                activity as MainActivity,
-                R.id.nav_host_fragment
-            ).previousBackStackEntry?.destination?.id) {
-                R.id.pantallasCalendario -> (activity as MainActivity).bottomBarCalendario()
-                R.id.pantallasArchivo -> (activity as MainActivity).bottomBarArchivo()
-                else -> (activity as MainActivity).bottomBarPP()
-            }
-            Navigation.findNavController(activity as MainActivity, R.id.nav_host_fragment)
-                .navigateUp()
+            Navigation.findNavController(activity as MainActivity, R.id.nav_host_fragment).navigateUp()
         } else {
             elemento = elem as ElementoCreable
             binding.elemento = elemento
@@ -67,11 +60,6 @@ class VerElemento : Fragment() {
             }
             binding.delete.setOnClickListener {
                 elemento.eliminar()
-                when(Navigation.findNavController(it).previousBackStackEntry?.destination?.id){
-                    R.id.pantallasCalendario -> (it.context as MainActivity).bottomBarCalendario()
-                    R.id.pantallasArchivo -> (it.context as MainActivity).bottomBarArchivo()
-                    else -> (it.context as MainActivity).bottomBarPP()
-                }
                 Navigation.findNavController(it).navigateUp()
             }
         }

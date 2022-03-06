@@ -15,8 +15,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.example.taimin.databinding.FragmentVerElementoBinding
 import com.example.taimin.fragmentos.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
@@ -26,6 +28,7 @@ import elementos.Lista
 import elementos.Proyecto
 import elementos.Tarea
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.abs
 import kotlin.random.Random
 
 
@@ -33,9 +36,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     lateinit var gestureDetector: GestureDetector
     var x2:Float = 0.0f
     var x1:Float = 0.0f
-    var addFragment = AddElemento()
-    lateinit var previousFragment: Fragment
-    lateinit var previousMenu: BottomNavigationView
     val usuario = Usuario("mail","pass")
 
     // Cambio de menús y pantallas
@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasPrincipales())
                 }
-                bottomBarPP()
                 true
             }
             R.id.calendar -> {
@@ -61,7 +60,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasArchivoDirections.actionPantallasArchivoToPantallasCalendario())
                 }
-                bottomBarCalendario()
                 true
             }
             R.id.add -> {
@@ -83,8 +81,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                                 .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null,3))
                         }
                     }
-                    bottomAddElement()
-                    bottomBarAddElement()
                 }
                 crear_lista.setOnClickListener{
                     try {
@@ -99,8 +95,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                                 .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null, 2))
                         }
                     }
-                    bottomAddElement()
-                    bottomBarAddElement()
                 }
                 crear_tarea.setOnClickListener{
                     try {
@@ -115,8 +109,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                                 .navigate(PantallasCalendarioDirections.actionPantallasCalendarioToAddElemento(null,1))
                         }
                     }
-                    bottomAddElement()
-                    bottomBarAddElement()
                 }
 
                 true
@@ -129,32 +121,19 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToPantallasArchivo())
                 }
-                bottomBarArchivo()
                 true
             }
             R.id.cancel -> {
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
                 var ae = navHostFragment!!.childFragmentManager.fragments[0] as AddElemento
                 ae.cancelar()
-                when(Navigation.findNavController(this, R.id.nav_host_fragment).previousBackStackEntry?.destination?.id){
-                    R.id.pantallasCalendario -> this.bottomBarCalendario()
-                    R.id.pantallasArchivo -> this.bottomBarArchivo()
-                    R.id.pantallasPrincipales -> this.bottomBarPP()
-                    else -> this.noBottomBar()
-                    }
-                    Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
                 true
             }
             R.id.accept -> {
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
                 var ae = navHostFragment!!.childFragmentManager.fragments[0] as AddElemento
                 ae.aceptar()
-                when(Navigation.findNavController(this, R.id.nav_host_fragment).previousBackStackEntry?.destination?.id){
-                    R.id.pantallasCalendario -> this.bottomBarCalendario()
-                    R.id.pantallasArchivo -> this.bottomBarArchivo()
-                    R.id.pantallasPrincipales -> this.bottomBarPP()
-                    else -> this.noBottomBar()
-                }
                 Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
                 true
             }
@@ -185,10 +164,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         noAniadir.setOnClickListener(add)
 
-        //val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
-        //val navController = navHostFragment.navController
-        //NavigationUI.setupWithNavController(findViewById(R.id.),navController)
-
         bottom_add.setOnItemSelectedListener(nav)
         bottom_pp.setOnItemSelectedListener(nav)
         bottom_cal.setOnItemSelectedListener(nav)
@@ -198,44 +173,60 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     }
 
+    override fun onBackPressed() {
+        if (Navigation.findNavController(this, R.id.nav_host_fragment).currentDestination?.id == R.id.addElemento) {
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            var ae = navHostFragment!!.childFragmentManager.fragments[0] as AddElemento
+            ae.cancelar()
+        }
+        super.onBackPressed()
+    }
+
+    // MENÚS INFERIORES
+    fun fragmentoActual(fragment: Fragment){
+        when (fragment){
+            is AddElemento -> {
+                bottomAddElement()
+                bottomBarAddElement()}
+            is VerElemento -> noBottomBar()
+            is PantallasPrincipales -> bottomBarPP()
+            is PantallasArchivo -> bottomBarArchivo()
+            is PantallasCalendario -> bottomBarCalendario()
+        }
+    }
     private fun bottomAddElement(){
-        crearElemento.visibility = GONE
-        noAniadir.visibility = GONE
+        crearElemento?.visibility = GONE
+        noAniadir?.visibility = GONE
     }
-
     fun noBottomBar() {
-        bottom_pp.visibility=GONE
-        bottom_cal.visibility=GONE
-        bottom_ar.visibility=GONE
-        bottom_add.visibility=GONE
+        bottom_pp?.visibility=GONE
+        bottom_cal?.visibility=GONE
+        bottom_ar?.visibility=GONE
+        bottom_add?.visibility=GONE
     }
-
     fun bottomBarAddElement(){
-        bottom_pp.visibility=GONE
-        bottom_cal.visibility=GONE
-        bottom_ar.visibility=GONE
-        bottom_add.visibility=VISIBLE
+        bottom_pp?.visibility=GONE
+        bottom_cal?.visibility=GONE
+        bottom_ar?.visibility=GONE
+        bottom_add?.visibility=VISIBLE
     }
-
     fun bottomBarPP(){
-        bottom_pp.visibility= VISIBLE
-        bottom_cal.visibility=GONE
-        bottom_ar.visibility=GONE
-        bottom_add.visibility=GONE
+        bottom_pp?.visibility= VISIBLE
+        bottom_cal?.visibility=GONE
+        bottom_ar?.visibility=GONE
+        bottom_add?.visibility=GONE
     }
-
     fun bottomBarCalendario(){
-        bottom_pp.visibility=GONE
-        bottom_cal.visibility= VISIBLE
-        bottom_ar.visibility=GONE
-        bottom_add.visibility=GONE
+        bottom_pp?.visibility=GONE
+        bottom_cal?.visibility= VISIBLE
+        bottom_ar?.visibility=GONE
+        bottom_add?.visibility=GONE
     }
-
     fun bottomBarArchivo(){
-        bottom_pp.visibility= GONE
-        bottom_cal.visibility=GONE
-        bottom_ar.visibility= VISIBLE
-        bottom_add.visibility=GONE
+        bottom_pp?.visibility= GONE
+        bottom_cal?.visibility=GONE
+        bottom_ar?.visibility= VISIBLE
+        bottom_add?.visibility=GONE
     }
 
 
@@ -248,12 +239,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float) = false
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         super.dispatchTouchEvent(ev)
-        //return gestureScanner.onTouchEvent(ev);
         when (ev?.action){
             0 -> { x1 = ev.x }
             1 -> { x2 = ev.x
                 val valueX:Float = x2-x1
-                if(Math.abs(valueX) > MIN_DISTANCE){
+                if(abs(valueX) > MIN_DISTANCE){
                     //detectar swipe hacia la derecha =>
                     if(x2 > x1) {
                         //Si está en pp(default) -> daily
@@ -279,7 +269,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
     fun swipePantallasPrincipales(izda: Boolean){
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-        var fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasPrincipales
+        val fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasPrincipales
         if (izda){
             if (fr.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
                 fr.toDo()
@@ -294,10 +284,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             }
         }
     }
-
     fun swipePantallasArchivo(izda: Boolean){
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-        var fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasArchivo
+        val fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasArchivo
         if (izda){
             if (fr.binding.titulo.text.contains(usuario.getArchived().getTitulo())){
                 fr.completed()

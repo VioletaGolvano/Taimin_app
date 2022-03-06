@@ -84,6 +84,15 @@ class Usuario(
     }
 
     /**
+     * Devuelve los elementos completados de la lista de elementos del Usuario
+     *
+     * @return la lista de elementos
+     */
+    fun getElementosCompletados():List<Elemento>{
+        return Collections.unmodifiableList(elementos.filter { it.isCompleted() })
+    }
+
+    /**
      * Devuelve todos los Elementos que pueden contener el Elemento pasado por argumento
      *
      * @param elemento sobre el que se realiza la consulta

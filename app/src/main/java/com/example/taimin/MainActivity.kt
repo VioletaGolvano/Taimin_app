@@ -194,7 +194,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             is PantallasCalendario -> bottomBarCalendario()
         }
     }
-    private fun bottomAddElement(){
+    fun bottomAddElement(){
         crearElemento?.visibility = GONE
         noAniadir?.visibility = GONE
     }

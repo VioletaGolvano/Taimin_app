@@ -40,7 +40,6 @@ class VerElemento : Fragment() {
             binding.elemento = elemento
             elemento.getColorElemento().let { it?.let { it1 -> binding.titulo.setBackgroundColor(it1) } }
             binding.edit.setOnClickListener{
-                (it.context as MainActivity).bottomBarAddElement()
                 Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoToAddElemento(elemento.getID().toString(), elemento.getIDClase()))
             }
             binding.prioridad.setImageDrawable(when (elemento.getPrioridad()){
@@ -51,11 +50,6 @@ class VerElemento : Fragment() {
             })
 
             binding.back.setOnClickListener {
-                when(Navigation.findNavController(it).previousBackStackEntry?.destination?.id){
-                    R.id.pantallasCalendario -> (it.context as MainActivity).bottomBarCalendario()
-                    R.id.pantallasArchivo -> (it.context as MainActivity).bottomBarArchivo()
-                    else -> (it.context as MainActivity).bottomBarPP()
-                }
                 Navigation.findNavController(it).navigateUp()
             }
             binding.delete.setOnClickListener {

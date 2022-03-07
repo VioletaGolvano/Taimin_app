@@ -8,10 +8,10 @@
     android:paddingRight="16dp"
     android:paddingBottom="10dp">
 
-    <CheckBox android:id="@+id/checkbox"
+    <CheckBox
+        android:id="@+id/checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/titulo"
         android:layout_width="fill_parent"
@@ -19,6 +19,13 @@
         android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/checkbox"/>
+    <RelativeLayout
+        android:id="@+id/line_priority"
+        android:layout_width="12dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"/>
+
+
 
     <!--
     android:onClick="onCheckboxClicked"

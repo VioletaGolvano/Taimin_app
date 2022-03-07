@@ -89,7 +89,9 @@ class Usuario(
      * @return la lista de elementos
      */
     fun getElementosCompletados():List<Elemento>{
-        return Collections.unmodifiableList(elementos.filter { it.isCompleted() })
+        return Collections.unmodifiableList(elementos.filter {
+            it.getIDClase()<getDefault().getIDClase() && it.isCompleted()
+        })
     }
 
     /**

@@ -107,13 +107,14 @@
                         android:layout_width='@dimen/icon_size'
                         android:layout_height='@dimen/icon_size'
                         android:src='@drawable/ic_baseline_folder_24'/>
+
                     <TextView
                         android:layout_width='wrap_content'
                         android:layout_height='wrap_content'
+                        android:layout_alignParentRight='true'
                         android:layout_centerVertical='true'
                         android:layout_toRightOf='@id/icono_contenedor'
-                        android:layout_alignParentRight='true'
-                        android:text='@{elemento.contenedor.titulo}'/>
+                        android:text='@{elemento.contenedor.titulo}' />
                 </RelativeLayout>
                 <!-- Hora inicio y fin -->
                 <RelativeLayout
@@ -123,30 +124,32 @@
                     android:layout_below='@id/container'
                     android:layout_marginBottom='@dimen/space_size'
                     android:visibility='@{elemento instanceof elementos.Tarea ? View.VISIBLE: View.GONE}'>
+
                     <ImageView
                         android:id='@+id/icono_hora'
                         android:layout_width='@dimen/icon_size'
                         android:layout_height='@dimen/icon_size'
                         android:layout_centerVertical='true'
-                        android:src='@drawable/ic_baseline_time_24'/>
+                        android:src='@drawable/ic_baseline_time_24' />
+
                     <RelativeLayout
                         android:layout_width='fill_parent'
                         android:layout_height='wrap_content'
                         android:layout_centerVertical='true'
                         android:layout_toRightOf='@id/icono_hora'>
+
                         <TextView
                             android:id='@+id/hora_ini'
                             android:layout_width='wrap_content'
                             android:layout_height='wrap_content'
                             android:layout_alignParentRight='true'
-                            android:layout_centerHorizontal='true'/>
-                        <!--android:text='@{(elemento instanceof elementos.Tarea).horaIni}'-->
+                            android:layout_centerHorizontal='true' />
                         <TextView
                             android:id='@+id/hora_fin'
                             android:layout_width='wrap_content'
                             android:layout_height='wrap_content'
                             android:layout_below='@id/hora_ini'
-                            android:layout_alignParentRight='true'/>
+                            android:layout_alignParentRight='true' />
                     </RelativeLayout>
                 </RelativeLayout>
                 <!-- Fecha -->
@@ -173,14 +176,14 @@
                             android:layout_height='wrap_content'
                             android:layout_alignParentRight='true'
                             android:layout_centerHorizontal='true'
-                            android:text='@{elemento.fechaIni ?? @string/nd}'/>
+                            android:text='@{elemento.fechaIni ?? ""}'/>
                         <TextView
                             android:id='@+id/fecha_fin'
                             android:layout_width='wrap_content'
                             android:layout_height='wrap_content'
                             android:layout_below='@id/fecha_ini'
                             android:layout_alignParentRight='true'
-                            android:text='@{elemento.fechaFin ?? @string/nd}'/>
+                            android:text='@{elemento.fechaFin ?? ""}'/>
                     </RelativeLayout>
                 </RelativeLayout>
                 <!-- Recordatorios -->
@@ -196,7 +199,7 @@
                         android:layout_width='@dimen/icon_size'
                         android:layout_height='@dimen/icon_size'
                         android:layout_centerVertical='true'
-                        android:src='@drawable/ic_baseline_remind_24' />
+                        android:src='@drawable/ic_baseline_remind_24'/>
 
                     <RelativeLayout
                         android:layout_width='fill_parent'
@@ -228,6 +231,7 @@
                         android:layout_height='@dimen/icon_size'
                         android:src='@drawable/ic_baseline_repeat_24' />
                     <TextView
+                        android:id="@+id/ver_repeticiones"
                         android:layout_width='wrap_content'
                         android:layout_height='wrap_content'
                         android:layout_centerVertical='true'

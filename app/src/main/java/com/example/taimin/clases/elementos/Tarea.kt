@@ -3,6 +3,7 @@ package elementos
 import Adjunto
 import Usuario
 import java.time.LocalDate
+import java.time.LocalTime
 import java.util.*
 /**
  * Esta clase hereda de Elemento y posee la información relativa a las Tareas del Usuario
@@ -14,20 +15,20 @@ import java.util.*
  */
 class Tarea(user: Usuario) : ElementoCreable(1, user){
     private var duracion = 0.0
-    private var horaIni: LocalDate? = null
-    private var horaFin: LocalDate? = null
+    private var horaIni: LocalTime? = null
+    private var horaFin: LocalTime? = null
     private var adjuntos = mutableListOf<Adjunto>()
 
-    fun getHoraIni(): LocalDate?{
+    fun getHoraIni(): LocalTime?{
         return this.horaIni
     }
-    fun getHoraFin(): LocalDate?{
+    fun getHoraFin(): LocalTime?{
         return this.horaFin
     }
-    fun setHoraIni(d: LocalDate?){
+    fun setHoraIni(d: LocalTime?){
         horaIni = d
     }
-    fun setHoraFin(d: LocalDate?){
+    fun setHoraFin(d: LocalTime?){
         horaFin = d
     }
 

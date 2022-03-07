@@ -4,6 +4,7 @@
     tools:context='.fragmentos.AddElemento'
     xmlns:tools='http://schemas.android.com/tools'>
     <data>
+        <import type='android.view.View'/>
         <variable
             name='elemento'
             type='elementos.ElementoCreable' />
@@ -205,18 +206,21 @@
             android:id='@+id/icono_reloj'
             android:layout_width='wrap_content'
             android:layout_height='wrap_content'
-            android:layout_centerInParent='true'
+            android:layout_centerInParent="true"
             android:backgroundTint='@color/light_purple'
             android:minWidth='0dp'
             app:icon='@drawable/ic_baseline_time_24'
-            app:iconPadding='0dp' />
+            app:iconPadding='0dp'
+            android:visibility='@{elemento instanceof elementos.Tarea ? View.VISIBLE: View.GONE}'/>
+
 
         <RelativeLayout
             android:layout_width='wrap_content'
             android:layout_height='wrap_content'
             android:layout_toRightOf='@id/icono_reloj'
             android:layout_centerInParent='true'
-            android:gravity='center'>
+            android:gravity='center'
+            android:visibility='@{elemento instanceof elementos.Tarea ? View.VISIBLE: View.GONE}'>
             <TextView
                 android:id='@+id/texto_hora_inicio'
                 android:layout_width='wrap_content'

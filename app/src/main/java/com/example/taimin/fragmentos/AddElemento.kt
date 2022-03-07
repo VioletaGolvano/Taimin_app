@@ -71,16 +71,16 @@ class AddElemento : Fragment() {
                 { view, nAnyo, nMes, nDia  ->
                     val date = LocalDate.of(nAnyo, nMes+1, nDia)
                     textoFecha.setText(date.format(DateTimeFormatter.ofPattern("EEE, dd LLL")))
-                    elemento.setFechaIni(date)
                 }, dia, mes, anyo
             )
             datePicker.updateDate(anyo, mes, dia)
+            elemento.setFechaFin(LocalDate.of(anyo,mes,dia))
             datePicker.show()
             val botonFecha = view?.findViewById(R.id.icono_calendario) as Button
             botonFecha.setBackgroundColor(resources.getColor(R.color.purple))
         }else{
             textoFecha.text = ""
-            elemento.setFechaIni(null)
+            elemento.setFechaFin(null)
             val botonFecha = view?.findViewById(R.id.icono_calendario) as Button
             botonFecha.setBackgroundColor(resources.getColor(R.color.light_purple))
         }
@@ -89,33 +89,36 @@ class AddElemento : Fragment() {
         val textoHoraIni = requireView().findViewById(R.id.texto_hora_inicio) as TextView
         val textoHoraFin = requireView().findViewById(R.id.texto_hora_final) as TextView
 
-        if (textoHoraIni.text.isEmpty() || textoHoraFin.text.isEmpty()){
+        if (textoHoraIni.text.isEmpty() && textoHoraFin.text.isEmpty()){
             var hora = c.get(Calendar.HOUR_OF_DAY)
             var minuto = c.get(Calendar.MINUTE)
 
             val timeFin = TimePickerDialog(requireActivity(),{ view, hour, minute  ->
                 val date = LocalTime.of(hour, minute)
                 textoHoraFin.text = date.format(DateTimeFormatter.ofPattern("hh:mm"))
-                // TODO: Actualizar hora del elemento
+                (elemento as Tarea).setHoraFin(date)
             }, hora, minuto, true
             )
             timeFin.updateTime(hora, minuto)
+            (elemento as Tarea).setHoraFin(LocalTime.of(hora, minuto))
             timeFin.show()
 
             val timeIni = TimePickerDialog(requireActivity(),{ view, hour, minute  ->
                 val date = LocalTime.of(hour, minute)
                 textoHoraIni.text = date.format(DateTimeFormatter.ofPattern("hh:mm"))
-                // TODO: Actualizar hora del elemento
+                (elemento as Tarea).setHoraIni(date)
             }, hora, minuto, true
             )
             timeIni.updateTime(hora, minuto)
+            (elemento as Tarea).setHoraIni(LocalTime.of(hora, minuto))
             timeIni.show()
             val botonHora = view?.findViewById(R.id.icono_reloj) as Button
             botonHora.setBackgroundColor(resources.getColor(R.color.purple))
         }else{
             textoHoraIni.text = ""
             textoHoraFin.text = ""
-            // TODO: Eliminar horas del elemento
+            (elemento as Tarea).setHoraFin(null)
+            (elemento as Tarea).setHoraIni(null)
             val botonHora = view?.findViewById(R.id.icono_reloj) as Button
             botonHora.setBackgroundColor(resources.getColor(R.color.light_purple))
         }
@@ -148,7 +151,7 @@ class AddElemento : Fragment() {
             repeticionSeleccionada = which }
         alerta.setPositiveButton(R.string.accept) { _, _ ->
             binding.seleccionRepeticiones.text = repeticiones[repeticionSeleccionada]
-            // TODO: añadir a elemento
+            elemento.setRepeticion(Repeticion.values().get(repeticionSeleccionada))
         }
         alerta.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         alerta.show()

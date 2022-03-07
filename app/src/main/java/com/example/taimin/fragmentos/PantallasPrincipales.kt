@@ -46,6 +46,17 @@ class PantallasPrincipales : Fragment() {
         binding.terceraPantalla.setOnClickListener(listenerToDo)
 
         adapter.data = binding.pantalla!!.contenidos
+
+        // fecha límite
+        // prioridad
+        // progreso
+        binding.pantalla!!.contenidos
+            /*.sortedWith(compareBy({
+            (it as ElementoCreable).getFechaFin() }, {
+            (it as ElementoCreable).getPrioridad() }, {
+            (it as ElementoCreable).getProgreso() }))
+             */
+
         binding.listaElementos?.adapter = adapter
     }
 

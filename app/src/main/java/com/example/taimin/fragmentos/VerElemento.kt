@@ -39,6 +39,8 @@ class VerElemento : Fragment() {
             elemento = elem as ElementoCreable
             binding.elemento = elemento
             elemento.getColorElemento().let { it?.let { it1 -> binding.titulo.setBackgroundColor(it1) } }
+            binding.verRepeticiones.text = elemento.getRepeticion()
+                ?.let { getString(it?.resource()) }
             binding.edit.setOnClickListener{
                 Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoToAddElemento(elemento.getID().toString(), elemento.getIDClase()))
             }

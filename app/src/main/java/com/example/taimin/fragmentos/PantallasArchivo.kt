@@ -49,7 +49,7 @@ class PantallasArchivo : Fragment() {
 
         adapter = PantallasAdapter()
 
-        adapter.data = (activity as MainActivity).usuario.getElementosCompletados()
+        adapter.data = (activity as MainActivity).usuario.getElementosCompletados().plus(binding.pantalla!!.contenidos)
         binding.listaElementos?.adapter = adapter
     }
 }

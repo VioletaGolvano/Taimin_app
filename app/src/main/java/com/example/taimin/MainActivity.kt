@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     var x2:Float = 0.0f
     var x1:Float = 0.0f
     val usuario = Usuario("mail","pass")
+    companion object{
+        const val MIN_DISTANCE = 150
+    }
 
     // Cambio de menús y pantallas
     private val add = OnClickListener{ bottomAddElement() }
@@ -142,10 +145,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     }
 
-
-    companion object{
-        const val MIN_DISTANCE = 150
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

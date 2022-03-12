@@ -165,25 +165,28 @@
                         android:layout_height='@dimen/icon_size'
                         android:layout_centerVertical='true'
                         android:src='@drawable/ic_baseline_event_24'/>
+
                     <RelativeLayout
                         android:layout_width='fill_parent'
                         android:layout_height='wrap_content'
                         android:layout_centerVertical='true'
                         android:layout_toRightOf='@id/icono_fecha'>
+
                         <TextView
                             android:id='@+id/fecha_ini'
                             android:layout_width='wrap_content'
                             android:layout_height='wrap_content'
                             android:layout_alignParentRight='true'
                             android:layout_centerHorizontal='true'
-                            android:text='@{elemento.fechaIni ?? ""}'/>
+                            android:text='@{elemento.fechaIni ?? ""}' />
+
                         <TextView
                             android:id='@+id/fecha_fin'
                             android:layout_width='wrap_content'
                             android:layout_height='wrap_content'
                             android:layout_below='@id/fecha_ini'
                             android:layout_alignParentRight='true'
-                            android:text='@{elemento.fechaFin ?? ""}'/>
+                            android:text='""' />
                     </RelativeLayout>
                 </RelativeLayout>
                 <!-- Recordatorios -->

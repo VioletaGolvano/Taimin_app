@@ -94,6 +94,13 @@ class Usuario(
         })
     }
 
+    fun addEvento(evento: Evento){
+        eventos.add(evento)
+    }
+    fun getEventos(): List<Evento>{
+        return eventos
+    }
+
     /**
      * Devuelve todos los Elementos que pueden contener el Elemento pasado por argumento
      *

@@ -1,6 +1,8 @@
 package elementos
 
 import Adjunto
+import Evento
+import EventoInterno
 import Usuario
 import java.time.LocalDate
 import java.time.LocalTime
@@ -18,6 +20,15 @@ class Tarea(user: Usuario) : ElementoCreable(1, user){
     private var horaIni: LocalTime? = null
     private var horaFin: LocalTime? = null
     private var adjuntos = mutableListOf<Adjunto>()
+    private var eventos = mutableListOf<Evento>()
+    private var recordatorios = mutableListOf<EventoInterno>()
+
+    fun getEventos():List<Evento>{
+        return eventos
+    }
+    fun getRecordatorios(): List<EventoInterno>{
+        return recordatorios
+    }
 
     fun getHoraIni(): LocalTime?{
         return this.horaIni
@@ -39,5 +50,5 @@ class Tarea(user: Usuario) : ElementoCreable(1, user){
         copia.horaFin = this.horaFin
         return copia
     }
-
 }
+

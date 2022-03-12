@@ -15,6 +15,7 @@ import com.example.taimin.databinding.FragmentVerElementoBinding
 import elementos.ElementoCreable
 import elementos.Tarea
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -50,6 +51,13 @@ class VerElemento : Fragment() {
                 Prioridad.BAJA -> resources.getDrawable(R.drawable.ic_baseline_warning_blue_24, activity?.theme)
                 else -> resources.getDrawable(R.drawable.ic_baseline_warning_grey_24, activity?.theme)
             })
+
+            binding.fechaFin.text = elemento.getFechaFin()?.format(DateTimeFormatter.ofPattern("EEE, dd LLL"))
+            if (elemento is Tarea){
+                binding.horaIni.text = (elemento as Tarea).getHoraIni()?.format(DateTimeFormatter.ofPattern("hh:mm"))
+                binding.horaFin.text = (elemento as Tarea).getHoraFin()?.format(DateTimeFormatter.ofPattern("hh:mm"))
+            }
+                //textoHoraFin.text = date.format(DateTimeFormatter.ofPattern("hh:mm"))
 
             binding.back.setOnClickListener {
                 Navigation.findNavController(it).navigateUp()

@@ -71,10 +71,10 @@ class AddElemento : Fragment() {
                 { view, nAnyo, nMes, nDia  ->
                     val date = LocalDate.of(nAnyo, nMes+1, nDia)
                     textoFecha.setText(date.format(DateTimeFormatter.ofPattern("EEE, dd LLL")))
+                    elemento.setFechaFin(date)
                 }, dia, mes, anyo
             )
             datePicker.updateDate(anyo, mes, dia)
-            elemento.setFechaFin(LocalDate.of(anyo,mes,dia))
             datePicker.show()
             val botonFecha = view?.findViewById(R.id.icono_calendario) as Button
             botonFecha.setBackgroundColor(resources.getColor(R.color.purple))

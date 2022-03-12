@@ -117,7 +117,7 @@ abstract class Elemento (
      * TODO
      * @return si se ha añadido correctamente
      */
-    fun aceptar(): Boolean {
+    open fun aceptar(): Boolean {
         if (this.getTitulo().isEmpty()){
             this.eliminar()
         }

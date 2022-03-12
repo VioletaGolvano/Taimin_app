@@ -1,12 +1,15 @@
 package elementos
 
 import Constantes
+import Evento
 import EventoInterno
 import Prioridad
 import Repeticion
 import Usuario
 import java.time.LocalDate
 import java.util.*
+import android.content.res.Resources
+import com.example.taimin.R
 
 /**
  * Esta clase hereda de Elemento y posee todos los atributos comunes a Proyectos, Listas y Tareas.
@@ -32,6 +35,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
     private var prioridad = Prioridad.NULA
     private var recordatorio = mutableListOf<EventoInterno>()
     private var participantes = mutableListOf<Usuario>()
+    private var eventos = mutableListOf<Evento>()
 
     init {
 
@@ -137,4 +141,37 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
             this.recordatorio.remove(eventoInterno)
     }
 
+    override fun aceptar(): Boolean {
+        if (this.fechaFin!=null){
+            addEvento()
+        }
+        return super.aceptar()
+    }
+
+    fun addEvento(){
+        var addEnUser = false
+        var eventos = this.getUser().getEventos().filter { it -> it.idElemento == this.getID() }
+        if (eventos.isEmpty()){
+            addEnUser = true
+            eventos = listOf(Evento())
+        }
+
+        eventos.forEach { ev ->
+
+            if (this.getFechaFin()!=null){
+                if (this is Tarea && this.getHoraIni()!=null && this.getHoraFin()!=null){
+                    ev.setEvento(this.getID(), this.getTitulo(), this.getFechaFin()!!, this.getHoraIni()!!, this.getHoraFin()!!)
+                }
+                else {
+                    ev.setEvento(this.getID(), this.getTitulo(), this.getFechaFin()!!)
+                }
+            }
+            ev.evento.color = when (this.color) {
+                null -> R.color.white
+                else -> this.color!!
+            }
+            if (addEnUser)
+                this.getUser().addEvento(ev)
+        }
+    }
 }

@@ -23,8 +23,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/titulo_pantalla"
-            android:text="@{pantalla.titulo}"/>
+            android:textSize="@dimen/titulo_pantalla"/>
         <ImageView
             android:id="@+id/buscar"
             android:layout_width="@dimen/icon_size"
@@ -50,6 +49,7 @@ xmlns:tools="http://schemas.android.com/tools">
         android:layout_below="@id/ini"
         android:layout_above="@id/cambio_pantallas">
 
+        <!--Calendario semana-->
         <me.jlurena.revolvingweekview.WeekView
             android:id="@+id/calendario_semanal"
             android:layout_width="match_parent"
@@ -65,7 +65,33 @@ xmlns:tools="http://schemas.android.com/tools">
             app:showFirstDayOfWeekFirst="true"
             app:dayBackgroundColor="#05000000"
             app:todayBackgroundColor="#1848adff"
-            app:headerColumnBackground="#ffefefef"/>
+            app:headerColumnBackground="#ffefefef"
+            android:visibility="gone"/>
+        <!--Calendario día-->
+        <me.jlurena.revolvingweekview.WeekView
+            android:id="@+id/calendario_diario"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/coloresPrioridades"
+            app:eventTextColor="@android:color/white"
+            app:hourHeight="60dp"
+            app:headerColumnPadding="8dp"
+            app:headerColumnTextColor="#8f000000"
+            app:headerRowPadding="12dp"
+            app:noOfVisibleDays="1"
+            app:headerRowBackgroundColor="@color/purple"
+            app:showFirstDayOfWeekFirst="true"
+            app:dayBackgroundColor="#05000000"
+            app:todayBackgroundColor="#1848adff"
+            app:headerColumnBackground="#ffefefef"
+            android:visibility="gone"/>
+        <!--Calendario mensual-->
+        <CalendarView
+            android:id="@+id/calendario_mensual"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/coloresPrioridades"
+            android:visibility="visible"/>
         <!--COLORES y PRIORIDADES-->
         <RelativeLayout
             android:id="@+id/coloresPrioridades"

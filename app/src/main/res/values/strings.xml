@@ -22,5 +22,9 @@
     <string name="MONTHLY">Monthly</string>
     <string name="YEARLY">Yearly</string>
 
+    <string name="today">Today</string>
+    <string name="this_week">This week</string>
+    <string name="this_month">This month</string>
+
 
 </resources>

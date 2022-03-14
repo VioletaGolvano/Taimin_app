@@ -6,6 +6,7 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.databinding.FragmentPantallasCalendarioBinding
@@ -20,6 +21,7 @@ import java.time.LocalDate
 class PantallasCalendario : Fragment() {
     lateinit var binding: FragmentPantallasCalendarioBinding
     lateinit var eventosUsuario: List<Evento>
+    lateinit var momentoSeleccionado: LocalDate
     companion object {
         fun newInstance(): PantallasCalendario = PantallasCalendario()
     }
@@ -34,6 +36,7 @@ class PantallasCalendario : Fragment() {
 
         eventosUsuario = (activity as MainActivity).usuario.getEventos()
 
+        momentoSeleccionado = LocalDate.now()
         comun()
         today()
         return binding.root
@@ -48,9 +51,9 @@ class PantallasCalendario : Fragment() {
         binding.calendarioMensual.visibility = GONE
     }
 
-    public fun today(){
+    fun today(){
         comun()
-        // título
+        binding.titulo.text = resources.getText(R.string.today)
         // Colores botones de cambio pantallas
         binding.calendarioDiario.visibility = VISIBLE
         binding.primeraPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
@@ -58,17 +61,22 @@ class PantallasCalendario : Fragment() {
         binding.terceraPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
         var calendarioDiario = binding.calendarioDiario
 
-        calendarioDiario.weekViewLoader = WeekViewLoader { // Add some events
-            val ahora = LocalDate.now()
-            val hoy = LocalDate.of(ahora.year, ahora.month, ahora.dayOfMonth)
+        val hoy = LocalDate.of(momentoSeleccionado.year, momentoSeleccionado.month, momentoSeleccionado.dayOfMonth)
+        var dia = eventosUsuario.filter { it -> it.fecha==hoy}.map { it -> it.evento }
 
-            eventosUsuario.filter { it -> it.fecha==hoy}.map { it -> it.evento }
+        calendarioDiario.weekViewLoader = WeekViewLoader { // Add some events
+            dia
+        }
+        calendarioDiario.setOnEventClickListener { event, eventRect ->
+            var ev = eventosUsuario.filter { it -> event.identifier == it.evento.identifier }.first()
+            Navigation.findNavController((activity as MainActivity), R.id.nav_host_fragment).navigate(
+                PantallasCalendarioDirections.actionPantallasCalendarioToVerElemento(ev.idElemento.toString()))
         }
 
     }
-    public fun thisWeek(){
+    fun thisWeek(){
         comun()
-        // titulo
+        binding.titulo.text = resources.getText(R.string.this_week)
         // Colores botones de cambio pantallas
         binding.calendarioSemanal.visibility = VISIBLE
         binding.primeraPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
@@ -79,19 +87,25 @@ class PantallasCalendario : Fragment() {
 
         var calendarioSemanal = binding.calendarioSemanal
 
-        calendarioSemanal.weekViewLoader = WeekViewLoader { // Add some events
-            val ahora = LocalDate.now()
-            val hoy = LocalDate.of(ahora.year, ahora.month, ahora.dayOfMonth)
-            val lunes = hoy.minusDays((hoy.dayOfWeek.value).toLong())
+        val ahora = LocalDate.now()
+        val hoy = LocalDate.of(ahora.year, ahora.month, ahora.dayOfMonth)
+        val lunes = hoy.minusDays((hoy.dayOfWeek.value).toLong())
+        var semana = eventosUsuario.filter { it ->
+            (lunes < it.fecha) && (it.fecha!! <= lunes.plusDays((7).toLong())) }.map { it -> it.evento }
 
-            eventosUsuario.filter { it ->
-                (lunes < it.fecha) && (it.fecha!! <= lunes.plusDays((7).toLong())) }.map { it -> it.evento }
+        calendarioSemanal.weekViewLoader = WeekViewLoader { // Add some events
+            semana
+        }
+        calendarioSemanal.setOnEventClickListener { event, eventRect ->
+            var ev = eventosUsuario.filter { it -> event.identifier == it.evento.identifier }.first()
+            Navigation.findNavController((activity as MainActivity), R.id.nav_host_fragment).navigate(
+                PantallasCalendarioDirections.actionPantallasCalendarioToVerElemento(ev.idElemento.toString()))
         }
         calendarioSemanal.firstDayOfWeek = DayOfWeek.MONDAY
     }
-    public fun thisMonth(){
+    fun thisMonth(){
         comun()
-        // titulo
+        binding.titulo.text = resources.getText(R.string.this_month)
         // Colores botones de cambio pantallas
         binding.calendarioMensual.visibility = VISIBLE
         binding.primeraPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)

@@ -62,9 +62,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 crearElemento.visibility = VISIBLE
                 noAniadir.visibility = VISIBLE
                 crear_proyecto.setOnClickListener{
-                    val proyecto = Proyecto(usuario)
-                    proyecto.setTitulo(proyecto.getId().toString())
-                    proyecto.aceptar()
                     try {
                         Navigation.findNavController(this, R.id.nav_host_fragment)
                             .navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToAddElemento(null, 3))

@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taimin.R
-import elementos.Elemento
-import elementos.ElementoCreable
+import com.example.taimin.clases.Prioridad
+import com.example.taimin.clases.elementos.Elemento
+import com.example.taimin.clases.elementos.ElementoCreable
 import java.lang.Exception
 
 class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>() {
@@ -31,7 +32,7 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
             this.elemento = elemento
             titulo.text = elemento.getTitulo()
 
-            val color = (elemento as ElementoCreable).getColorElemento()
+            val color = (elemento as ElementoCreable).getColor()
             if (color != null){
                 item.setBackgroundColor(color)
             }
@@ -46,9 +47,9 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
 
             itemView.setOnClickListener {
                 try {
-                    Navigation.findNavController(it).navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToVerElemento(elemento.getID().toString()))
+                    Navigation.findNavController(it).navigate(PantallasPrincipalesDirections.actionPantallasPrincipalesToVerElemento(elemento.getId().toString()))
                 }catch (e: Exception){
-                    Navigation.findNavController(it).navigate(PantallasArchivoDirections.actionPantallasArchivoToVerElemento(elemento.getID().toString()))
+                    Navigation.findNavController(it).navigate(PantallasArchivoDirections.actionPantallasArchivoToVerElemento(elemento.getId().toString()))
                 }
             }
 

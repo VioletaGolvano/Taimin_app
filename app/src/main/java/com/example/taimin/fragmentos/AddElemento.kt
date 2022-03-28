@@ -1,40 +1,22 @@
 package com.example.taimin.fragmentos
 
-import Repeticion
-import Usuario
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
-import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
-import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import com.example.taimin.MainActivity
 import com.example.taimin.R
-import com.example.taimin.R.color.light_purple
-import com.example.taimin.R.color.purple
+import com.example.taimin.TaiminApplication
 import com.example.taimin.databinding.FragmentAddElementoBinding
-import elementos.ElementoCreable
-import elementos.Lista
-import elementos.Proyecto
-import elementos.Tarea
-import kotlinx.android.synthetic.main.activity_main.*
-import java.text.SimpleDateFormat
+import com.example.taimin.clases.elementos.*
+import com.example.taimin.clases.*
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -132,7 +114,7 @@ class AddElemento : Fragment() {
             override fun onChooseColor(position: Int, color: Int) {
                 val botonHora = view?.findViewById(R.id.color) as Button
                 botonHora.setBackgroundColor(color)
-                elemento.setColorElemento(color)
+                elemento.setColor(color)
             }
 
             override fun onCancel() {
@@ -238,12 +220,12 @@ class AddElemento : Fragment() {
         val usuario = (activity as MainActivity).usuario
 
         if (args.elementoId!=null){
-            elemento = usuario.buscar(UUID.fromString(args.elementoId)) as ElementoCreable
+            elemento = usuario!!.buscar(UUID.fromString(args.elementoId)) as ElementoCreable
         }else {
             when (args.elementoIDClase) {
-                3 -> elemento = Proyecto(usuario)
-                2 -> elemento = Lista(usuario)
-                1 -> elemento = Tarea(usuario)
+                3 -> elemento = Proyecto(usuario!!)
+                2 -> elemento = Lista(usuario!!)
+                1 -> elemento = Tarea(usuario!!)
                 else -> { }
             }
         }

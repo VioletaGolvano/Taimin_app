@@ -1,42 +1,35 @@
 package com.example.taimin
 
-import Usuario
-import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.View
 import android.view.View.*
-import android.widget.AdapterView
 import androidx.appcompat.app.ActionBar
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.example.taimin.databinding.FragmentVerElementoBinding
+import com.example.taimin.clases.Usuario
 import com.example.taimin.fragmentos.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarItemView
 import com.google.android.material.navigation.NavigationBarView
-import com.google.android.material.navigation.NavigationView
-import elementos.Lista
-import elementos.Proyecto
-import elementos.Tarea
+import com.example.taimin.clases.elementos.*
+import com.example.taimin.database.ElementosListViewModel
+import com.example.taimin.database.TaiminDatabase
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.Executors
 import kotlin.math.abs
-import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     lateinit var gestureDetector: GestureDetector
     var x2:Float = 0.0f
     var x1:Float = 0.0f
-    val usuario = Usuario("mail","pass")
+    var usuario: Usuario? = null
+    private val executor = Executors.newSingleThreadExecutor()
+    private val elementosListViewModel by lazy {
+        ViewModelProvider(this).get(ElementosListViewModel::class.java)
+    }
     companion object{
         const val MIN_DISTANCE = 150
     }
@@ -70,7 +63,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 noAniadir.visibility = VISIBLE
                 crear_proyecto.setOnClickListener{
                     val proyecto = Proyecto(usuario)
-                    proyecto.setTitulo(proyecto.getID().toString())
+                    proyecto.setTitulo(proyecto.getId().toString())
                     proyecto.aceptar()
                     try {
                         Navigation.findNavController(this, R.id.nav_host_fragment)
@@ -137,6 +130,20 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
                 var ae = navHostFragment!!.childFragmentManager.fragments[0] as AddElemento
                 ae.aceptar()
+                executor.execute{
+                    when(ae.elemento){
+                        is Tarea -> TaiminDatabase.getInstance(this.application).taiminDAO.addTarea(
+                            ae.elemento as Tarea
+                        )
+                        is Lista -> TaiminDatabase.getInstance(this.application).taiminDAO.addLista(
+                            ae.elemento as Lista
+                        )
+                        is Proyecto -> TaiminDatabase.getInstance(this.application).taiminDAO.addProyecto(
+                            ae.elemento as Proyecto
+                        )
+                    }
+                }
+                ae.elemento
                 Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
                 true
             }
@@ -145,9 +152,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        try {
+            (this.application as TaiminApplication).mainActivity = this
+        }catch (e: java.lang.Exception){
+            usuario = (this.application as TaiminApplication).usuario
+        }
+
         setContentView(R.layout.activity_main)
 
         gestureDetector = GestureDetector(this,this)
@@ -270,15 +282,15 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasPrincipales
         if (izda){
-            if (fr.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
+            if (fr.binding.titulo.text.contains(usuario!!.getDefault().getTitulo())){
                 fr.toDo()
-            }else if(fr.binding.titulo.text.contains(usuario.getDaily().getTitulo())){
+            }else if(fr.binding.titulo.text.contains(usuario!!.getDaily().getTitulo())){
                 fr.defaultpp()
             }
         }else{
-            if (fr.binding.titulo.text.contains(usuario.getDefault().getTitulo())){
+            if (fr.binding.titulo.text.contains(usuario!!.getDefault().getTitulo())){
                 fr.daily()
-            }else if(fr.binding.titulo.text.contains(usuario.getToDo().getTitulo())){
+            }else if(fr.binding.titulo.text.contains(usuario!!.getToDo().getTitulo())){
                 fr.defaultpp()
             }
         }
@@ -287,11 +299,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val fr = navHostFragment!!.childFragmentManager.fragments[0] as PantallasArchivo
         if (izda){
-            if (fr.binding.titulo.text.contains(usuario.getArchived().getTitulo())){
+            if (fr.binding.titulo.text.contains(usuario!!.getArchived().getTitulo())){
                 fr.completed()
             }
         }else{
-            if (fr.binding.titulo.text.contains(usuario.getCompleted().getTitulo())){
+            if (fr.binding.titulo.text.contains(usuario!!.getCompleted().getTitulo())){
                 fr.archived()
             }
         }

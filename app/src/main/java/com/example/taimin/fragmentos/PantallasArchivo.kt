@@ -31,7 +31,7 @@ class PantallasArchivo : Fragment() {
         return binding.root
     }
     public fun archived(){
-        binding.pantalla = (activity as MainActivity).usuario.getArchived()
+        binding.pantalla = (activity as MainActivity).usuario!!.getArchived()
         // Colores botones de cambio pantallas
         (binding.archivedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
         (binding.completedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
@@ -42,14 +42,14 @@ class PantallasArchivo : Fragment() {
         binding.listaElementos?.adapter = adapter
     }
     public fun completed(){
-        binding.pantalla = (activity as MainActivity).usuario.getCompleted()
+        binding.pantalla = (activity as MainActivity).usuario!!.getCompleted()
         // Colores botones de cambio pantallas
         (binding.archivedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
         (binding.completedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
 
         adapter = PantallasAdapter()
 
-        adapter.data = (activity as MainActivity).usuario.getElementosCompletados().plus(binding.pantalla!!.contenidos)
+        adapter.data = (activity as MainActivity).usuario!!.getElementosCompletados().plus(binding.pantalla!!.contenidos)
         binding.listaElementos?.adapter = adapter
     }
 }

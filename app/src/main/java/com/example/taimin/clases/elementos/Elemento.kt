@@ -1,9 +1,9 @@
-package elementos
+package com.example.taimin.clases.elementos
 
-import Usuario
+import androidx.room.*
 import java.util.*
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.example.taimin.clases.Usuario
+import org.jetbrains.annotations.Nullable
 
 /**
  * Esta clase tiene la información básica que poseen cada uno de los distintos tipos de Elementos de la aplicación.
@@ -19,37 +19,47 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tabla_elemento")
 abstract class Elemento (
     private var IDClase: Int,
-    private var creador: Usuario
+    private var usuario: Usuario?
     ) {
     @PrimaryKey
-    private val ID: UUID = UUID.randomUUID()
+    private var id: UUID = UUID.randomUUID()
     private var progreso = 0.0 //Hasta 1.0
     private var titulo = ""
-
-    private lateinit var contenedor: Elemento  //Elemento que lo contiene
+    private var contenedor: Elemento? = null  //Elemento que lo contiene
+    @Ignore
     var contenidos = mutableListOf<Elemento>() //Elementos que contiene
 
+    constructor(id: UUID) : this(-1, null) {
+        this.id = id
+    }
+
     /* GETTERS */
-    fun getID(): UUID { return this.ID }
+    fun getId(): UUID { return this.id }
     fun getIDClase(): Int { return this.IDClase }
 
     fun getTitulo(): String { return this.titulo }
     fun getProgreso(): Double { return this.progreso }
-    fun getContenedor(): Elemento? { if (this::contenedor.isInitialized) return this.contenedor else return null }
+    fun getContenedor(): Elemento? {
+        return if (this.contenedor != null) this.contenedor else null
+    }
 
-    fun getUser(): Usuario { return this.creador }
+    fun getUsuario(): Usuario { return this.usuario!! }
 
     /* SETTERS */
+    fun setId(id: UUID) { this.id = id}
+    fun setIDClase(IDClase: Int) { this.IDClase = IDClase }
     fun setTitulo(titulo: String){ this.titulo = titulo }
     fun setProgreso(progreso: Double){
         this.progreso = progreso
-        if (this::contenedor.isInitialized)
-            this.contenedor.recalcularProgreso()
+        if (this.contenedor!=null)
+            this.contenedor!!.recalcularProgreso()
     }
-    fun setContenedor(cont: Elemento){
-        if (this.IDClase < cont.IDClase)
+    fun setContenedor(cont: Elemento?){
+        if (cont == null) return
+        if (this.IDClase <= cont.IDClase)
             this.contenedor = cont
     }
+    fun setUsuario(usuario: Usuario){ this.usuario = usuario }
 
     /**
      * Calcula el progreso del Elemento basado en el progreso de los elementos que contiene
@@ -58,7 +68,7 @@ abstract class Elemento (
         var aux = 0.0
         contenidos.forEach { aux += it.getProgreso() }
         setProgreso(aux/contenidos.size)
-        if (this::contenedor.isInitialized){ contenedor.recalcularProgreso() }
+        if (this.contenedor!=null){ contenedor!!.recalcularProgreso() }
     }
     fun completado() {
         setProgreso(1.0)
@@ -76,7 +86,7 @@ abstract class Elemento (
         if (this.IDClase <= elemento.IDClase)
             return
         this.contenidos.add(elemento)
-        if (elemento::contenedor.isInitialized){
+        if (elemento.contenedor!=null){
             elemento.getContenedor()!!.delContenido(elemento,true)
         }
         elemento.setContenedor(this)
@@ -87,7 +97,7 @@ abstract class Elemento (
     }
     fun delContenido(elemento: Elemento){
         this.delContenido(elemento,true)
-        getUser().getDefault().addContenido(elemento)
+        getUsuario().getDefault().addContenido(elemento)
     }
 
 
@@ -109,7 +119,7 @@ abstract class Elemento (
      * @return Lista de elementos posibles
      */
     fun getElementoSuperior(): List<Elemento>{
-        return creador.getElementoSuperior(this)
+        return usuario!!.getElementoSuperior(this)
     }
 
     /**
@@ -121,12 +131,12 @@ abstract class Elemento (
         if (this.getTitulo().isEmpty()){
             this.eliminar()
         }
-        if (!this::contenedor.isInitialized){
-            getUser().getDefault().addContenido(this)
+        if (this.contenedor==null){
+            getUsuario().getDefault().addContenido(this)
         }
-        val elem = creador.buscar(this.ID)
+        val elem = usuario!!.buscar(this.id)
         if (elem == null){
-            getUser().addElemento(this)
+            getUsuario().addElemento(this)
         }
         // Actualizar todas las variables en la db
         return true
@@ -147,9 +157,9 @@ abstract class Elemento (
      * TODO
      */
     fun eliminar() {
-        if (this::contenedor.isInitialized)
-            contenedor.delContenido(this, true)
-        creador.removeElemento(this)
+        if (this.contenedor!=null)
+            contenedor!!.delContenido(this, true)
+        usuario!!.removeElemento(this)
     }
 
     /**
@@ -158,7 +168,7 @@ abstract class Elemento (
     open fun show() {
         println(this.titulo+" - ID clase: "+this.IDClase)
         println("\tCompleción: "+this.getProgreso()*100+"%")
-        println("\tContenedor: "+this.contenedor.getTitulo())
+        println("\tContenedor: "+this.contenedor?.getTitulo())
         if (this.contenidos.isNotEmpty()){
             println("\tContenidos:")
             this.contenidos.forEach { it -> println("\t\t"+it.titulo) }

@@ -1,6 +1,9 @@
-package elementos
+package com.example.taimin.clases.elementos
 
-import Usuario
+
+import androidx.room.Entity
+import com.example.taimin.clases.Usuario
+import java.util.*
 
 /**
  * Esta clase hereda de Elemento y posee la información relativa a las Pantallas del Usuario
@@ -10,9 +13,14 @@ import Usuario
  * @author  Violeta Golvano García
  * @version 1 05/02/2022
  */
-class Pantalla(nombre: String, user: Usuario): Elemento(4, user) {
+
+@Entity(tableName = "tabla_pantallas")
+class Pantalla(titulo: String, usuario: Usuario?): Elemento(4, usuario) {
     init {
-        super.setTitulo(nombre)
+        super.setTitulo(titulo)
+    }
+    constructor(id: UUID, bool: Boolean, titulo: String) : this(titulo,null) {
+        this.setId(id)
     }
     override fun show(){
         println(this.getTitulo()+" - ID clase: "+this.getIDClase())

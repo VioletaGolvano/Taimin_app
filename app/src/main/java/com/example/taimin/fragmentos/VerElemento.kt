@@ -1,20 +1,18 @@
 package com.example.taimin.fragmentos
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
 import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
+import com.example.taimin.clases.Prioridad
 import com.example.taimin.databinding.FragmentVerElementoBinding
-import elementos.ElementoCreable
-import elementos.Tarea
-import java.time.LocalDate
+import com.example.taimin.clases.elementos.ElementoCreable
+import com.example.taimin.clases.elementos.Tarea
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -32,18 +30,18 @@ class VerElemento : Fragment() {
         (activity as MainActivity).fragmentoActual(this)
 
         val args = VerElementoArgs.fromBundle(requireArguments())
-        val elem = (activity as MainActivity).usuario.buscar(UUID.fromString(args.elementoId))
+        val elem = (activity as MainActivity).usuario!!.buscar(UUID.fromString(args.elementoId))
             //CardsApplication.getCard(args.cardId) ?: throw Exception("Wrong id")
         if (elem == null) {
             Navigation.findNavController(activity as MainActivity, R.id.nav_host_fragment).navigateUp()
         } else {
             elemento = elem as ElementoCreable
             binding.elemento = elemento
-            elemento.getColorElemento().let { it?.let { it1 -> binding.titulo.setBackgroundColor(it1) } }
+            elemento.getColor().let { it?.let { it1 -> binding.titulo.setBackgroundColor(it1) } }
             binding.verRepeticiones.text = elemento.getRepeticion()
                 ?.let { getString(it?.resource()) }
             binding.edit.setOnClickListener{
-                Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoToAddElemento(elemento.getID().toString(), elemento.getIDClase()))
+                Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoToAddElemento(elemento.getId().toString(), elemento.getIDClase()))
             }
             binding.prioridad.setImageDrawable(when (elemento.getPrioridad()){
                 Prioridad.ALTA -> resources.getDrawable(R.drawable.ic_baseline_warning_red_24, activity?.theme)

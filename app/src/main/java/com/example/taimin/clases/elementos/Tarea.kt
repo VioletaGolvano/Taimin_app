@@ -1,12 +1,14 @@
-package elementos
+package com.example.taimin.clases.elementos
 
-import Adjunto
-import Evento
-import EventoInterno
-import Usuario
-import java.time.LocalDate
 import java.time.LocalTime
+import androidx.room.Entity
+import androidx.room.Ignore
+import com.example.taimin.clases.Adjunto
+import com.example.taimin.clases.Evento
+import com.example.taimin.clases.EventoInterno
+import com.example.taimin.clases.Usuario
 import java.util.*
+
 /**
  * Esta clase hereda de Elemento y posee la información relativa a las Tareas del Usuario
  *
@@ -15,13 +17,20 @@ import java.util.*
  * @author  Violeta Golvano García
  * @version 1 05/02/2022
  */
-class Tarea(user: Usuario) : ElementoCreable(1, user){
-    private var duracion = 0.0
+@Entity(tableName = "tabla_tareas")
+class Tarea(usuario: Usuario?) : ElementoCreable(1, usuario){
+    var duracion = 0.0
     private var horaIni: LocalTime? = null
     private var horaFin: LocalTime? = null
+    @Ignore
     private var adjuntos = mutableListOf<Adjunto>()
+    @Ignore
     private var eventos = mutableListOf<Evento>()
+    @Ignore
     private var recordatorios = mutableListOf<EventoInterno>()
+    constructor(id: UUID, bool: Boolean) : this(null) {
+        this.setId(id)
+    }
 
     fun getEventos():List<Evento>{
         return eventos
@@ -44,7 +53,7 @@ class Tarea(user: Usuario) : ElementoCreable(1, user){
     }
 
     override fun duplicar(): Tarea {
-        var copia = super.duplicar(Tarea(this.getUser())) as Tarea
+        var copia = super.duplicar(Tarea(this.getUsuario())) as Tarea
         copia.duracion = this.duracion
         copia.horaIni = this.horaIni
         copia.horaFin = this.horaFin

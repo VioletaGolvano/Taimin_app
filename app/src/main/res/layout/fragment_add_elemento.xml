@@ -5,14 +5,10 @@
     xmlns:tools='http://schemas.android.com/tools'>
     <data>
         <import type='android.view.View'/>
+        <import type="com.example.taimin.clases.elementos.Tarea"/>
         <variable
             name='elemento'
-            type='elementos.ElementoCreable' />
-        <!-- @{elemento.titulo} -->
-        <!-- '@{card.answered ? View.INVISIBLE : View.VISIBLE}' -->
-        <!-- @{card::update_from_view} -->
-        <!-- android:onClick='@{card::update_from_view}' -->
-        <!-- android:onClick='@{() -> card.update_card(5)}' -->
+            type='com.example.taimin.clases.elementos.ElementoCreable' />
     </data>
 
 
@@ -211,7 +207,7 @@
             android:minWidth='0dp'
             app:icon='@drawable/ic_baseline_time_24'
             app:iconPadding='0dp'
-            android:visibility='@{elemento instanceof elementos.Tarea ? View.VISIBLE: View.GONE}'/>
+            android:visibility='@{elemento instanceof Tarea ? View.VISIBLE: View.GONE}'/>
 
 
         <RelativeLayout
@@ -220,7 +216,7 @@
             android:layout_toRightOf='@id/icono_reloj'
             android:layout_centerInParent='true'
             android:gravity='center'
-            android:visibility='@{elemento instanceof elementos.Tarea ? View.VISIBLE: View.GONE}'>
+            android:visibility='@{elemento instanceof Tarea ? View.VISIBLE: View.GONE}'>
             <TextView
                 android:id='@+id/texto_hora_inicio'
                 android:layout_width='wrap_content'
@@ -248,7 +244,7 @@
             android:layout_width='50dp'
             android:layout_height='wrap_content'
             android:layout_alignParentEnd='true'
-            android:backgroundTint='@{elemento.colorElemento ?? @color/white}'
+            android:backgroundTint="@{elemento.color ?? @color/color1}"
             android:minWidth='0dp'
             app:iconPadding='0dp' />
 

@@ -1,6 +1,5 @@
 package com.example.taimin.fragmentos
 
-import Evento
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
+import com.example.taimin.clases.Evento
 import com.example.taimin.databinding.FragmentPantallasCalendarioBinding
 import me.jlurena.revolvingweekview.WeekViewEvent
 
@@ -34,7 +34,7 @@ class PantallasCalendario : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pantallas_calendario, container, false)
         (activity as MainActivity).fragmentoActual(this)
 
-        eventosUsuario = (activity as MainActivity).usuario.getEventos()
+        eventosUsuario = (activity as MainActivity).usuario!!.getEventos()
 
         momentoSeleccionado = LocalDate.now()
         comun()

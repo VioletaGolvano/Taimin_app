@@ -6,7 +6,7 @@
     <data>
         <variable
             name="pantalla"
-            type="elementos.Pantalla" />
+            type="com.example.taimin.clases.elementos.Pantalla" />
     </data>
 
     <RelativeLayout

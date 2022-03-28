@@ -1,3 +1,4 @@
+package com.example.taimin.clases
 /**
  * Esta clase tiene la información del Sistema
  *
@@ -9,9 +10,6 @@ class Sistema {
     private var participantes = mutableListOf<Usuario>()
 
     fun registrarse(email: String, clave: String){
-        // No guardar la clave en crudo
-        val newUser = Usuario(email, clave)
-        participantes.add(newUser)
         // Añadir usuario a la base de datos
     }
 

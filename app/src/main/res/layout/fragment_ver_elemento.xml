@@ -5,10 +5,12 @@
     xmlns:tools='http://schemas.android.com/tools'>
     <data>
         <import type='android.view.View'/>
-        <import type='Prioridad'/>
+        <import type="com.example.taimin.clases.elementos.Tarea"/>
+        <import type='com.example.taimin.clases.Prioridad'/>
+        <import type="com.example.taimin.clases.elementos.ElementoCreable"/>
         <variable
             name='elemento'
-            type='elementos.ElementoCreable' />
+            type='com.example.taimin.clases.elementos.ElementoCreable' />
 
         <!-- @{elemento.titulo} -->
         <!-- '@{card.answered ? View.INVISIBLE : View.VISIBLE}' -->
@@ -123,7 +125,7 @@
                     android:layout_height='wrap_content'
                     android:layout_below='@id/container'
                     android:layout_marginBottom='@dimen/space_size'
-                    android:visibility='@{elemento instanceof elementos.Tarea ? View.VISIBLE: View.GONE}'>
+                    android:visibility='@{elemento instanceof Tarea ? View.VISIBLE: View.GONE}'>
 
                     <ImageView
                         android:id='@+id/icono_hora'

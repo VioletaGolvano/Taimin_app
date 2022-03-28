@@ -1,15 +1,10 @@
-package elementos
+package com.example.taimin.clases.elementos
 
-import Constantes
-import Evento
-import EventoInterno
-import Prioridad
-import Repeticion
-import Usuario
 import java.time.LocalDate
-import java.util.*
-import android.content.res.Resources
 import com.example.taimin.R
+import androidx.room.Entity
+import androidx.room.Ignore
+import com.example.taimin.clases.*
 
 /**
  * Esta clase hereda de Elemento y posee todos los atributos comunes a Proyectos, Listas y Tareas.
@@ -24,7 +19,8 @@ import com.example.taimin.R
  * @author  Violeta Golvano García
  * @version 1 05/02/2022
  */
-abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, user) {
+@Entity(tableName = "tabla_elementoCreable")
+abstract class ElementoCreable(IDClase: Int, usuario: Usuario?) : Elemento(IDClase, usuario) {
     private var color: Int? = null
     private var fechaIni: LocalDate? = null
     private var fechaFin: LocalDate? = null
@@ -33,9 +29,10 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
 
     private var repeticion: Repeticion? = null
     private var prioridad = Prioridad.NULA
+    @Ignore
     private var recordatorio = mutableListOf<EventoInterno>()
+    @Ignore
     private var participantes = mutableListOf<Usuario>()
-    private var eventos = mutableListOf<Evento>()
 
     init {
 
@@ -43,7 +40,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
     }
 
     /* GETTERS */
-    fun getColorElemento(): Int? { return this.color }
+    fun getColor(): Int? { return this.color }
     fun getFechaIni(): LocalDate? { return this.fechaIni }
     fun getFechaFin(): LocalDate? { return this.fechaFin }
     fun getDescripcion(): String? { return this.descripcion }
@@ -54,12 +51,13 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
     fun getParticipantes(): List<Usuario>{ return this.participantes }
 
     /* SETTERS */
-    fun setColorElemento(color: Int){ this.color = color }
+    fun setColor(color: Int){ this.color = color }
     fun setFechaIni(fecha: LocalDate?) { this.fechaIni = fecha }
     fun setFechaFin(fecha: LocalDate?) { this.fechaFin = fecha}
     fun setDescripcion(desc: String?) { this.descripcion = desc }
     fun setOrdenColores(col: Boolean) { this.ordenColores = col}
-    fun setRepeticion(rep: Repeticion) { this.repeticion = rep }
+    fun setRepeticion(rep: Repeticion?) { this.repeticion = rep }
+    fun setRecordatorio(recs: List<EventoInterno>?) { if(recs==null)return; this.recordatorio = recs!!.toMutableList() }
     fun setPrioridad(prioridad: Prioridad) { this.prioridad = prioridad }
 
     /* MÉTODOS */
@@ -150,7 +148,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
 
     fun addEvento(){
         var addEnUser = false
-        var eventos = this.getUser().getEventos().filter { it -> it.idElemento == this.getID() }
+        var eventos = this.getUsuario().getEventos().filter { it -> it.idElemento == this.getId() }
         if (eventos.isEmpty()){
             addEnUser = true
             eventos = listOf(Evento())
@@ -160,10 +158,10 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
 
             if (this.getFechaFin()!=null){
                 if (this is Tarea && this.getHoraIni()!=null && this.getHoraFin()!=null){
-                    ev.setEvento(this.getID(), this.getTitulo(), this.getFechaFin()!!, this.getHoraIni()!!, this.getHoraFin()!!)
+                    ev.setEvento(this.getId(), this.getTitulo(), this.getFechaFin()!!, this.getHoraIni()!!, this.getHoraFin()!!)
                 }
                 else {
-                    ev.setEvento(this.getID(), this.getTitulo(), this.getFechaFin()!!)
+                    ev.setEvento(this.getId(), this.getTitulo(), this.getFechaFin()!!)
                 }
             }
             ev.evento.color = when (this.color) {
@@ -171,7 +169,7 @@ abstract class ElementoCreable(IDClase: Int, user: Usuario) : Elemento(IDClase, 
                 else -> this.color!!
             }
             if (addEnUser)
-                this.getUser().addEvento(ev)
+                this.getUsuario().addEvento(ev)
         }
     }
 }

@@ -3,52 +3,18 @@ package com.example.taimin.database
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import com.example.taimin.clases.Evento
 import com.example.taimin.clases.Usuario
 import com.example.taimin.clases.elementos.*
 
 @Dao
 interface TaiminDAO {
-    fun getElementos(): List<Elemento> {
-        var lista = mutableListOf<Elemento>()
-        getPantallas().value?.let { lista.addAll(it) }
-        getProyectos().value?.let { lista.addAll(it) }
-        getListas().value?.let { lista.addAll(it) }
-        getTareas().value?.let { lista.addAll(it) }
-        getSubtareas().value?.let { lista.addAll(it) }
-        return lista
-    }
-
     @Query("SELECT * FROM tabla_usuario LIMIT 1")
     fun getUsuario(): Usuario?
-
-
-    @Query("SELECT * FROM tabla_pantallas")
-    fun getPantallas(): LiveData<List<Pantalla>>
-    @Query("SELECT * FROM tabla_pantallas WHERE usuario = :usuario")
-    fun getPantallas(usuario: String): List<Pantalla>
-
-    @Query("SELECT * FROM tabla_proyectos")
-    fun getProyectos(): LiveData<List<Proyecto>>
-
-    @Query("SELECT * FROM tabla_listas")
-    fun getListas(): LiveData<List<Lista>>
-
-    @Query("SELECT * FROM tabla_tareas")
-    fun getTareas(): LiveData<List<Tarea>>
-
-    @Query("SELECT * FROM tabla_subtareas")
-    fun getSubtareas(): LiveData<List<Subtarea>>
-
-    fun getElementos(id: String): LiveData<List<Elemento>?>{
-        var lista = MutableLiveData<List<Elemento>?>()
-        lista.value = lista.value?.plus(getProyectoConContenedor(id) as List<Elemento>)
-        lista.value = lista.value?.plus(getListaConContenedor(id) as List<Elemento>)
-        lista.value = lista.value?.plus(getTareaConContenedor(id) as List<Elemento>)
-        lista.value = lista.value?.plus(getSubtareaConContenedor(id) as List<Elemento>)
-        return lista
-    }
 
 
     @Query("SELECT * FROM tabla_pantallas")
@@ -62,54 +28,45 @@ interface TaiminDAO {
     @Query("SELECT * FROM tabla_subtareas")
     fun getSubtareasList(): List<Subtarea>?
 
-
-    @Query("SELECT * FROM tabla_proyectos WHERE contenedor = :id")
-    fun getProyectoConContenedor(id: String): LiveData<Proyecto?>
-
-    @Query("SELECT * FROM tabla_listas WHERE contenedor = :id")
-    fun getListaConContenedor(id: String): LiveData<Lista?>
-
-    @Query("SELECT * FROM tabla_tareas WHERE contenedor = :id")
-    fun getTareaConContenedor(id: String): LiveData<Tarea?>
-
-    @Query("SELECT * FROM tabla_subtareas WHERE contenedor = :id")
-    fun getSubtareaConContenedor(id: String): LiveData<Subtarea?>
-
-
-    @Query("SELECT * FROM tabla_pantallas WHERE id = :id")
-    fun getPantalla(id: String): LiveData<Pantalla?>
-    @Query("SELECT * FROM tabla_pantallas WHERE usuario = :usuario and titulo = :titulo")
-    fun getPantalla(usuario: String, titulo: String): LiveData<Pantalla?>
-
-    @Query("SELECT * FROM tabla_proyectos WHERE id = :id")
-    fun getProyecto(id: String): LiveData<Proyecto?>
-
-    @Query("SELECT * FROM tabla_listas WHERE id = :id")
-    fun getLista(id: String): LiveData<Lista?>
-
-    @Query("SELECT * FROM tabla_tareas WHERE id = :id")
-    fun getTarea(id: String): LiveData<Tarea?>
-
-    @Query("SELECT * FROM tabla_subtareas WHERE id = :id")
-    fun getSubtarea(id: String): LiveData<Subtarea?>
+    @Query("SELECT * FROM tabla_evento")
+    fun getEventosList(): List<Evento>?
 
     @Insert
     fun addUsuario(usuario: Usuario)
 
     @Insert
     fun addPantalla(pantalla: Pantalla)
-
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun addProyecto(proyecto: Proyecto)
-
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun addLista(lista: Lista)
-
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun addTarea(tarea: Tarea)
-
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun addSubtarea(subtarea: Subtarea)
+
+    @Insert(onConflict = REPLACE)
+    fun addEvento(evento: Evento)
+
+    @Delete
+    fun delProyecto(proyecto: Proyecto)
+    @Delete
+    fun delLista(lista: Lista)
+    @Delete
+    fun delTarea(tarea: Tarea)
+    @Delete
+    fun delSubtarea(subtarea: Subtarea)
+    @Delete
+    fun delEvento(evento: Evento)
+
+    fun delElemento(elemento: Elemento){
+        when(elemento){
+            is Proyecto -> delProyecto(elemento)
+            is Lista -> delLista(elemento)
+            is Tarea -> delTarea(elemento)
+            is Subtarea -> delSubtarea(elemento)
+        }
+    }
 
 
 

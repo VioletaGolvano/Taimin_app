@@ -5,6 +5,8 @@ import com.example.taimin.R
 import androidx.room.Entity
 import androidx.room.Ignore
 import com.example.taimin.clases.*
+import kotlinx.coroutines.currentCoroutineContext
+import kotlin.coroutines.coroutineContext
 
 /**
  * Esta clase hereda de Elemento y posee todos los atributos comunes a Proyectos, Listas y Tareas.
@@ -164,10 +166,7 @@ abstract class ElementoCreable(IDClase: Int, usuario: Usuario?) : Elemento(IDCla
                     ev.setEvento(this.getId(), this.getTitulo(), this.getFechaFin()!!)
                 }
             }
-            ev.evento.color = when (this.color) {
-                null -> R.color.white
-                else -> this.color!!
-            }
+            ev.evento.color = this.color!!
             if (addEnUser)
                 this.getUsuario().addEvento(ev)
         }

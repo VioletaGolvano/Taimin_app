@@ -91,7 +91,8 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_above="@id/coloresPrioridades"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            android:firstDayOfWeek="0"/>
         <!--COLORES y PRIORIDADES-->
         <RelativeLayout
             android:id="@+id/coloresPrioridades"

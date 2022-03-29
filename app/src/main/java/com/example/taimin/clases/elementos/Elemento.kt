@@ -123,8 +123,8 @@ abstract class Elemento (
     }
 
     /**
-     * Añade el elemento a base de datos. Añade el elemento a los participantes.
-     * TODO
+     * Añade el elemento al usuario.
+     * TODO Añade el elemento a los participantes.
      * @return si se ha añadido correctamente
      */
     open fun aceptar(): Boolean {
@@ -138,13 +138,11 @@ abstract class Elemento (
         if (elem == null){
             getUsuario().addElemento(this)
         }
-        // Actualizar todas las variables en la db
         return true
     }
 
     /**
      * Descarta todos los cambios hechos en el elemento
-     * TODO
      * @return si se han podido descartar los cambios
      */
     fun cancelar(): Boolean {
@@ -153,8 +151,7 @@ abstract class Elemento (
     }
 
     /**
-     * Elimina el elemento de la base de datos
-     * TODO
+     * Elimina el elemento del usuario
      */
     fun eliminar() {
         if (this.contenedor!=null)

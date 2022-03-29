@@ -238,13 +238,13 @@
         </RelativeLayout>
 
 
-        <!-- HORA -->
+        <!-- COLOR -->
         <com.google.android.material.button.MaterialButton
             android:id='@+id/color'
             android:layout_width='50dp'
             android:layout_height='wrap_content'
             android:layout_alignParentEnd='true'
-            android:backgroundTint="@{elemento.color ?? @color/color1}"
+            android:backgroundTint="@{elemento.color ?? @color/color11}"
             android:minWidth='0dp'
             app:iconPadding='0dp' />
 

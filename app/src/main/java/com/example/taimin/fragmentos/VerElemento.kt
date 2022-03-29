@@ -13,8 +13,10 @@ import com.example.taimin.clases.Prioridad
 import com.example.taimin.databinding.FragmentVerElementoBinding
 import com.example.taimin.clases.elementos.ElementoCreable
 import com.example.taimin.clases.elementos.Tarea
+import com.example.taimin.database.TaiminDatabase
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.concurrent.Executors
 
 
 class VerElemento : Fragment() {
@@ -62,8 +64,13 @@ class VerElemento : Fragment() {
             }
             binding.delete.setOnClickListener {
                 elemento.eliminar()
+                Executors.newSingleThreadExecutor().execute {
+                    context?.let { it1 -> TaiminDatabase.getInstance(context = it1).taiminDAO.delElemento(elemento) }
+                }
                 Navigation.findNavController(it).navigateUp()
             }
+
+
         }
         return binding.root
     }

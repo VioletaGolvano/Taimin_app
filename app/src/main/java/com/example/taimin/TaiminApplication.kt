@@ -1,15 +1,9 @@
 package com.example.taimin
 
 import android.app.Application
-import android.util.Log
 import com.example.taimin.clases.Usuario
 import com.example.taimin.database.TaiminDatabase
-import java.lang.Exception
 import java.util.concurrent.Executors
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.taimin.clases.elementos.*
 
 
@@ -17,19 +11,9 @@ class TaiminApplication: Application() {
     private val executor = Executors.newSingleThreadExecutor()
     lateinit var usuario: Usuario
     lateinit var mainActivity: MainActivity
-    lateinit var pantallasDB: List<Pantalla>
-    lateinit var proyectosDB: MutableLiveData<List<Proyecto>>
-    var listasDB: MutableLiveData<List<Lista>> = MutableLiveData()
-    var tareasDB: MutableLiveData<List<Tarea>> = MutableLiveData()
-    var subtareasDB: MutableLiveData<List<Subtarea>> = MutableLiveData()
-    var count: MutableLiveData<Int> = MutableLiveData()
 
     init {
         usuario = Usuario("mail","pass")
-        count.value = 0
-    }
-    private fun countMas(){
-        count.value = count.value?.plus(1)
     }
     override fun onCreate() {
         super.onCreate()
@@ -54,6 +38,8 @@ class TaiminApplication: Application() {
             var tareas = taiminDatabase.taiminDAO.getTareasList()
             var subtareas = taiminDatabase.taiminDAO.getSubtareasList()
 
+            var eventos = taiminDatabase.taiminDAO.getEventosList()
+
             pantallas?.forEach { pantalla ->
                 usuario.buscar(pantalla.getTitulo()).first().setId(pantalla.getId()) }
             proyectos?.forEach { proyecto ->
@@ -72,43 +58,12 @@ class TaiminApplication: Application() {
                 usuario.buscar(subtarea.getContenedor()!!.getId())!!.addContenido(subtarea)
                 usuario.addElemento(subtarea)
             }
-        }
-        /*
-        executor.execute {
-            proyectosDB = taiminDatabase.taiminDAO.getProyectos()
-            countMas()
-        }
-         */
-        /*
-        executor.execute { listasDB = taiminDatabase.taiminDAO.getListas() }
-        executor.execute { tareasDB = taiminDatabase.taiminDAO.getTareas() }
-        executor.execute { subtareasDB = taiminDatabase.taiminDAO.getSubtareas() }
-        */
-
-        count.observeForever{ num ->
-            if (num==5){
-                pantallasDB.forEach { pantalla ->
-                    usuario.buscar(pantalla.getTitulo()).first().setId(pantalla.getId()) }
-                proyectosDB.value?.forEach { proyecto ->
-                    usuario.buscar(proyecto.getContenedor()!!.getId())!!.addContenido(proyecto) }
-                listasDB.value?.forEach { lista ->
-                    usuario.buscar(lista.getContenedor()!!.getId())!!.addContenido(lista) }
-                tareasDB.value?.forEach { tarea ->
-                    usuario.buscar(tarea.getContenedor()!!.getId())!!.addContenido(tarea) }
-                subtareasDB.value?.forEach { subtarea ->
-                    usuario.buscar(subtarea.getContenedor()!!.getId())!!.addContenido(subtarea) }
+            eventos?.forEach { evento ->
+                usuario.addEvento(evento)
+                evento.evento.color = (usuario.buscar(evento.idElemento) as ElementoCreable).getColor()
+                        ?: R.color.color11
             }
         }
-        /*
-        elementosDB.observeForever { elementos ->
-            elementos?.forEach { elem ->
-                if (elem.getContenedor() != null) {
-                    usuario.buscar(elem.getContenedor()!!.getId())!!.addContenido(elem)
-                }
-                usuario.addElemento(elem)
-            }
-        }
-         */
 
     }
 }

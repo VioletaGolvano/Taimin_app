@@ -112,14 +112,14 @@ class AddElemento : Fragment() {
         colorPicker.show()
         colorPicker.setOnChooseColorListener(object : OnChooseColorListener {
             override fun onChooseColor(position: Int, color: Int) {
-                val botonHora = view?.findViewById(R.id.color) as Button
-                botonHora.setBackgroundColor(color)
+                binding.color.setBackgroundColor(color)
                 elemento.setColor(color)
             }
 
             override fun onCancel() {
-                val botonHora = view?.findViewById(R.id.color) as Button
-                botonHora.setBackgroundColor(resources.getColor(R.color.blue))
+                val botonColor = view?.findViewById(R.id.color) as Button
+                elemento.setColor(resources.getColor(R.color.color11))
+                botonColor.setBackgroundColor(resources.getColor(R.color.color11))
             }
         })
     }
@@ -245,6 +245,10 @@ class AddElemento : Fragment() {
         binding.greyPriority.setOnClickListener(listenerPrioridadGris)
 
         binding.folder.setOnClickListener(listenerContenedor)
+        if (elemento.getColor()==null)
+            elemento.setColor(resources.getColor(R.color.color11))
+
+        binding.color.setBackgroundColor(elemento.getColor()!!)
 
 
         return binding.root

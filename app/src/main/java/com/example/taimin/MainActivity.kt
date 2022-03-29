@@ -7,14 +7,12 @@ import android.view.MotionEvent
 import android.view.View.*
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.taimin.clases.Usuario
 import com.example.taimin.fragmentos.*
 import com.google.android.material.navigation.NavigationBarView
 import com.example.taimin.clases.elementos.*
-import com.example.taimin.database.ElementosListViewModel
 import com.example.taimin.database.TaiminDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.Executors
@@ -27,9 +25,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     var x1:Float = 0.0f
     var usuario: Usuario? = null
     private val executor = Executors.newSingleThreadExecutor()
-    private val elementosListViewModel by lazy {
-        ViewModelProvider(this).get(ElementosListViewModel::class.java)
-    }
     companion object{
         const val MIN_DISTANCE = 150
     }
@@ -129,18 +124,24 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 ae.aceptar()
                 executor.execute{
                     when(ae.elemento){
-                        is Tarea -> TaiminDatabase.getInstance(this.application).taiminDAO.addTarea(
-                            ae.elemento as Tarea
-                        )
-                        is Lista -> TaiminDatabase.getInstance(this.application).taiminDAO.addLista(
-                            ae.elemento as Lista
-                        )
-                        is Proyecto -> TaiminDatabase.getInstance(this.application).taiminDAO.addProyecto(
-                            ae.elemento as Proyecto
-                        )
+                        is Tarea -> TaiminDatabase.getInstance(this.application).taiminDAO.addTarea(ae.elemento as Tarea)
+                        is Lista -> TaiminDatabase.getInstance(this.application).taiminDAO.addLista(ae.elemento as Lista)
+                        is Proyecto -> TaiminDatabase.getInstance(this.application).taiminDAO.addProyecto(ae.elemento as Proyecto)
                     }
                 }
-                ae.elemento
+                if (ae.elemento.getColor() != ae.elementoCancelar.getColor()){
+                    usuario?.getEventos()?.filter { evento ->
+                        if (evento.idElemento == ae.elemento.getId()){
+                            evento.evento.color = ae.elemento.getColor()!!
+                            true
+                        } else false
+                    }
+                }
+                executor.execute{
+                    usuario!!.getEventos().forEach {
+                        TaiminDatabase.getInstance(this.application).taiminDAO.addEvento(it)
+                    }
+                }
                 Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
                 true
             }

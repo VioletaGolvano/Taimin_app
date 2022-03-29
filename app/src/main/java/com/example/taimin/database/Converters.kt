@@ -10,6 +10,7 @@ import me.jlurena.revolvingweekview.WeekViewEvent
 import java.time.*
 import java.util.*
 import com.google.gson.reflect.TypeToken
+import org.threeten.bp.DayOfWeek
 import java.lang.reflect.Type
 
 
@@ -63,8 +64,11 @@ class Converters {
         var retVal: String?
         //WeekViewEvent(id.toString(), name, diaSemana.toString(), DayTime(diaSemana, horaInicio), DayTime(diaSemana, horaFinal), allDay)
         if (weekViewEvent==null) return ""
-        retVal = weekViewEvent.identifier+"|"+weekViewEvent.name+"|"+weekViewEvent.location+"|"+weekViewEvent.startTime+"|"+
-                weekViewEvent.endTime+"|"+weekViewEvent.isAllDay
+        retVal = weekViewEvent.identifier+"|"+weekViewEvent.name+"|"+weekViewEvent.location+"|"+
+                weekViewEvent.startTime.hour+"|"+weekViewEvent.startTime.minute+"|"+
+                weekViewEvent.endTime.hour+"|"+weekViewEvent.endTime.minute+"|"+
+                weekViewEvent.isAllDay
+
 
         return retVal
     }
@@ -73,7 +77,13 @@ class Converters {
     fun stringToWeekViewEvent(value: String): WeekViewEvent? {
         if(value.isEmpty()) return null
         val arr = value.split("|").toTypedArray()
-        return WeekViewEvent(arr[0], arr[1], arr[2], arr[3] as DayTime, arr[4] as DayTime, arr[5] as Boolean)
+
+        var ini = DayTime(DayOfWeek.valueOf(arr[2]),
+            org.threeten.bp.LocalTime.of(arr[3].toInt(),arr[4].toInt()))
+        var fin = DayTime(DayOfWeek.valueOf(arr[2]),
+            org.threeten.bp.LocalTime.of(arr[5].toInt(),arr[6].toInt()))
+
+        return WeekViewEvent(arr[0], arr[1], arr[2], ini, fin, arr[7].toBoolean())
     }
 
     @TypeConverter

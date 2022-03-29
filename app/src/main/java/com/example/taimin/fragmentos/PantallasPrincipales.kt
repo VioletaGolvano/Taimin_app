@@ -1,37 +1,19 @@
 package com.example.taimin.fragmentos
 
-import android.accounts.AccountManager.get
-import android.app.Application
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.view.ViewConfiguration.get
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.core.widget.ImageViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewTreeViewModelStoreOwner.get
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.TaiminApplication
-import com.example.taimin.database.ElementosListViewModel
 import com.example.taimin.databinding.FragmentPantallasPrincipalesBinding
-import kotlinx.android.synthetic.main.fragment_add_elemento.view.*
-import kotlinx.android.synthetic.main.fragment_pantallas_principales.*
 
 class PantallasPrincipales : Fragment() {
     lateinit var binding: FragmentPantallasPrincipalesBinding
     private lateinit var adapter: PantallasAdapter
-    private val elementosListViewModel by lazy {
-        ViewModelProvider(this).get(ElementosListViewModel::class.java)
-    }
     companion object {
         fun newInstance(): PantallasPrincipales = PantallasPrincipales()
     }

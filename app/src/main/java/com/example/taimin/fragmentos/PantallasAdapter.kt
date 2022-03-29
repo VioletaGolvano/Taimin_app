@@ -12,7 +12,9 @@ import com.example.taimin.R
 import com.example.taimin.clases.Prioridad
 import com.example.taimin.clases.elementos.Elemento
 import com.example.taimin.clases.elementos.ElementoCreable
+import com.example.taimin.database.TaiminDatabase
 import java.lang.Exception
+import java.util.concurrent.Executors
 
 class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>() {
     /*
@@ -64,6 +66,9 @@ class PantallasAdapter : RecyclerView.Adapter<PantallasAdapter.PantallasHolder>(
                     itemView.alpha = 1F
                 }else{
                     elemento.completado()
+                }
+                Executors.newSingleThreadExecutor().execute {
+                    TaiminDatabase.getInstance(context = this.itemView.context).taiminDAO.addElemento(elemento)
                 }
                 notifyDataSetChanged()
             }

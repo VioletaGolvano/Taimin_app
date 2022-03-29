@@ -34,6 +34,15 @@ interface TaiminDAO {
     @Insert
     fun addUsuario(usuario: Usuario)
 
+    fun addElemento(elemento: Elemento){
+        when(elemento){
+            is Proyecto -> addProyecto(elemento)
+            is Lista -> addLista(elemento)
+            is Tarea -> addTarea(elemento)
+            is Subtarea -> addSubtarea(elemento)
+        }
+    }
+
     @Insert
     fun addPantalla(pantalla: Pantalla)
     @Insert(onConflict = REPLACE)

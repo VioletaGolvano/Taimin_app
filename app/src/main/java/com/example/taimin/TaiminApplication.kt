@@ -10,7 +10,6 @@ import com.example.taimin.clases.elementos.*
 class TaiminApplication: Application() {
     private val executor = Executors.newSingleThreadExecutor()
     lateinit var usuario: Usuario
-    lateinit var mainActivity: MainActivity
 
     init {
         usuario = Usuario("mail","pass")
@@ -61,7 +60,7 @@ class TaiminApplication: Application() {
             eventos?.forEach { evento ->
                 usuario.addEvento(evento)
                 evento.evento.color = (usuario.buscar(evento.idElemento) as ElementoCreable).getColor()
-                        ?: R.color.color11
+                        ?: resources.getColor(R.color.color11)
             }
         }
 

@@ -116,6 +116,7 @@
                         android:layout_alignParentRight='true'
                         android:layout_centerVertical='true'
                         android:layout_toRightOf='@id/icono_contenedor'
+                        android:textAlignment='center'
                         android:text='@{elemento.contenedor.titulo}' />
                 </RelativeLayout>
                 <!-- Hora inicio y fin -->
@@ -145,13 +146,15 @@
                             android:layout_width='wrap_content'
                             android:layout_height='wrap_content'
                             android:layout_alignParentRight='true'
-                            android:layout_centerHorizontal='true' />
+                            android:textAlignment='center' />
+
                         <TextView
                             android:id='@+id/hora_fin'
                             android:layout_width='wrap_content'
                             android:layout_height='wrap_content'
                             android:layout_below='@id/hora_ini'
-                            android:layout_alignParentRight='true' />
+                            android:layout_alignParentRight='true'
+                            android:textAlignment='center' />
                     </RelativeLayout>
                 </RelativeLayout>
                 <!-- Fecha -->
@@ -176,17 +179,19 @@
 
                         <TextView
                             android:id='@+id/fecha_ini'
-                            android:layout_width='wrap_content'
+                            android:layout_width='fill_parent'
                             android:layout_height='wrap_content'
                             android:layout_alignParentRight='true'
                             android:layout_centerHorizontal='true'
+                            android:textAlignment='center'
                             android:text='@{elemento.fechaIni ?? ""}' />
 
                         <TextView
                             android:id='@+id/fecha_fin'
-                            android:layout_width='wrap_content'
+                            android:layout_width='fill_parent'
                             android:layout_height='wrap_content'
                             android:layout_below='@id/fecha_ini'
+                            android:textAlignment='center'
                             android:layout_alignParentRight='true'
                             android:text='""' />
                     </RelativeLayout>

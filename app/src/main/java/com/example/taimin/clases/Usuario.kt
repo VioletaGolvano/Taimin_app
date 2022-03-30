@@ -32,7 +32,8 @@ class Usuario(
     init {
         val pantallas = listOf<Pantalla>(
             Pantalla("Daily", this), Pantalla("Default", this),
-            Pantalla("ToDo",this), Pantalla("Archived",this), Pantalla("Completed",this)
+            Pantalla("ToDo",this), Pantalla("Archived",this),
+            Pantalla("Completed",this)
         )
         pantallasElementos.addAll(pantallas)
         elementos.addAll(pantallas)

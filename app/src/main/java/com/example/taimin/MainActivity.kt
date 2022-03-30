@@ -152,11 +152,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        try {
-            (this.application as TaiminApplication).mainActivity = this
-        }catch (e: java.lang.Exception){
-            usuario = (this.application as TaiminApplication).usuario
-        }
 
         setContentView(R.layout.activity_main)
 

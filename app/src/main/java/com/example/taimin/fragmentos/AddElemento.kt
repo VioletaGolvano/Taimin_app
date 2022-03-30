@@ -245,10 +245,16 @@ class AddElemento : Fragment() {
         binding.greyPriority.setOnClickListener(listenerPrioridadGris)
 
         binding.folder.setOnClickListener(listenerContenedor)
-        if (elemento.getColor()==null)
-            elemento.setColor(resources.getColor(R.color.color11))
 
-        binding.color.setBackgroundColor(elemento.getColor()!!)
+        binding.color.setBackgroundColor(elemento.getColor()?:resources.getColor(R.color.color11))
+
+        binding.textoFecha.text = elemento.getFechaFin()?.format(DateTimeFormatter.ofPattern("EEE, dd LLL"))
+        if (elemento is Tarea){
+            binding.textoHoraInicio.text = (elemento as Tarea).getHoraIni()?.format(DateTimeFormatter.ofPattern("hh:mm"))
+            binding.textoHoraFinal.text = (elemento as Tarea).getHoraFin()?.format(DateTimeFormatter.ofPattern("hh:mm"))
+        }
+
+        binding.seleccionRepeticiones.text = elemento.getRepeticion()?.toString() ?: ""
 
 
         return binding.root
@@ -260,6 +266,8 @@ class AddElemento : Fragment() {
     fun aceptar() {
         elemento.setTitulo(binding.titulo.text.toString())
         elemento.setDescripcion(binding.description.text.toString())
+        if (elemento.getColor()==null)
+            elemento.setColor(resources.getColor(R.color.color11))
         elemento.aceptar()
         elementoCancelar.eliminar()
     }

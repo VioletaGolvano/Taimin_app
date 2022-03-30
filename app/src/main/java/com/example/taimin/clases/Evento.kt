@@ -34,9 +34,4 @@ open class Evento {
     public fun setEvento(idElemento: UUID, name: String, fecha: LocalDate){
         this.setEvento(idElemento, name, fecha, LocalTime.of(9,0), LocalTime.of(10,0), true)
     }
-
-    @JvmName("getEvento1")
-    public fun getEvento(): WeekViewEvent{
-        return evento
-    }
 }

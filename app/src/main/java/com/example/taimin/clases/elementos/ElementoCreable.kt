@@ -145,6 +145,9 @@ abstract class ElementoCreable(IDClase: Int, usuario: Usuario?) : Elemento(IDCla
         if (this.fechaFin!=null){
             addEvento()
         }
+        if (this.repeticion!=null && fechaFin==null){
+            setRepeticion(null)
+        }
         return super.aceptar()
     }
 

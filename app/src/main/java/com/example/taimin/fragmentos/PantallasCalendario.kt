@@ -45,7 +45,8 @@ class PantallasCalendario : Fragment() {
         eventosUsuario = (activity as MainActivity).usuario!!.getEventos()
         elementosRepetidos = (activity as MainActivity).usuario?.elementos?.filter { elemento ->
             when(elemento.getIDClase()){
-                1, 2, 3 -> (elemento as ElementoCreable).getRepeticion()!=null && !elemento.isCompleted()
+                1, 2, 3 -> (elemento as ElementoCreable).getRepeticion()!=null && !elemento.isCompleted() &&
+                        elemento.getContenedor()!=(activity as MainActivity).usuario!!.getArchived()
                 else -> false
             }
         } ?: emptyList()

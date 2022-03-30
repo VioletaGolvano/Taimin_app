@@ -42,18 +42,22 @@ class TaiminApplication: Application() {
             pantallas?.forEach { pantalla ->
                 usuario.buscar(pantalla.getTitulo()).first().setId(pantalla.getId()) }
             proyectos?.forEach { proyecto ->
+                proyecto.setUsuario(usuario)
                 usuario.buscar(proyecto.getContenedor()!!.getId())!!.addContenido(proyecto)
                 usuario.addElemento(proyecto)
             }
             listas?.forEach { lista ->
+                lista.setUsuario(usuario)
                 usuario.buscar(lista.getContenedor()!!.getId())!!.addContenido(lista)
                 usuario.addElemento(lista)
             }
             tareas?.forEach { tarea ->
+                tarea.setUsuario(usuario)
                 usuario.buscar(tarea.getContenedor()!!.getId())!!.addContenido(tarea)
                 usuario.addElemento(tarea)
             }
             subtareas?.forEach { subtarea ->
+                subtarea.setUsuario(usuario)
                 usuario.buscar(subtarea.getContenedor()!!.getId())!!.addContenido(subtarea)
                 usuario.addElemento(subtarea)
             }

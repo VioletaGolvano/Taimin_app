@@ -22,6 +22,7 @@ import java.util.concurrent.Executors
 class VerElemento : Fragment() {
     lateinit var binding: FragmentVerElementoBinding
     lateinit var elemento: ElementoCreable
+    private lateinit var adapter: ContenidosAdapter
     companion object {
         fun newInstance(): VerElemento = VerElemento()
     }
@@ -58,6 +59,11 @@ class VerElemento : Fragment() {
                 binding.horaFin.text = (elemento as Tarea).getHoraFin()?.format(DateTimeFormatter.ofPattern("hh:mm"))
             }
                 //textoHoraFin.text = date.format(DateTimeFormatter.ofPattern("hh:mm"))
+
+            adapter = ContenidosAdapter()
+
+            adapter.data = elemento.contenidos?: emptyList()
+            binding.listaContenidos?.adapter = adapter
 
             binding.back.setOnClickListener {
                 Navigation.findNavController(it).navigateUp()

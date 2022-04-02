@@ -62,9 +62,14 @@ class TaiminApplication: Application() {
                 usuario.addElemento(subtarea)
             }
             eventos?.forEach { evento ->
-                usuario.addEvento(evento)
-                evento.evento.color = (usuario.buscar(evento.idElemento) as ElementoCreable).getColor()
+                var elemento = usuario.buscar(evento.idElemento)
+                if (elemento != null){
+                    usuario.addEvento(evento)
+                    evento.evento.color = (elemento as ElementoCreable).getColor()
                         ?: resources.getColor(R.color.color11)
+                }else{
+                    taiminDatabase.taiminDAO.delEvento(evento)
+                }
             }
         }
 

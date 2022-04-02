@@ -26,6 +26,8 @@
     <string name="this_week">Esta semana</string>
     <string name="this_month">Este mes</string>
 
+    <string name="delElement">Se va a eliminar este elemento. Por favor, confirme esta acción.</string>
+    <string name="of">%d de %d</string>
 
 
 </resources>

@@ -1,6 +1,8 @@
 package com.example.taimin.fragmentos
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,12 @@ import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.clases.Prioridad
+import com.example.taimin.clases.elementos.Elemento
 import com.example.taimin.databinding.FragmentVerElementoBinding
 import com.example.taimin.clases.elementos.ElementoCreable
 import com.example.taimin.clases.elementos.Tarea
 import com.example.taimin.database.TaiminDatabase
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.Executors
@@ -46,6 +50,8 @@ class VerElemento : Fragment() {
             binding.edit.setOnClickListener{
                 Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoToAddElemento(elemento.getId().toString(), elemento.getIDClase()))
             }
+            binding.descripcion.text = elemento.getDescripcion() ?: ""
+            binding.descripcion.movementMethod = ScrollingMovementMethod()
             binding.prioridad.setImageDrawable(when (elemento.getPrioridad()){
                 Prioridad.ALTA -> resources.getDrawable(R.drawable.ic_baseline_warning_red_24, activity?.theme)
                 Prioridad.MEDIA -> resources.getDrawable(R.drawable.ic_baseline_warning_amber_24, activity?.theme)
@@ -62,23 +68,61 @@ class VerElemento : Fragment() {
 
             adapter = ContenidosAdapter()
 
-            adapter.data = elemento.contenidos?: emptyList()
+            ordenar()
+
             binding.listaContenidos?.adapter = adapter
 
             binding.back.setOnClickListener {
                 Navigation.findNavController(it).navigateUp()
             }
             binding.delete.setOnClickListener {
-                elemento.eliminar()
-                Executors.newSingleThreadExecutor().execute {
-                    context?.let { it1 -> TaiminDatabase.getInstance(context = it1).taiminDAO.delElemento(elemento) }
+                val alerta = AlertDialog.Builder(activity)
+                alerta.setTitle(R.string.contenedor)
+                alerta.setMessage(R.string.delElement)
+
+                alerta.setPositiveButton(R.string.accept) { _, _ ->
+                    // BORRAR
+                    eliminarContenidos(elemento)
+                    Navigation.findNavController(it).navigateUp()
                 }
-                Navigation.findNavController(it).navigateUp()
+                alerta.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                alerta.show()
             }
 
 
         }
         return binding.root
+    }
+    private fun eliminarContenidos(elemento: Elemento){
+        elemento.contenidos.forEach { eliminarContenidos(it) }
+        elemento.eliminar()
+        val eventos = (activity as MainActivity).usuario!!.getEventos(elemento)
+        if (eventos.isNotEmpty()){
+            Executors.newSingleThreadExecutor().execute {
+                context?.let { it1 ->
+                    eventos.forEach {
+                        TaiminDatabase.getInstance(context = it1).taiminDAO.delEvento(it) }
+                }
+            }
+        }
+        (activity as MainActivity).usuario!!.delEvento(elemento)
+
+        Executors.newSingleThreadExecutor().execute {
+            context?.let { it1 -> TaiminDatabase.getInstance(context = it1).taiminDAO.delElemento(elemento) }
+        }
+    }
+    fun ordenar(){
+        if (elemento is Tarea){
+            adapter.data = elemento.contenidos?: emptyList()
+        } else {
+            val comparator = compareBy<Elemento> { it.isCompleted() }
+                .thenComparing(compareBy<Elemento, LocalDate?>(nullsLast(), { (it as ElementoCreable).getFechaFin()})
+                    .thenByDescending { (it as ElementoCreable).getPrioridad().ordinal }
+                    .thenBy {(it as ElementoCreable).getProgreso()})
+
+            adapter.data = if (binding.elemento==null) emptyList()
+            else binding.elemento!!.contenidos.sortedWith(comparator)
+        }
     }
 
 }

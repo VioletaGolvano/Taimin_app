@@ -48,7 +48,6 @@ class ContenidosAdapter : RecyclerView.Adapter<ContenidosAdapter.ContenidosHolde
                 })
 
             itemView.setOnClickListener {
-                //
                 Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoSelf(elemento.getId().toString()))
             }
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.TaiminApplication
@@ -245,6 +246,7 @@ class AddElemento : Fragment() {
         binding.greyPriority.setOnClickListener(listenerPrioridadGris)
 
         binding.folder.setOnClickListener(listenerContenedor)
+        binding.copia.setOnClickListener { copiar() }
 
         binding.color.setBackgroundColor(elemento.getColor()?:resources.getColor(R.color.color11))
 
@@ -275,6 +277,15 @@ class AddElemento : Fragment() {
     fun cancelar() {
         elementoCancelar.duplicar(elemento)
         elementoCancelar.eliminar()
+    }
+
+    private fun copiar(){
+        aceptar()
+        var copia = elemento.duplicar()
+        copia.setTitulo(copia.getTitulo()+"*")
+        (activity as MainActivity).usuario!!.addElemento(copia)
+        Navigation.findNavController((activity as MainActivity), R.id.nav_host_fragment).navigate(
+            AddElementoDirections.actionAddElementoSelf(copia.getId().toString(), elemento.getIDClase()))
     }
 
     /* https://www.youtube.com/watch?v=4EKlAvjY74U - 4:40 (Attach file)

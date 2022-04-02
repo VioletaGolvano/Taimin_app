@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment
 import com.example.taimin.MainActivity
 import com.example.taimin.R
 import com.example.taimin.TaiminApplication
+import com.example.taimin.clases.Prioridad
+import com.example.taimin.clases.elementos.*
 import com.example.taimin.databinding.FragmentPantallasPrincipalesBinding
+import java.time.LocalDate
 
 class PantallasPrincipales : Fragment() {
     lateinit var binding: FragmentPantallasPrincipalesBinding
@@ -38,19 +41,13 @@ class PantallasPrincipales : Fragment() {
         binding.segundaPantalla.setOnClickListener(listenerDefault)
         binding.terceraPantalla.setOnClickListener(listenerToDo)
 
+        val comparator = compareBy<Elemento> { it.isCompleted() }
+            .thenComparing(compareBy<Elemento, LocalDate?>(nullsLast(), { (it as ElementoCreable).getFechaFin()})
+            .thenByDescending { (it as ElementoCreable).getPrioridad().ordinal }
+            .thenBy {(it as ElementoCreable).getProgreso()})
+
         adapter.data = if (binding.pantalla==null) emptyList()
-            else binding.pantalla!!.contenidos
-
-
-        // fecha límite
-        // prioridad
-        // progreso
-        //binding.pantalla!!.contenidos
-            /*.sortedWith(compareBy({
-            (it as ElementoCreable).getFechaFin() }, {
-            (it as ElementoCreable).getPrioridad() }, {
-            (it as ElementoCreable).getProgreso() }))
-             */
+            else binding.pantalla!!.contenidos.sortedWith(comparator)
 
         binding.listaElementos?.adapter = adapter
     }

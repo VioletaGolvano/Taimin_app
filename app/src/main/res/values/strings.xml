@@ -26,5 +26,8 @@
     <string name="this_week">This week</string>
     <string name="this_month">This month</string>
 
+    <string name="delElement">This item will be deleted. Please confirm this action.</string>
+    <string name="of">%d of %d</string>
+
 
 </resources>

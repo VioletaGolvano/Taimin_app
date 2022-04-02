@@ -58,16 +58,19 @@
             android:layout_width='match_parent'
             android:layout_height='wrap_content'
             android:layout_below='@id/ini'>
+
             <TextView
                 android:id='@+id/descripcion'
                 android:layout_width='fill_parent'
-                android:layout_height='wrap_content'
-                android:layout_marginBottom='@dimen/space_size'
-                android:layout_toLeftOf='@id/prioridad'
+                android:layout_height='100dp'
                 android:layout_centerHorizontal='true'
+                android:layout_marginBottom='@dimen/space_size'
+                android:textSize="8pt"
+                android:layout_toLeftOf='@id/prioridad'
+                android:maxLines='5'
+                android:scrollbars="vertical"
                 android:text='@{elemento.descripcion ?? ""}'
-                android:textAlignment='textStart'
-                android:maxLines='4'/>
+                android:textAlignment='textStart' />
 
             <ImageView
                 android:id='@+id/prioridad'
@@ -85,12 +88,13 @@
         <RelativeLayout
             android:id='@+id/contenidosInfo'
             android:layout_width='wrap_content'
-            android:layout_height='230dp'
+            android:layout_height='fill_parent'
+            android:layout_above="@id/opciones_final"
             android:layout_below='@id/descPrio'>
 
             <RelativeLayout
                 android:layout_width='fill_parent'
-                android:layout_height='wrap_content'
+                android:layout_height='fill_parent'
                 android:layout_toLeftOf="@id/infoDcha">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -104,7 +108,8 @@
                 android:id="@+id/infoDcha"
                 android:layout_width='wrap_content'
                 android:layout_height='wrap_content'
-                android:layout_alignParentRight='true'>
+                android:layout_alignParentRight='true'
+                android:layout_marginStart="@dimen/space_size">
                 <!-- Contenedor -->
                 <RelativeLayout
                     android:id='@+id/container'

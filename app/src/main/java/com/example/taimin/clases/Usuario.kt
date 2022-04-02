@@ -123,6 +123,12 @@ class Usuario(
     fun getEventos(): List<Evento>{
         return eventos
     }
+    fun delEvento(elemento: Elemento){
+        eventos.removeAll(eventos.filter { evento -> evento.idElemento == elemento.getId() })
+    }
+    fun getEventos(elemento: Elemento): List<Evento>{
+        return eventos.filter { evento -> evento.idElemento == elemento.getId() }
+    }
 
     /**
      * Devuelve todos los Elementos que pueden contener el Elemento pasado por argumento

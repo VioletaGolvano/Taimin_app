@@ -1,6 +1,7 @@
 package com.example.taimin.clases.elementos
 
 import androidx.room.*
+import com.example.taimin.clases.Prioridad
 import java.util.*
 import com.example.taimin.clases.Usuario
 import org.jetbrains.annotations.Nullable
@@ -89,6 +90,10 @@ abstract class Elemento (
         if (elemento.contenedor!=null){
             elemento.getContenedor()!!.delContenido(elemento,true)
         }
+        this.recalcularProgreso()
+        if (elemento is ElementoCreable && this is ElementoCreable && elemento.getPrioridad()>this.getPrioridad()){
+            this.setPrioridad(elemento.getPrioridad())
+        }
         elemento.setContenedor(this)
     }
 
@@ -128,8 +133,9 @@ abstract class Elemento (
      * @return si se ha añadido correctamente
      */
     open fun aceptar(): Boolean {
-        if (this.getTitulo().isEmpty()){
+        if (this.getTitulo().isEmpty() || this.getTitulo() == ""){
             this.eliminar()
+            return false
         }
         if (this.contenedor==null){
             getUsuario().getDefault().addContenido(this)

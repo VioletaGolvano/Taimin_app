@@ -98,28 +98,35 @@ class PantallasCalendario : Fragment() {
                     var inicio = DayTime(diaSemana, ini.hour, ini.minute)
                     var final = DayTime(diaSemana, fin.hour, fin.minute)
                     ev = WeekViewEvent(elemento.getId().toString(),elemento.getTitulo(), diaSemana.toString(), inicio, final, allDay)
+                    ev.color = elemento.getColor()!!
                     eventosSemana.add(ev)
                 }
                 Repeticion.MONTHLY -> {
-                    var fecha = LocalDate.of(momentoSeleccionado.year, momentoSeleccionado.month, elemento.getFechaFin()!!.dayOfMonth)
-                    diaSemana = DayOfWeek.valueOf(fecha.dayOfWeek.toString())
-                    if ((lunes < fecha) && (fecha!! <= lunes.plusDays((7).toLong()))){
-                        var inicio = DayTime(diaSemana, ini.hour, ini.minute)
-                        var final = DayTime(diaSemana, fin.hour, fin.minute)
-                        ev = WeekViewEvent(elemento.getId().toString(),elemento.getTitulo(), diaSemana.toString(), inicio, final, allDay)
-                        ev.color = elemento.getColor()!!
-                        eventosSemana.add(ev)
+                    var mes = LocalDate.of(momentoSeleccionado.year, momentoSeleccionado.month, 1)
+                    if (elemento.getFechaFin()!!.dayOfMonth<mes.lengthOfMonth()){
+                        var fecha = LocalDate.of(momentoSeleccionado.year, momentoSeleccionado.month, elemento.getFechaFin()!!.dayOfMonth)
+                        diaSemana = DayOfWeek.valueOf(fecha.dayOfWeek.toString())
+                        if ((lunes < fecha) && (fecha!! <= lunes.plusDays((7).toLong()))){
+                            var inicio = DayTime(diaSemana, ini.hour, ini.minute)
+                            var final = DayTime(diaSemana, fin.hour, fin.minute)
+                            ev = WeekViewEvent(elemento.getId().toString(),elemento.getTitulo(), diaSemana.toString(), inicio, final, allDay)
+                            ev.color = elemento.getColor()!!
+                            eventosSemana.add(ev)
+                        }
                     }
                 }
                 Repeticion.YEARLY -> {
-                    var fecha = LocalDate.of(momentoSeleccionado.year, elemento.getFechaFin()!!.month, elemento.getFechaFin()!!.dayOfMonth)
-                    diaSemana = DayOfWeek.valueOf(fecha.dayOfWeek.toString())
-                    if ((lunes < fecha) && (fecha!! <= lunes.plusDays((7).toLong()))){
-                        var inicio = DayTime(diaSemana, ini.hour, ini.minute)
-                        var final = DayTime(diaSemana, fin.hour, fin.minute)
-                        ev = WeekViewEvent(elemento.getId().toString(),elemento.getTitulo(), diaSemana.toString(), inicio, final, allDay)
-                        ev.color = elemento.getColor()!!
-                        eventosSemana.add(ev)
+                    var mes = LocalDate.of(momentoSeleccionado.year, momentoSeleccionado.month, 1)
+                    if (elemento.getFechaFin()!!.dayOfMonth>mes.lengthOfMonth()){
+                        var fecha = LocalDate.of(momentoSeleccionado.year, elemento.getFechaFin()!!.month, elemento.getFechaFin()!!.dayOfMonth)
+                        diaSemana = DayOfWeek.valueOf(fecha.dayOfWeek.toString())
+                        if ((lunes < fecha) && (fecha!! <= lunes.plusDays((7).toLong()))){
+                            var inicio = DayTime(diaSemana, ini.hour, ini.minute)
+                            var final = DayTime(diaSemana, fin.hour, fin.minute)
+                            ev = WeekViewEvent(elemento.getId().toString(),elemento.getTitulo(), diaSemana.toString(), inicio, final, allDay)
+                            ev.color = elemento.getColor()!!
+                            eventosSemana.add(ev)
+                        }
                     }
                 }
             }

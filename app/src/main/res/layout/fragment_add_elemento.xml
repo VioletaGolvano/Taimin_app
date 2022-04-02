@@ -269,7 +269,7 @@
             android:id='@+id/seleccion_recordatorio'
             android:layout_width='fill_parent'
             android:layout_height='wrap_content'
-            android:layout_toRightOf='@id/icono_recor'
+            android:layout_toEndOf='@id/icono_recor'
             android:background='@android:drawable/editbox_background'
             android:drawableEnd='@android:drawable/arrow_down_float'
             android:drawablePadding='16dp'
@@ -298,7 +298,7 @@
             android:id='@+id/seleccion_repeticiones'
             android:layout_width='fill_parent'
             android:layout_height='wrap_content'
-            android:layout_toRightOf='@id/icono_reps'
+            android:layout_toEndOf='@id/icono_reps'
             android:background='@android:drawable/editbox_background'
             android:drawableEnd='@android:drawable/arrow_down_float'
             android:drawablePadding='16dp'
@@ -320,11 +320,10 @@
             android:id='@+id/adjunto'
             android:layout_width='wrap_content'
             android:layout_height='wrap_content'
-            android:layout_toLeftOf='@id/copia'
+            android:layout_toStartOf='@id/copia'
             android:backgroundTint='@color/light_purple'
             android:minWidth='0dp'
             app:icon='@drawable/ic_baseline_attach_24'
-
             app:iconPadding='0dp'
             android:layout_marginEnd='@dimen/icon_size'
             android:layout_marginStart='@dimen/icon_size'/>
@@ -334,19 +333,19 @@
             android:id='@+id/copia'
             android:layout_width='wrap_content'
             android:layout_height='wrap_content'
-            android:layout_centerInParent='true'
+            android:layout_centerInParent="true"
+            android:layout_marginStart='@dimen/icon_size'
+            android:layout_marginEnd='@dimen/icon_size'
             android:backgroundTint='@color/light_purple'
             android:minWidth='0dp'
             app:icon='@drawable/ic_baseline_copy_24'
-            app:iconPadding='0dp'
-            android:layout_marginEnd='@dimen/icon_size'
-            android:layout_marginStart='@dimen/icon_size'/>
+            app:iconPadding='0dp' />
 
         <com.google.android.material.button.MaterialButton
             android:id='@+id/participantes'
             android:layout_width='wrap_content'
             android:layout_height='wrap_content'
-            android:layout_toRightOf='@id/copia'
+            android:layout_toEndOf='@id/copia'
             android:backgroundTint='@color/light_purple'
             android:minWidth='0dp'
             app:icon='@drawable/ic_baseline_add_person_24'

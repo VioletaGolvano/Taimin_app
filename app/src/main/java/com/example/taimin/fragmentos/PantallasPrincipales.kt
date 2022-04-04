@@ -49,7 +49,7 @@ class PantallasPrincipales : Fragment() {
         adapter.data = if (binding.pantalla==null) emptyList()
             else binding.pantalla!!.contenidos.sortedWith(comparator)
 
-        binding.listaElementos?.adapter = adapter
+        binding.listaElementos.adapter = adapter
     }
 
     public fun defaultpp(){

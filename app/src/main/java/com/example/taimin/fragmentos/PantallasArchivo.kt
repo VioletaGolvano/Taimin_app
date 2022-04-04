@@ -10,7 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.taimin.MainActivity
 import com.example.taimin.R
+import com.example.taimin.clases.elementos.Elemento
+import com.example.taimin.clases.elementos.ElementoCreable
 import com.example.taimin.databinding.FragmentPantallasArchivoBinding
+import java.time.LocalDate
 
 class PantallasArchivo : Fragment() {
     lateinit var binding: FragmentPantallasArchivoBinding
@@ -33,19 +36,25 @@ class PantallasArchivo : Fragment() {
     public fun archived(){
         binding.pantalla = (activity as MainActivity).usuario!!.getArchived()
         // Colores botones de cambio pantallas
-        (binding.archivedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
-        (binding.completedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
+        binding.archivedPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
+        binding.completedPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
 
         adapter = PantallasAdapter()
+        val comparator = compareBy<Elemento> { it.isCompleted() }
+            .thenComparing(compareBy<Elemento, LocalDate?>(nullsLast(), { (it as ElementoCreable).getFechaFin()})
+                .thenByDescending { (it as ElementoCreable).getPrioridad().ordinal }
+                .thenBy {(it as ElementoCreable).getProgreso()})
 
-        adapter.data = binding.pantalla!!.contenidos
-        binding.listaElementos?.adapter = adapter
+        adapter.data = if (binding.pantalla==null) emptyList()
+        else binding.pantalla!!.contenidos.sortedWith(comparator)
+
+        binding.listaElementos.adapter = adapter
     }
     public fun completed(){
         binding.pantalla = (activity as MainActivity).usuario!!.getCompleted()
         // Colores botones de cambio pantallas
-        (binding.archivedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
-        (binding.completedPantalla as ImageView).setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
+        binding.archivedPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN)
+        binding.completedPantalla.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
 
         adapter = PantallasAdapter()
 

@@ -46,7 +46,7 @@ class VerElemento : Fragment() {
             binding.elemento = elemento
             elemento.getColor().let { it?.let { it1 -> binding.titulo.setBackgroundColor(it1) } }
             binding.verRepeticiones.text = elemento.getRepeticion()
-                ?.let { getString(it?.resource()) }
+                ?.let { getString(it.resource()) }
             binding.edit.setOnClickListener{
                 Navigation.findNavController(it).navigate(VerElementoDirections.actionVerElementoToAddElemento(elemento.getId().toString(), elemento.getIDClase()))
             }
@@ -70,7 +70,7 @@ class VerElemento : Fragment() {
 
             ordenar()
 
-            binding.listaContenidos?.adapter = adapter
+            binding.listaContenidos.adapter = adapter
 
             binding.back.setOnClickListener {
                 Navigation.findNavController(it).navigateUp()
@@ -113,7 +113,7 @@ class VerElemento : Fragment() {
     }
     fun ordenar(){
         if (elemento is Tarea){
-            adapter.data = elemento.contenidos?: emptyList()
+            adapter.data = elemento.contenidos
         } else {
             val comparator = compareBy<Elemento> { it.isCompleted() }
                 .thenComparing(compareBy<Elemento, LocalDate?>(nullsLast(), { (it as ElementoCreable).getFechaFin()})

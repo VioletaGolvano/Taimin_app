@@ -5,10 +5,12 @@ import com.example.taimin.clases.Usuario
 import com.example.taimin.database.TaiminDatabase
 import java.util.concurrent.Executors
 import com.example.taimin.clases.elementos.*
+import java.time.LocalDate
 
 
 class TaiminApplication: Application() {
     private val executor = Executors.newSingleThreadExecutor()
+    var momentoSeleccionado = LocalDate.now()
     lateinit var usuario: Usuario
 
     init {

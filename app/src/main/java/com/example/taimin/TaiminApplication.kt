@@ -55,8 +55,17 @@ class TaiminApplication: Application() {
             }
             tareas?.forEach { tarea ->
                 tarea.setUsuario(usuario)
-                usuario.buscar(tarea.getContenedor()!!.getId())!!.addContenido(tarea)
-                usuario.addElemento(tarea)
+                var cont = if (tarea.getContenedor()==null){
+                    null
+                } else {
+                    usuario.buscar(tarea.getContenedor()!!.getId())
+                }
+                if (cont==null){
+                    taiminDatabase.taiminDAO.delTarea(tarea)
+                }else {
+                    usuario.buscar(tarea.getContenedor()!!.getId())!!.addContenido(tarea)
+                    usuario.addElemento(tarea)
+                }
             }
             subtareas?.forEach { subtarea ->
                 subtarea.setUsuario(usuario)

@@ -93,9 +93,8 @@ class VerElemento : Fragment() {
         }
         return binding.root
     }
+
     private fun eliminarContenidos(elemento: Elemento){
-        elemento.contenidos.forEach { eliminarContenidos(it) }
-        elemento.eliminar()
         val eventos = (activity as MainActivity).usuario!!.getEventos(elemento)
         if (eventos.isNotEmpty()){
             Executors.newSingleThreadExecutor().execute {
@@ -110,7 +109,16 @@ class VerElemento : Fragment() {
         Executors.newSingleThreadExecutor().execute {
             context?.let { it1 -> TaiminDatabase.getInstance(context = it1).taiminDAO.delElemento(elemento) }
         }
+        var iterator = elemento.contenidos.iterator()
+        while(iterator.hasNext()){
+            var item = iterator.next()
+            eliminarContenidos(item)
+            iterator = elemento.contenidos.iterator()
+        }
+        (activity as MainActivity).usuario!!.removeElemento(elemento)
+        elemento.eliminar()
     }
+
     fun ordenar(){
         if (elemento is Tarea){
             adapter.data = elemento.contenidos
